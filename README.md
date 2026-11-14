@@ -59,7 +59,18 @@ O relógio grava o dia inteiro com a tela do celular apagada e gasta menos bater
 - Os dados ficam no navegador do celular. **Exporte o álbum e o GPX ao fim de cada dia ou da viagem** para não correr o risco de perder nada se o navegador limpar o armazenamento.
 - Traçados e distâncias são aproximados. Não substituem o guia credenciado.
 
-## Atualizar
+## Localização do grupo (aba Grupo)
+1. **Antes de sair, com internet:** uma pessoa toca em **Grupo → Criar grupo** e depois em **Convidar o grupo**. Cada um abre o link no próprio celular e toca em **Entrar e compartilhar**.
+2. **Família:** toque em **Link para a família** e mande para quem fica em casa. Eles veem no mapa 3D o último local de cada um, os recados e um alerta vermelho se alguém pedir ajuda.
+3. **iPhone com o app na tela de início:** o app instalado não enxerga o Safari. Se o link abrir no Safari, abra o app e use **Grupo → Já tenho um código** com o código do grupo (ex.: ABCDE-23456).
+
+Como funciona sem sinal: o celular guarda o caminho e os recados e **envia tudo sozinho quando pegar internet** (na saída do vale, numa cidade, num Wi-Fi). Só envia com o app aberto. Andando com internet, manda a posição a cada 3 minutos; parado, uma vez por hora.
+
+- **📍 Mandar minha posição:** abre o WhatsApp, SMS ou iMessage com a sua posição e um link. Quem abrir o link com internet vê você no mapa 3D e, se estiver no grupo, repassa a posição para todos. É assim que o **Vivo Satélite** (Starlink) ajuda: ele libera só apps de mensagem e mapas, não o navegador.
+- **Satélite do iPhone** (SOS e Buscar via satélite): ainda não funciona no Brasil.
+- Para se acharem dentro do vale sem internet nenhuma: rádios comunicadores ou aparelhos Meshtastic (LoRa, 915 MHz).
+- Privacidade: tudo sai do celular criptografado com o código do grupo e passa pelo serviço gratuito ntfy.sh, que guarda por até 12 h. O serviço aceita cerca de 250 envios por dia por internet; num Wi-Fi dividido com muita gente pode bater o limite, e o app avisa e tenta de novo depois.
+
 Se eu gerar uma versão nova, substitua os arquivos no repositório. O app se atualiza sozinho na próxima vez que abrir com internet. Fotos e caminhos já gravados são mantidos.
 
 ## Créditos dos dados

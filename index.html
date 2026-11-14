@@ -311,6 +311,28 @@ body.walking #gpsChip{display:none!important}
 .offc .ic{font-size:1.6rem}
 #gpsChip .plan{background:#2a7d3a;border-radius:999px;padding:2px 9px}
 .daynote{margin-top:10px;font-size:.92rem;resize:vertical}
+/* grupo */
+.gmem{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.gmem:last-of-type{border-bottom:none}
+.gmem .meta{flex:1;min-width:0;line-height:1.3}.gmem small{color:var(--muted)}
+.gmem .acts{display:flex;flex-direction:column;gap:6px}.gmem .acts .btn2{flex:0 0 auto;min-height:38px;padding:0 14px;font-size:.85rem}
+.gmem.sos{background:#fde8e8;border-radius:12px;padding:10px 8px}
+.av{flex:0 0 auto;width:40px;height:40px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem}
+.av.sm{width:30px;height:30px;font-size:.75rem}
+.sosbtn{width:100%;min-height:58px;border:none;border-radius:16px;background:#b91c1c;color:#fff;font-size:1.08rem;font-weight:700;margin:4px 0 12px;box-shadow:var(--shadow)}
+.sosbtn.ok{background:#15803d}
+.qchips{display:flex;flex-wrap:wrap;gap:6px}.qchips .chip{min-height:40px;font-size:.88rem}
+.feed .fi{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line);line-height:1.35}
+.feed .fi small{color:var(--muted)}.feed .fi.sos{background:#fde8e8;border-radius:10px;padding:8px}
+.warnc{border-left:4px solid #d97706}
+#sosBanner{position:fixed;left:10px;right:10px;top:calc(8px + env(safe-area-inset-top));z-index:80;background:#b91c1c;color:#fff;border-radius:14px;padding:14px 16px;font-size:1rem;box-shadow:0 8px 30px rgba(0,0,0,.35);display:none}
+#sosBanner.on{display:block;animation:sosp 1.2s ease-in-out infinite alternate}
+@keyframes sosp{from{background:#b91c1c}to{background:#ef4444}}
+.gmk{display:flex;flex-direction:column;align-items:center;pointer-events:auto;cursor:pointer;transform:translateY(-2px)}
+.gmk i{width:30px;height:30px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.45);color:#fff;font-style:normal;font-weight:700;font-size:.72rem;display:flex;align-items:center;justify-content:center}
+.gmk span{margin-top:3px;background:rgba(255,250,240,.95);border-radius:8px;padding:1px 6px;font-size:.7rem;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.gmk.sos i{border-color:#ef4444;animation:sosp 1s infinite alternate;box-shadow:0 0 0 4px rgba(239,68,68,.5)}
+.gmk.sos span{background:#b91c1c;color:#fff}
 </style>
 </head>
 <body>
@@ -320,6 +342,7 @@ body.walking #gpsChip{display:none!important}
   <a href="#inicio" data-t="inicio"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Início</a>
   <a href="#mapa" data-t="mapa"><svg viewBox="0 0 24 24"><path d="M3 18l5-8 4 5 3-4 6 7z"/><path d="M3 18h18"/></svg>Mapa 3D</a>
   <a href="#trilha" data-t="trilha"><svg viewBox="0 0 24 24"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M9 12l3-4 4 3 3 1M12 8l-2 5"/></svg>Trilhas</a>
+  <a href="#grupo" data-t="grupo"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 5.5 2 5.5 5"/></svg>Grupo</a>
   <a href="#album" data-t="album"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg>Álbum</a>
   <a href="#guia" data-t="guia"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Guia</a>
 </nav><main>
@@ -335,7 +358,7 @@ body.walking #gpsChip{display:none!important}
   </div>
   <div id="legend"></div>
   <div id="gpsChip"></div>
-  <div id="zoomCol"><button id="zCam" aria-label="Tirar foto"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg></button><button id="zGps" aria-label="Minha localização"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button><button id="zIn" aria-label="Aproximar">+</button><button id="zOut" aria-label="Afastar">−</button><button id="zRot" aria-label="Girar"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M17 2v5h-5"/></svg></button><button id="zHome" aria-label="Voltar"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></button><button id="zHelp" aria-label="Ajuda" style="font-size:1.1rem">?</button></div>
+  <div id="zoomCol"><button id="zCam" aria-label="Tirar foto"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg></button><button id="zGrp" aria-label="Grupo"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 5.5 2 5.5 5"/></svg></button><button id="zGps" aria-label="Minha localização"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button><button id="zIn" aria-label="Aproximar">+</button><button id="zOut" aria-label="Afastar">−</button><button id="zRot" aria-label="Girar"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M17 2v5h-5"/></svg></button><button id="zHome" aria-label="Voltar"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></button><button id="zHelp" aria-label="Ajuda" style="font-size:1.1rem">?</button></div>
   <div id="panel">
     <h4>Cor do mapa</h4>
     <div class="seg" id="modeSeg">
@@ -385,6 +408,7 @@ body.walking #gpsChip{display:none!important}
   <h2 class="q">O que você quer fazer?</h2>
   <div class="bigcards">
     <a class="bc" href="#trilha" data-bg="cachoeirao"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span><b>Fazer a trilha do Pati no celular</b><small>Veja o caminho em 3D, como num vídeo</small></a>
+    <a class="bc" href="#grupo" data-bg="castelo"><span class="bc-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M15 14.5c3 0 5.5 2 5.5 5"/></svg></span><b>Localização do grupo</b><small id="grupoHome">Compartilhe a localização com o grupo e a família</small></a>
     <a class="bc" href="#album" data-bg="pati_vista"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg></span><b>Meu álbum da viagem</b><small>Fotos e caminho de cada dia</small></a>
     <a class="bc" href="#mapa" data-bg="morrao"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M3 18l5-8 4 5 3-4 6 7z"/></svg></span><b>Ver a Chapada em 3D</b><small>Mapa com relevo, satélite e lugares</small></a>
     <a class="bc" href="#guia" data-bg="sp_augastes_lumachella"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M12 21V10"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7zM12 10c0-4 3-7 7-7 0 4-3 7-7 7z"/></svg></span><b>Bichos, plantas e pedras</b><small>Fotos reais para reconhecer na trilha</small></a>
@@ -555,8 +579,24 @@ body.walking #gpsChip{display:none!important}
     <button id="alClear" style="background:none;border:none;color:#b91c1c;padding:8px 0;font-size:.9rem">Apagar tudo deste celular</button>
   </div>
 </section>
+<section class="page" id="grupo">
+    <div class="kicker">Segurança do grupo</div>
+    <h2>Onde está todo mundo</h2>
+    <p class="lead">Vocês 4 e a família, cada um no seu celular, vendo o último local de cada pessoa no mapa 3D.</p>
+    <div id="grupoBody"></div>
+    <div class="card warnc"><h3>⚠ Sem sinal no Pati</h3>
+      <ul class="tight">
+        <li>Dentro do vale <b>não há sinal de celular</b>. O app continua marcando o seu caminho e envia tudo sozinho quando pegar internet, na saída do vale, numa cidade ou num Wi-Fi.</li>
+        <li>No vale, o que aparece é o <b>último local enviado</b> por cada um, com o horário (“há 2 h”).</li>
+        <li>O envio só acontece com o <b>app aberto</b>. Deixe a opção “tela sempre ligada” ativa no GPS quando quiser ser visto.</li>
+        <li><b>Celular via satélite:</b> se o chip for <b>Vivo</b> e o celular estiver na lista de compatíveis, o <b>Vivo Satélite</b> (Starlink) conecta sozinho onde não há sinal, a céu aberto. Ele libera só WhatsApp, SMS, iMessage e mapas, e este app não passa por ele. Use <b>📍 Mandar minha posição</b>: vai pelo WhatsApp, e quem abrir o link com internet coloca você no mapa do grupo. Ele não liga para 190, 192 e 193.</li>
+        <li>Os recursos de satélite do próprio iPhone (SOS e Buscar via satélite) <b>ainda não funcionam no Brasil</b>.</li>
+        <li>Para se acharem dentro do vale sem internet, só com rádio: <b>rádios comunicadores</b> ou aparelhos <b>Meshtastic</b> (LoRa, 915 MHz), que trocam a posição entre vocês a alguns quilômetros, sem chip.</li>
+        <li>Combinem um ponto e um horário de reencontro todo dia e andem perto do guia.</li>
+      </ul></div>
+</section>
 </main>
-<div id="tip"></div><div id="tut"></div><div id="gModal"></div><div id="phToast"></div>
+<div id="tip"></div><div id="tut"></div><div id="gModal"></div><div id="phToast"></div><div id="sosBanner" role="alert"></div>
 <input type="file" id="camIn" accept="image/*" capture="environment" hidden><input type="file" id="galIn" accept="image/*" multiple hidden><input type="file" id="watchIn" accept=".gpx,.tcx,application/gpx+xml,application/xml,text/xml" multiple hidden>
 <script>const CURATED=[{"n": "Lençóis", "c": "cidade", "la": -12.5633, "lo": -41.3889, "d": "Antiga capital do diamante (séc. XIX). Casario tombado pelo IPHAN; as lajes do rio Lençóis mostram marcas de ondas fossilizadas em metarenito."}, {"n": "Palmeiras", "c": "cidade", "la": -12.5156, "lo": -41.5786, "d": "Sede do município onde ficam o Vale do Capão e parte do Pati. Base do ICMBio/Parque Nacional."}, {"n": "Vale do Capão (Caeté-Açu)", "c": "vila", "la": -12.6136, "lo": -41.4886, "d": "Vila no fundo de um vale sinclinal. Saída para a Cachoeira da Fumaça e, via Bomba, para o Pati."}, {"n": "Andaraí", "c": "cidade", "la": -12.8071, "lo": -41.3328, "d": "Ponto final clássico da travessia pela Ladeira do Império. Às margens do rio Paraguaçu."}, {"n": "Mucugê", "c": "cidade", "la": -13.0053, "lo": -41.3706, "d": "Cidade histórica com cemitério bizantino. Projeto Sempre-Viva protege a sempre-viva-de-Mucugê."}, {"n": "Igatu", "c": "vila", "la": -12.8889, "lo": -41.3164, "d": "'Machu Picchu baiana': ruínas de casas de garimpeiros feitas de lajes de metarenito do Tombador. Cavernas em metarenito."}, {"n": "Guiné", "c": "vila", "la": -12.753, "lo": -41.54, "d": "Povoado de Mucugê ao pé da Serra do Sincorá. Saída mais usada para o Pati (Beco do Guiné e Aleixos). Posição aproximada."}, {"n": "Vila do Bomba", "c": "vila", "la": -12.6538, "lo": -41.4879, "d": "Fim da estrada no Capão; início da trilha pelos Gerais do Vieira até o Pati."}, {"n": "Igrejinha", "c": "apoio", "la": -12.7755, "lo": -41.4757, "d": "Primeira casa para quem desce a Rampa. Pensão, camping e mercadinho."}, {"n": "Casa do Seu Wilson", "c": "apoio", "la": -12.7776, "lo": -41.4597, "d": "Casa de nativo no Pati de Cima."}, {"n": "Agnaldo e Miguel", "c": "apoio", "la": -12.7789, "lo": -41.4576, "d": "Casa perto do início da subida ao Morro do Castelo, logo após cruzar o rio Pati."}, {"n": "Casa da Dona Raquel", "c": "apoio", "la": -12.7837, "lo": -41.456, "d": "Uma das casas mais tradicionais. Os filhos de Dona Raquel atuam como guias."}, {"n": "Prefeitura", "c": "apoio", "la": -12.788, "lo": -41.4388, "d": "Antiga 'prefeitura' do Pati, hoje casa de apoio (Jailson e Maria), à beira do rio. Fogão a lenha e mercadinho."}, {"n": "Casa do Seu Eduardo", "c": "apoio", "la": -12.8047, "lo": -41.418, "d": "Pati de Baixo, perto do Cachoeirão por baixo e da saída para Andaraí."}, {"n": "Mirante do Pati", "c": "mirante", "la": -12.7815, "lo": -41.4785, "d": "Vista clássica do vale, com o Morro Branco e o Morro do Castelo. Logo depois começa a descida da Rampa."}, {"n": "Morro do Castelo", "c": "morro", "la": -12.7729, "lo": -41.4481, "d": "Morro de metarenito com cerca de 1.400 m no meio do vale. Uma gruta atravessa o morro de um lado ao outro."}, {"n": "Cachoeirão (por cima)", "c": "agua", "la": -12.8101, "lo": -41.4414, "d": "Mirante sobre o cânion do Cachoeirão. Os guias falam em quedas de 220 a 260 m, que viram filetes na seca."}, {"n": "Cachoeira do Calixto", "c": "agua", "la": -12.763, "lo": -41.4516, "d": "Cachoeira no vale do rio Calixto, afluente do Pati."}, {"n": "Cachoeira dos Funis", "c": "agua", "la": -12.771, "lo": -41.468, "d": "Sequência de poços e quedas no rio Funis, perto da Igrejinha."}, {"n": "Poço da Árvore", "c": "agua", "la": -12.7843, "lo": -41.4319, "d": "Poço para banho a cerca de 1 km da Prefeitura."}, {"n": "Encontro dos rios", "c": "agua", "la": -12.8022, "lo": -41.4115, "d": "Confluência no Pati de Baixo, antes da Ladeira do Império."}, {"n": "Gerais do Vieira", "c": "geo", "la": -12.6818, "lo": -41.4844, "d": "Planalto de campo rupestre sobre metarenitos. As turfeiras e os brejos dos 'gerais' guardam água e alimentam nascentes."}, {"n": "Ponte do Rio Preto", "c": "agua", "la": -12.7719, "lo": -41.4915, "d": "Travessia do rio Preto nos Gerais do Rio Preto, a uns 4 km do Guiné. Água cor de chá."}, {"n": "Ladeira do Império", "c": "geo", "la": -12.8028, "lo": -41.4019, "d": "Subida histórica, calçada com pedras, que liga o Pati a Andaraí."}, {"n": "Morro do Pai Inácio", "c": "morro", "la": -12.4553, "lo": -41.4728, "d": "Morro-testemunho de topo plano (~1.120 m): o metarenito resistente protege o morro da erosão."}, {"n": "Cachoeira da Fumaça (aprox.)", "c": "agua", "la": -12.6, "lo": -41.452, "d": "Queda de cerca de 340 m. O vento devolve a água para cima como 'fumaça'. Trilha por cima a partir do Capão (~6 km)."}, {"n": "Marimbus", "c": "agua", "la": -12.6955, "lo": -41.3383, "d": "'Pantanal' da Chapada: planície alagada no pé da serra, com lagoas ligadas e alimentadas pelo rio Santo Antônio."}];
 const PH={"pai_inacio": {"src": "Wikimedia Commons", "title": "Vale do Pai Inácio.jpg", "author": "Joedison Rocha", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Pai_Inácio.jpg"}, "fumaca": {"src": "Wikimedia Commons", "title": "Cachoeira da Fumaça, Chapada Diamantina.JPG", "author": "Jack5599", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Cachoeira_da_Fumaça,_Chapada_Diamantina.JPG"}, "pati_vista": {"src": "Wikimedia Commons", "title": "Vista do Alto do Morro do Castelo.jpg", "author": "Ricardo Lima", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vista_do_Alto_do_Morro_do_Castelo.jpg"}, "castelo": {"src": "Wikimedia Commons", "title": "Vista do Morro do Castelo, no Vale da Pati - Parque Nacional da Chapada Diamantina.JPG", "author": "Willemarcel", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Vista_do_Morro_do_Castelo,_no_Vale_da_Pati_-_Parque_Nacional_da_Chapada_Diamantina.JPG"}, "casa_castelo": {"src": "Wikimedia Commons", "title": "Casa sob Morro do Castelo - Vale do Pati.jpg", "author": "Felipe Lessa", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Casa_sob_Morro_do_Castelo_-_Vale_do_Pati.jpg"}, "cachoeirao": {"src": "Wikimedia Commons", "title": "Cachoeirão do Vale do Pati.jpg", "author": "Panta LH", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Cachoeirão_do_Vale_do_Pati.jpg"}, "pati_mata": {"src": "Wikimedia Commons", "title": "Vale do Pati Mika Lira (22).jpg", "author": "Mikaelli Ernesto", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Pati_Mika_Lira_(22).jpg"}, "marimbus": {"src": "Wikimedia Commons", "title": "Área de Proteção Ambiental Marimbus Iraquara - Maria Michela (01).jpg", "author": "MariaMBosetti", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Área_de_Proteção_Ambiental_Marimbus_Iraquara_-_Maria_Michela_(01).jpg"}, "capao": {"src": "Wikimedia Commons", "title": "Vale do Capao, Chapada Diamantina.jpg", "author": "Samory Santos", "lic": "CC-BY-3.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Capao,_Chapada_Diamantina.jpg"}, "r_quartzito": {"src": "Wikimedia Commons", "title": "Quartzite 2 jpg.jpg", "author": "USGS", "lic": "PD USGS", "url": "https://commons.wikimedia.org/wiki/File:Quartzite_2_jpg.jpg"}, "r_rio": {"src": "Wikimedia Commons", "title": "Parque Nacional da Chapada Diamantina Ederval Rocha (17).jpg", "author": "Ederval Rocha", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Parque_Nacional_da_Chapada_Diamantina_Ederval_Rocha_(17).jpg"}, "s_ondas": {"src": "Wikimedia Commons", "title": "Fossil ripple marks in sandstone - geograph.org.uk - 6902167.jpg", "author": "Gordon Hatton", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Fossil_ripple_marks_in_sandstone_-_geograph.org.uk_-_6902167.jpg"}, "r_conglomerado": {"src": "Wikimedia Commons", "title": "Conglomerate rock called puddingstone. - geograph.org.uk - 480555.jpg", "author": "Roy Parkhouse", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Conglomerate_rock_called_puddingstone._-_geograph.org.uk_-_480555.jpg"}, "r_siltito": {"src": "Wikimedia Commons", "title": "SiltstoneUSGOV.jpg", "author": "USGS", "lic": "PD USGS", "url": "https://commons.wikimedia.org/wiki/File:SiltstoneUSGOV.jpg"}, "r_ardosia": {"src": "Wikimedia Commons", "title": "SlateUSGOV.jpg", "author": "USGS", "lic": "PD USGS", "url": "https://commons.wikimedia.org/wiki/File:SlateUSGOV.jpg"}, "r_arcoseo": {"src": "Wikimedia Commons", "title": "Granite and arkose (GeoDIL number - 2).jpg", "author": "Dexter Perkins", "lic": "CC-Zero", "url": "https://commons.wikimedia.org/wiki/File:Granite_and_arkose_(GeoDIL_number_-_2).jpg"}, "r_diamictito": {"src": "Wikimedia Commons", "title": "SpionKop Cgl 0088 diamictite.jpg", "author": "Rygel, M.C.", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:SpionKop_Cgl_0088_diamictite.jpg"}, "r_quartzo": {"src": "Wikimedia Commons", "title": "Quartz, Tibet.jpg", "author": "JJ Harrison (https://www.jjharrison.com.au/)", "lic": "CC-BY-SA-2.5", "url": "https://commons.wikimedia.org/wiki/File:Quartz,_Tibet.jpg"}, "r_carbonado": {"src": "Wikimedia Commons", "title": "Carbonado diamondites Bangui region, Central African Republic.jpg", "author": "James St. John", "lic": "CC-BY-2.0", "url": "https://commons.wikimedia.org/wiki/File:Carbonado_diamondites_Bangui_region,_Central_African_Republic.jpg"}, "s_dobras": {"src": "Wikimedia Commons", "title": "Folded Rock Strata Polridmouth - geograph.org.uk - 5134101.jpg", "author": "Nigel Mykura", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Folded_Rock_Strata_Polridmouth_-_geograph.org.uk_-_5134101.jpg"}, "s_estromatolito": {"src": "Wikimedia Commons", "title": "Stromatolithe Paléoarchéen - MNHT.PAL.2009.10.1.jpg", "author": "Didier Descouens", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Stromatolithe_Paléoarchéen_-_MNHT.PAL.2009.10.1.jpg"}, "e_caatinga": {"src": "Wikimedia Commons", "title": "Caatinga - Sítio Gravatá dos Velez, Queimadas - PB .2.jpg", "author": "Trigueiro martins", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Caatinga_-_Sítio_Gravatá_dos_Velez,_Queimadas_-_PB_.2.jpg"}, "sp_augastes_lumachella": {"src": "iNaturalist", "title": "Augastes lumachella", "author": "(c) Joao Quental, some rights reserved (CC BY)", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/6439"}, "sp_kerodon_rupestris": {"src": "iNaturalist", "title": "Kerodon rupestris", "author": "(c) Ericson Cernawsky Igual, some rights reserved (CC BY-SA), uploaded by Ericson Cernawsky Igual", "lic": "CC-BY-SA", "url": "https://www.inaturalist.org/taxa/43808"}, "sp_callithrix_jacchus": {"src": "iNaturalist", "title": "Callithrix jacchus", "author": "(c) animalencounters, some rights reserved (CC BY-NC)", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/43373"}, "sp_callicebus_barbarabrownae": {"src": "iNaturalist", "title": "Callicebus barbarabrownae", "author": "(c) CaracalShan, some rights reserved (CC BY), uploaded by CaracalShan", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/43662"}, "sp_puma_concolor": {"src": "iNaturalist", "title": "Puma concolor", "author": "(c) pfaucher, some rights reserved (CC BY-NC), uploaded by pfaucher", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/42007"}, "sp_leopardus_pardalis": {"src": "iNaturalist", "title": "Leopardus pardalis", "author": "(c) kviall, some rights reserved (CC BY-NC)", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/41997"}, "sp_myrmecophaga_tridactyla": {"src": "iNaturalist", "title": "Myrmecophaga tridactyla", "author": "(c) Andy Jones, some rights reserved (CC BY-NC), uploaded by Andy Jones", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/47107"}, "sp_cariama_cristata": {"src": "iNaturalist", "title": "Cariama cristata", "author": "(c) Mauricio Silvera, some rights reserved (CC BY-NC), uploaded by Mauricio Silvera", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/14"}, "sp_streptoprocne_zonaris": {"src": "iNaturalist", "title": "Streptoprocne zonaris", "author": "(c) Arnold Wijker, some rights reserved (CC BY-NC), uploaded by Arnold Wijker", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/6597"}, "sp_hydrochoerus_hydrochaeris": {"src": "iNaturalist", "title": "Hydrochoerus hydrochaeris", "author": "(c) Carlos Sanchez, some rights reserved (CC BY-NC), uploaded by Carlos Sanchez", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/74442"}, "sp_caiman_latirostris": {"src": "iNaturalist", "title": "Caiman latirostris", "author": "(c) David Bell, some rights reserved (CC BY-NC), uploaded by David Bell", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/116518"}, "sp_bothrops": {"src": "iNaturalist", "title": "Bothrops", "author": "(c) Lucas Botelho, some rights reserved (CC BY-NC), uploaded by Lucas Botelho", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/30767"}, "sp_crotalus_durissus": {"src": "iNaturalist", "title": "Crotalus durissus", "author": "(c) Lucas Botelho, some rights reserved (CC BY-NC), uploaded by Lucas Botelho", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/30693"}, "sp_cichla": {"src": "iNaturalist", "title": "Cichla", "author": "(c) Joshua Rains, some rights reserved (CC BY-NC), uploaded by Joshua Rains", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/87480"}, "sp_vellozia": {"src": "iNaturalist", "title": "Vellozia", "author": "(c) Marinês Eiterer, some rights reserved (CC BY-NC), uploaded by Marinês Eiterer", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/347864"}, "sp_paepalanthus": {"src": "iNaturalist", "title": "Paepalanthus", "author": "(c) Riccardo Rocca, some rights reserved (CC BY), uploaded by Riccardo Rocca", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/82151"}, "sp_cattleya_elongata": {"src": "iNaturalist", "title": "Cattleya elongata", "author": "(c) Panta LH, some rights reserved (CC BY-SA)", "lic": "CC-BY-SA", "url": "https://www.inaturalist.org/taxa/703336"}, "sp_orthophytum": {"src": "iNaturalist", "title": "Orthophytum", "author": "(c) Rich Hoyer, some rights reserved (CC BY-NC-SA), uploaded by Rich Hoyer", "lic": "CC-BY-NC-SA", "url": "https://www.inaturalist.org/taxa/142341"}, "sp_microlicia": {"src": "iNaturalist", "title": "Microlicia", "author": "(c) Laurent Quéno, some rights reserved (CC BY-NC), uploaded by Laurent Quéno", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/553227"}, "sp_melocactus": {"src": "iNaturalist", "title": "Melocactus", "author": "(c) Daniel A. Monsalve Ortiz, some rights reserved (CC BY), uploaded by Daniel A. Monsalve Ortiz", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/49197"}, "sp_lychnophora": {"src": "iNaturalist", "title": "Lychnophora", "author": "(c) Joey Santore, some rights reserved (CC BY-NC), uploaded by Joey Santore", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/487108"}, "sp_drosera": {"src": "iNaturalist", "title": "Drosera", "author": "(c) Saryu Mae 前 朝琉, some rights reserved (CC BY), uploaded by Saryu Mae 前 朝琉", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/51935"}, "sp_sphagnum": {"src": "iNaturalist", "title": "Sphagnum", "author": "(c) Justin Paulin, some rights reserved (CC BY), uploaded by Justin Paulin", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/54704"}, "sp_syagrus_coronata": {"src": "iNaturalist", "title": "Syagrus coronata", "author": "(c) Gustavo Sandres, some rights reserved (CC BY-NC), uploaded by Gustavo Sandres", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/366062"}, "sp_nymphaea": {"src": "iNaturalist", "title": "Nymphaea", "author": "(c) George Shepherd, some rights reserved (CC BY-NC-SA)", "lic": "CC-BY-NC-SA", "url": "https://www.inaturalist.org/taxa/51122"}, "pati_cachoeira": {"src": "Wikimedia Commons", "title": "Vale do Pati Mika Lira (29).jpg", "author": "Mikaelli Ernesto", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Pati_Mika_Lira_(29).jpg"}, "andarai": {"src": "Wikimedia Commons", "title": "Centro Histórico de Andaraí por Patricia Laraia2.jpg", "author": "Patricialaraia", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Centro_Histórico_de_Andaraí_por_Patricia_Laraia2.jpg"}, "r_metarenito": {"src": "Wikimedia Commons", "title": "Parque Nacional da Chapada Diamantina Ederval Rocha (9).jpg", "author": "Ederval Rocha", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Parque_Nacional_da_Chapada_Diamantina_Ederval_Rocha_(9).jpg"}, "s_cruzada": {"src": "Wikimedia Commons", "title": "Sandstone Cross-bedding (5930953092).jpg", "author": "Zion National Park", "lic": "CC-BY-2.0, PD US NPS", "url": "https://commons.wikimedia.org/wiki/File:Sandstone_Cross-bedding_(5930953092).jpg"}, "r_granito": {"src": "Wikimedia Commons", "title": "Granite, Kismórágy.jpg", "author": "Szilas", "lic": "PD", "url": "https://commons.wikimedia.org/wiki/File:Granite,_Kismórágy.jpg"}, "s_fraturas": {"src": "Wikimedia Commons", "title": "Granite outcrop with joints - geograph.org.uk - 1453632.jpg", "author": "Jonathan Wilkins", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Granite_outcrop_with_joints_-_geograph.org.uk_-_1453632.jpg"}, "poco_encantado": {"src": "Wikimedia Commons", "title": "Raio Poço Encantado.jpg", "author": "Cesar Monteiro", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Raio_Poço_Encantado.jpg"}, "e_gerais": {"src": "Wikimedia Commons", "title": "Chapada Diamantina 05.JPG", "author": "Luciana Caran", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Chapada_Diamantina_05.JPG"}, "e_rupestre": {"src": "Wikimedia Commons", "title": "Chapada Diamantina 04.JPG", "author": "Luciana Caran", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Chapada_Diamantina_04.JPG"}, "lencois_rio": {"src": "Wikimedia Commons", "title": "Lençois-Ba. Foto- Tatiana Azeviche - Setur (7029549257).jpg", "author": "Turismo Bahia", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Lençois-Ba._Foto-_Tatiana_Azeviche_-_Setur_(7029549257).jpg"}, "lencois_casa": {"src": "Wikimedia Commons", "title": "Casa em Lençóis (2443578831).jpg", "author": "Samory Pereira Santos from Salvador, Brazil", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Casa_em_Lençóis_(2443578831).jpg"}, "morrao": {"src": "Wikimedia Commons", "title": "Morrão - Parque Nacional da Chapada Diamantina - Bahia 01.jpg", "author": "Jeilsonandrade", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Morrão_-_Parque_Nacional_da_Chapada_Diamantina_-_Bahia_01.jpg"}, "igatu": {"src": "Wikimedia Commons", "title": "Área Contígua de Proteção do Centro Histórico de Igatu - Andaraí - 20240531104013.jpg", "author": "Albertoleoncio", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Área_Contígua_de_Proteção_do_Centro_Histórico_de_Igatu_-_Andaraí_-_20240531104013.jpg"}, "r_laterita": {"src": "Wikimedia Commons", "title": "Laterite stone during rainy season 03.jpg", "author": "Eloquenttheory", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Laterite_stone_during_rainy_season_03.jpg"}, "mucuge": {"src": "Wikimedia Commons", "title": "Projeto Sempre Viva - Mucugê.jpg", "author": "Claudio JJ", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Projeto_Sempre_Viva_-_Mucugê.jpg"}, "sp_syngonanthus": {"src": "iNaturalist", "title": "Syngonanthus", "author": "(c) Sara Piotter, some rights reserved (CC BY), uploaded by Sara Piotter", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/141022"}, "r_calcario": {"src": "Wikimedia Commons", "title": "Lapa Doce, APA Marimbus-Iraquara LourdesBallesteros (04).jpg", "author": "Lourdes Ballesteros", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Lapa_Doce,_APA_Marimbus-Iraquara_LourdesBallesteros_(04).jpg"}, "e_cerrado": {"src": "Wikimedia Commons", "title": "Cerrado em Gouveia.jpg", "author": "Moosoop", "lic": "CC-Zero", "url": "https://commons.wikimedia.org/wiki/File:Cerrado_em_Gouveia.jpg"}};</script>
@@ -1044,6 +1084,7 @@ function setScene(key,instant){
   if(!SC[key]){buildScene(key).then(()=>setScene(key,instant));return}
   for(const k in SC)if(k!==key){SC[k].tex.dispose();SC[k].geom.dispose()}
   for(const k in SC)for(const o of [...SC[k].markers,...SC[k].rlabels])o.element.style.display=k===key?'':'none';
+  for(const k in SC)if(k!==key)SC[k].scene.traverse(o=>{if(o.isCSS2DObject)o.element.style.display='none'}); // fotos, grupo e afins da outra cena não ficam soltos na tela
   state.scene=key;const sc=SC[key];
   document.querySelectorAll('#sceneSeg button').forEach(b=>b.classList.toggle('on',b.dataset.s===key));
   document.querySelectorAll('.only-pati').forEach(e=>e.style.display=key==='pati'?'':'none');document.querySelectorAll('.only-reg').forEach(e=>e.style.display=key==='regiao'?'':'none');
@@ -1104,10 +1145,10 @@ function geoBlock(lat,lon){
   return s;
 }
 function bindRockBtns(root){root.querySelectorAll('[data-rock]').forEach(b=>b.onclick=()=>openGuide('rk_'+b.dataset.rock))}
-function showPoint(lat,lon,offerPati){
+function showPoint(lat,lon,offerPati,kicker){
   const sc=SC[state.scene];sc.pin.position.copy(sc.w(lat,lon,2.2*sc.S/0.05*4));sc.pin.scale.setScalar(sc.key==='pati'?1:2.2);sc.pin.visible=true;needs=true;
   const z=Math.round(elevAt(lat,lon));
-  const d=el('div',{},`<div class="kicker">Você tocou aqui</div><h3>${z} metros de altitude</h3><div class="note">${fmt(-lat,4)}° S · ${fmt(-lon,4)}° O</div>
+  const d=el('div',{},`<div class="kicker">${kicker||'Você tocou aqui'}</div><h3>${z} metros de altitude</h3><div class="note">${fmt(-lat,4)}° S · ${fmt(-lon,4)}° O</div>
    ${offerPati?'<button class="bigbtn" id="goPati" style="margin:10px 0 4px">Abrir o Vale do Pati em 3D detalhado</button>':''}${geoBlock(lat,lon)}`);
   if(offerPati)d.querySelector('#goPati').onclick=()=>setScene('pati');
   bindRockBtns(d);openSheet(d);hydrate(d);
@@ -1177,7 +1218,7 @@ $('#compass').onclick=()=>{const t=controls.target,d=camera.position.distanceTo(
 document.querySelectorAll('#sceneSeg button').forEach(b=>b.onclick=()=>{if(walk.r)stopWalk();setScene(b.dataset.s)});
 document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
 function setMode(m){state.mode=m;if(m!=='geo')state.unit=null;document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.m===m));if(started)drawTex(SC[state.scene]);updateLegend()}
-$('#exag').oninput=e=>{const sc=SC[state.scene];const v=+e.target.value;const t=controls.target;const ll=sc.ll(t);state.exag[sc.key]=v;$('#exV').textContent=v+'×';applyHeights(sc);placeMarkers(sc);buildVectors(sc);sc.trackVer=-1;sc.photoVer=-1;sc.destVer=-1;const ny=sc.zY(sc.G.elev(ll[0],ll[1]));camera.position.y+=ny-t.y;t.y=ny;if(walk.r)buildWalkLines();needs=true};
+$('#exag').oninput=e=>{const sc=SC[state.scene];const v=+e.target.value;const t=controls.target;const ll=sc.ll(t);state.exag[sc.key]=v;$('#exV').textContent=v+'×';applyHeights(sc);placeMarkers(sc);buildVectors(sc);sc.trackVer=-1;sc.photoVer=-1;sc.destVer=-1;sc.gVer=-1;const ny=sc.zY(sc.G.elev(ll[0],ll[1]));camera.position.y+=ny-t.y;t.y=ny;if(walk.r)buildWalkLines();needs=true};
 $('#lyRivers').onchange=e=>{state.rivers=e.target.checked;updateVectors()};
 $('#lyTrails').onchange=e=>{state.trails=e.target.checked;updateVectors()};
 $('#lyRoutes').onchange=e=>{state.routes=e.target.checked;updateVectors()};
@@ -1296,11 +1337,11 @@ function toastEv(e){
 // ABAS
 // ======================================================================
 function route(){
-  const t=(location.hash||'#inicio').slice(1);const id=['inicio','mapa','trilha','guia','aprender','seguranca','album'].includes(t)?t:'inicio';
+  const t=(location.hash||'#inicio').slice(1);const id=['inicio','mapa','trilha','guia','aprender','seguranca','album','grupo'].includes(t)?t:'inicio';
   document.querySelectorAll('section.page').forEach(s=>s.classList.toggle('on',s.id===id));
   document.querySelectorAll('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===id||(id==='seguranca'&&a.dataset.t==='trilha')||(id==='aprender'&&a.dataset.t==='inicio')));
   if(id!=='mapa'&&walk.r)setPlaying(false);
-  if(id==='mapa'){setTimeout(()=>{initMap();resize();needs=true;maybeTutorial()},20)}else window.scrollTo(0,0);hideTip();hydrate(document.getElementById(id));if(id==='album'&&typeof drawAlbum==='function')drawAlbum();
+  if(id==='mapa'){setTimeout(()=>{initMap();resize();needs=true;maybeTutorial()},20)}else window.scrollTo(0,0);hideTip();hydrate(document.getElementById(id));if(id==='album'&&typeof drawAlbum==='function')drawAlbum();if(id==='grupo')gRender();
 }
 addEventListener('hashchange',route);
 
@@ -1372,7 +1413,7 @@ function openGuide(id){
   M.querySelector('.x').onclick=close;M.onclick=e=>{if(e.target===M)close()};
   M.querySelector('#gSeen').onclick=e=>{gseen[it.id]={...(gseen[it.id]||{}),v:!gseen[it.id]?.v};store.set('guia',gseen);e.target.classList.toggle('on',gseen[it.id].v);e.target.textContent=gseen[it.id].v?'✓ Já vi':'Já vi'};
   M.querySelector('#gNote').oninput=e=>{gseen[it.id]={...(gseen[it.id]||{}),t:e.target.value};store.set('guia',gseen)};
-  if(it.poi)M.querySelector('#gGo').onclick=()=>{M.classList.remove('on');location.hash='mapa';setTimeout(()=>{const inP=inP(it.poi.la,it.poi.lo);const p=(inP?POIS.find(q=>q.n===it.poi.n):null)||it.poi;if(inP&&state.scene!=='pati')setScene('pati',true);setTimeout(()=>showPoi(p),inP&&!SC.pati?400:60)},150)};
+  if(it.poi)M.querySelector('#gGo').onclick=()=>{M.classList.remove('on');location.hash='mapa';setTimeout(()=>{const isP=inP(it.poi.la,it.poi.lo);const p=(isP?POIS.find(q=>q.n===it.poi.n):null)||it.poi;if(isP&&state.scene!=='pati')setScene('pati',true);setTimeout(()=>showPoi(p),isP&&!SC.pati?400:60)},150)};
 }
 drawGuide();
 
@@ -1593,8 +1634,8 @@ function sosSheet(){
   const txt=f?`Preciso de ajuda. Estou no Vale do Pati, Chapada Diamantina (BA). Coordenadas: ${f.lat.toFixed(5)}, ${f.lon.toFixed(5)} (${dms(f.lat,'N','S')} ${dms(f.lon,'L','O')}), altitude ${Math.round(myElev(f))} m${near?', perto de '+near.n:''}. Hora: ${fmtHour(f.t)}. https://maps.google.com/?q=${f.lat.toFixed(5)},${f.lon.toFixed(5)}`:'';
   const d=el('div',{},`<div class="kicker" style="color:#b91c1c">Emergência</div><h3>${f?'Sua localização':'Sem sinal de GPS'}</h3>
    ${f?`<div class="card" style="font-size:1.15rem;line-height:1.5;margin:8px 0"><b>${f.lat.toFixed(5)}, ${f.lon.toFixed(5)}</b><br>${dms(f.lat,'N','S')} &nbsp; ${dms(f.lon,'L','O')}<br><span class="note">Altitude ${Math.round(myElev(f))} m · precisão ±${Math.round(f.acc)} m${near?' · perto de '+near.n:''}</span></div>
-   <div class="tbtns"><a class="bigbtn" style="text-decoration:none;justify-content:center" href="sms:?&body=${encodeURIComponent(txt)}">Enviar por SMS</a><button class="btn2" id="sosCopy">Copiar texto</button></div>`:'<p>Vá para um lugar aberto e tente de novo. Se não conseguir, informe o nome do lugar mais próximo que você conhece.</p>'}
-   <div class="card warn" style="margin-top:12px"><b>Números de emergência</b><br>Bombeiros <a href="tel:193">193</a> · SAMU <a href="tel:192">192</a> · Polícia <a href="tel:190">190</a><br><span class="note">No Pati quase não há sinal. Se aparecer qualquer sinal, mande o SMS com a localização: ele costuma passar quando a ligação não completa. Os guias e as casas de apoio sabem onde fica o ponto com sinal mais próximo.</span></div>`);
+   <div class="tbtns"><a class="bigbtn" style="text-decoration:none;justify-content:center" href="sms:?&body=${encodeURIComponent(txt)}">Enviar por SMS</a><a class="btn2" style="text-decoration:none;display:flex;align-items:center;justify-content:center;color:inherit" href="whatsapp://send?text=${encodeURIComponent(txt)}">WhatsApp</a><button class="btn2" id="sosCopy">Copiar texto</button></div>`:'<p>Vá para um lugar aberto e tente de novo. Se não conseguir, informe o nome do lugar mais próximo que você conhece.</p>'}
+   <div class="card warn" style="margin-top:12px"><b>Números de emergência</b><br>Bombeiros <a href="tel:193">193</a> · SAMU <a href="tel:192">192</a> · Polícia <a href="tel:190">190</a><br><span class="note">No Pati quase não há sinal. Se aparecer qualquer sinal, mande o SMS com a localização: ele costuma passar quando a ligação não completa. Os guias e as casas de apoio sabem onde fica o ponto com sinal mais próximo. Com chip Vivo, o Vivo Satélite pode passar SMS e WhatsApp a céu aberto, mas não ligações.</span></div>`);
   if(f)d.querySelector('#sosCopy').onclick=async e=>{try{await navigator.clipboard.writeText(txt);e.target.textContent='Copiado ✓'}catch(err){e.target.textContent='Não foi possível copiar'}};
   openSheet(d);
 }
@@ -1814,6 +1855,287 @@ const isStandalone=matchMedia('(display-mode: standalone)').matches||navigator.s
 if(isStandalone)$('#instHelp').style.display='none';
 offlineStatus();loadStore();if(gps.plan&&gps.plan!=='travessia')state.route=gps.plan;
 
+// ======================================================================
+// GRUPO: localização compartilhada (guarda sem sinal, envia quando houver internet)
+// Retransmissão: ntfy.sh (gratuito, sem conta). Conteúdo criptografado com AES-GCM
+// derivado do código do grupo; o servidor só vê texto embaralhado.
+// ======================================================================
+const RELAY='https://ntfy.sh';
+const GCOLORS=['#e11d74','#2563eb','#16a34a','#f59e0b','#9333ea','#0891b2','#dc2626','#65a30d'];
+const GALPHA='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+let grp=store.get('grupo',null);            // {code,id,name,color,role:'membro'|'ver',share}
+let MEM=store.get('grupoMem',{});           // id -> {id,name,color,role,pos:{t,lat,lon,alt,acc},trail:[[ts,lat,lon]],sos}
+let FEED=store.get('grupoFeed',[]);         // [{u,id,name,color,t,txt,k}]
+let OUTBOX=store.get('grupoOut',[]);        // mensagens de texto/SOS aguardando internet
+let gPend=store.get('grupoPend',null);      // {pos,trail} aguardando envio
+let gSeen=new Set(store.get('grupoSeen',[]));
+let gKey=null,gTopic=null,gES=null,gLastPub=store.get('grupoLastPub',0),gLastPubPos=store.get('grupoLastPubPos',null),gBackoff=0,gConn='desligado',gVer=0,gLastRx=store.get('grupoLastRx',0),gErr='';
+const saveG=()=>{store.set('grupoMem',MEM);store.set('grupoFeed',FEED.slice(-80));store.set('grupoOut',OUTBOX);store.set('grupoPend',gPend);store.set('grupoSeen',[...gSeen].slice(-1500));store.set('grupoLastPub',gLastPub);store.set('grupoLastPubPos',gLastPubPos);store.set('grupoLastRx',gLastRx)};
+const toB64=u=>{let s='';for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode(...u.subarray(i,i+8192));return btoa(s)};
+const fromB64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const rid=n=>{const a=crypto.getRandomValues(new Uint8Array(n));return [...a].map(x=>GALPHA[x%GALPHA.length]).join('')};
+const ago=t=>{const m=Math.round((Date.now()-t)/60000);return m<1?'agora':m<60?`há ${m} min`:m<1440?`há ${Math.floor(m/60)} h${m%60?String(m%60).padStart(2,'0'):''}`:`há ${Math.floor(m/1440)} dia(s)`};
+const initials=n=>(n||'?').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function normCode(c){return (c||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+function fmtCode(c){c=normCode(c);return c.slice(0,5)+'-'+c.slice(5)}
+
+async function gInit(){
+  gKey=null;gTopic=null;if(gES){gES.close();gES=null}
+  if(!grp){gConn='desligado';gRender();return}
+  const enc=new TextEncoder();
+  const base=await crypto.subtle.importKey('raw',enc.encode(normCode(grp.code)),'PBKDF2',false,['deriveKey']);
+  gKey=await crypto.subtle.deriveKey({name:'PBKDF2',salt:enc.encode('chapada-pati-grupo-v1'),iterations:150000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+  const h=new Uint8Array(await crypto.subtle.digest('SHA-256',enc.encode('topico:'+normCode(grp.code))));
+  gTopic='pati-'+[...h.slice(0,12)].map(b=>b.toString(16).padStart(2,'0')).join('');
+  gConnect();gRender();
+}
+async function gEnc(o){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},gKey,new TextEncoder().encode(JSON.stringify(o))));const a=new Uint8Array(12+ct.length);a.set(iv);a.set(ct,12);return 'p1:'+toB64(a)}
+async function gDec(s){if(typeof s!=='string'||!s.startsWith('p1:'))return null;try{const u=fromB64(s.slice(3));return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u.slice(0,12)},gKey,u.slice(12))))}catch(e){return null}}
+
+// ---------- recebimento ----------
+function gConnect(){
+  if(!gTopic)return;if(gES){gES.close();gES=null}
+  if(!navigator.onLine){gConn='sem internet';gRender();return}
+  gConn='conectando';gRender();
+  gES=new EventSource(`${RELAY}/${gTopic}/sse?since=12h`);
+  gES.onopen=()=>{gConn='conectado';gRender();gFlush()};
+  gES.onerror=()=>{gConn=navigator.onLine?'reconectando':'sem internet';gRender()};
+  gES.onmessage=async e=>{let m;try{m=JSON.parse(e.data)}catch(err){return}if(m.event!=='message'||gSeen.has(m.id))return;gSeen.add(m.id);
+    const o=await gDec(m.message);if(o){gApply(o,m.time*1000);gLastRx=Date.now()}saveG()};
+}
+function mergeMember(id,info,pos,trail){
+  if(!id||(grp&&id===grp.id))return false;
+  const m=MEM[id]||(MEM[id]={id,trail:[]});let ch=false;
+  if(info){for(const k of ['name','color','role'])if(info[k]&&m[k]!==info[k]){m[k]=info[k];ch=true}}
+  if(pos&&(!m.pos||pos.t>m.pos.t)){m.pos=pos;ch=true}
+  if(trail&&trail.length){const last=m.trail.length?m.trail[m.trail.length-1][0]:0;const add=trail.filter(p=>p[0]>last);if(add.length){m.trail.push(...add);if(m.trail.length>3000)m.trail=m.trail.slice(-3000);ch=true}
+    else{const set=new Set(m.trail.map(p=>p[0]));const old=trail.filter(p=>!set.has(p[0]));if(old.length){m.trail=[...m.trail,...old].sort((a,b)=>a[0]-b[0]);ch=true}}}
+  return ch;
+}
+function gApply(o,srvT){
+  const who={name:o.name,color:o.color,role:o.role};
+  if(o.k==='pos'||o.k==='snap'){
+    if(o.k==='pos')mergeMember(o.id,who,o.pos,o.trail);
+    for(const x of o.others||[])mergeMember(x.id,{name:x.name,color:x.color,role:x.role},x.pos,null);
+  }
+  if(o.k==='msg'||o.k==='sos'||o.k==='ok'){
+    mergeMember(o.id,who,o.pos,null);
+    const fresh=!FEED.some(f=>f.u===o.u);
+    if(fresh){FEED.push({u:o.u,id:o.id,name:o.name,color:o.color,t:o.t,txt:o.txt,k:o.k});FEED.sort((a,b)=>a.t-b.t)}
+    const m=MEM[o.id];
+    if(m&&o.k==='sos'&&o.t>(m.ok||0)){m.sos=o.t;if(fresh&&Date.now()-o.t<48*3600000)sosAlert(o)}
+    if(m&&o.k==='ok'&&o.t>(m.ok||0)){m.ok=o.t;if((m.sos||0)<o.t){m.sos=0;$('#sosBanner').classList.remove('on')}}
+  }
+  gVer++;needs=true;gRender();
+}
+
+// ---------- envio ----------
+function gOthers(){return Object.values(MEM).filter(m=>m.pos).map(m=>({id:m.id,name:m.name,color:m.color,role:m.role,pos:m.pos}))}
+function thin(tr,max){if(tr.length<=max)return tr;const out=[];const k=(tr.length-1)/(max-1);for(let i=0;i<max;i++)out.push(tr[Math.round(i*k)]);return out}
+async function gPost(o){
+  let body=await gEnc(o);
+  if(body.length>3800&&o.trail){let n=o.trail.length;while(body.length>3800&&n>2){n=Math.floor(n*0.7);o.trail=thin(o.trail,n);body=await gEnc(o)}}
+  if(body.length>3800&&o.others){o.others=o.others.slice(0,3);body=await gEnc(o)}
+  const r=await fetch(`${RELAY}/${gTopic}`,{method:'POST',body});
+  if(r.status===429){const j=await r.json();
+    // 42908 = cota diária do ntfy.sh gratuito (~250 envios por dia por internet); outras = pausa curta
+    if(j.code===42908){gBackoff=Date.now()+10*60000;throw new Error('Esta internet atingiu o limite diário do serviço gratuito (comum em Wi-Fi dividido com muita gente). Tento de novo a cada 10 min; no 4G de cada celular costuma funcionar.')}
+    gBackoff=Date.now()+60000;throw new Error('O servidor pediu uma pausa curta; tento de novo em 1 min.')}
+  if(!r.ok)throw new Error('servidor respondeu '+r.status);
+  const j=await r.json();gSeen.add(j.id);gCount();return j;
+}
+let gDay=store.get('grupoDia',{d:'',n:0});
+const gCount=()=>{const d=dayKey(Date.now());if(gDay.d!==d)gDay={d,n:0};gDay.n++;store.set('grupoDia',gDay)};
+const gUsed=()=>gDay.d===dayKey(Date.now())?gDay.n:0;
+let gBusy=false;
+async function gFlush(){
+  if(!gTopic||gBusy||!navigator.onLine||Date.now()<gBackoff)return;gBusy=true;
+  try{
+    while(OUTBOX.length){await gPost(OUTBOX[0]);OUTBOX.shift();saveG()}
+    if(grp.role==='membro'&&grp.share&&gPend&&gPend.pos&&gDue()){
+      const o={k:'pos',id:grp.id,name:grp.name,color:grp.color,role:grp.role,pos:gPend.pos,trail:thin(gPend.trail||[],60),others:gOthers()};
+      await gPost(o);gLastPub=Date.now();gLastPubPos=gPend.pos;gPend={trail:(gPend.trail||[]).slice(-1)};
+    }
+    if(grp.role==='ver'&&Object.keys(MEM).length&&Date.now()-Math.max(gLastRx,gLastPub)>6*3600000){
+      await gPost({k:'snap',id:grp.id,name:grp.name,color:grp.color,role:'ver',others:gOthers()});gLastPub=Date.now();
+    }
+    gErr='';
+  }catch(e){gErr=e.message}
+  finally{gBusy=false;saveG();gRender()}
+}
+// ritmo: a cada 3 min andando, 1 vez por hora parado; depois de 150 envios no dia, a cada 30 min
+// (o ntfy.sh aceita ~250 por dia por internet; o resto fica reservado para recados e SOS)
+function gDue(){if(!gLastPubPos)return true;const moved=hav([gLastPubPos.lat,gLastPubPos.lon],[gPend.pos.lat,gPend.pos.lon]);const dt=Date.now()-gLastPub;
+  if(gUsed()>=150)return dt>30*60000;return(moved>50&&dt>3*60000)||dt>60*60000}
+function gTick(){
+  if(!grp)return;
+  if(grp.role==='membro'&&grp.share&&gps.fix&&gps.fix.acc<=150){
+    const f=gps.fix;gPend=gPend||{trail:[]};gPend.trail=gPend.trail||[];const l=gPend.trail[gPend.trail.length-1];
+    if(!l||hav([l[1],l[2]],[f.lat,f.lon])>=60)gPend.trail.push([Math.round(f.t/1000),+f.lat.toFixed(5),+f.lon.toFixed(5)]);
+    if(gPend.trail.length>1500)gPend.trail=thin(gPend.trail,800);
+    gPend.pos={t:f.t,lat:+f.lat.toFixed(5),lon:+f.lon.toFixed(5),alt:Math.round(myElev(f)),acc:Math.round(f.acc)};
+    store.set('grupoPend',gPend);
+  }
+  gFlush();
+}
+setInterval(gTick,15000);
+addEventListener('online',()=>{gBackoff=0;gConnect();gFlush()}); // rede nova pode ter outra cota
+addEventListener('offline',()=>{gConn='sem internet';gRender()});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&grp){if(!gES||gES.readyState===2)gConnect();gTick()}});
+function gSend(k,txt){
+  if(!grp)return;const f=gps.fix;
+  const o={k,u:grp.id+'-'+Date.now()+'-'+rid(3),id:grp.id,name:grp.name,color:grp.color,role:grp.role,t:Date.now(),txt,
+    pos:f&&grp.role==='membro'?{t:f.t,lat:+f.lat.toFixed(5),lon:+f.lon.toFixed(5),alt:Math.round(myElev(f)),acc:Math.round(f.acc)}:null};
+  FEED.push({u:o.u,id:o.id,name:o.name,color:o.color,t:o.t,txt,k,mine:1});OUTBOX.push(o);saveG();gRender();gFlush();
+}
+
+// ---------- entrar / criar / sair ----------
+async function gJoin(code,name,role){
+  grp={code:normCode(code),id:rid(8),name:name.trim()||'Sem nome',color:GCOLORS[crypto.getRandomValues(new Uint8Array(1))[0]%GCOLORS.length],role,share:role==='membro'};
+  MEM={};FEED=[];OUTBOX=[];gPend=null;gSeen=new Set();gLastPub=0;gLastPubPos=null;gLastRx=0;
+  store.set('grupo',grp);saveG();await gInit();
+  if(role==='membro'){if(!gps.on)startGps();gSend('msg','Entrei no grupo 👋')}
+  location.hash='grupo';gRender();
+}
+function gLeave(){if(!confirm('Sair do grupo? Você deixa de ver e de compartilhar localizações.'))return;grp=null;store.set('grupo',null);MEM={};FEED=[];OUTBOX=[];gPend=null;saveG();gInit();gVer++;needs=true}
+const gLink=role=>`${location.origin}${location.pathname}?grupo=${fmtCode(grp.code)}${role==='ver'?'&papel=ver':''}`;
+async function gShare(role){
+  const url=gLink(role);
+  const txt=role==='ver'?`Acompanhe nossa travessia no Vale do Pati (localização do grupo quando houver sinal):`:`Entre no nosso grupo do Vale do Pati para compartilhar a localização:`;
+  try{if(navigator.share){await navigator.share({title:'Vale do Pati',text:txt,url});return}}catch(e){if(e.name==='AbortError')return}
+  try{await navigator.clipboard.writeText(txt+' '+url);showHint('Link copiado ✓')}catch(e){prompt('Copie o link:',url)}
+}
+function joinDialog(code,role){
+  const M=$('#gModal');
+  M.innerHTML=`<div class="box"><button class="x" aria-label="Fechar">×</button><div class="in" style="padding-top:22px">
+   <div class="kicker">${role==='ver'?'Acompanhar a viagem':'Entrar no grupo'}</div><h2 style="margin:4px 0 8px">Grupo ${fmtCode(code)}</h2>
+   <p>${role==='ver'?'Você vai ver no mapa onde cada pessoa do grupo estava na última vez em que teve internet, além dos recados e de um alerta se alguém pedir ajuda.':'Sua localização será compartilhada com o grupo e com quem tiver o link de acompanhamento, sempre que houver internet.'}</p>
+   <input id="jName" class="gsearch" placeholder="${role==='ver'?'Seu nome (ex.: Mãe)':'Seu nome (ex.: Gabriel)'}" value="${esc(store.get('meuNome',''))}">
+   <button class="bigbtn" id="jGo" style="width:100%;justify-content:center;margin-top:10px">${role==='ver'?'Acompanhar':'Entrar e compartilhar'}</button>
+   ${/iPhone|iPad/.test(navigator.userAgent)&&!navigator.standalone?`<div class="card warnc" style="margin:10px 0 0;font-size:.9rem"><b>Tem o app instalado na tela de início?</b> No iPhone ele não enxerga o que é feito aqui no Safari. Abra o app, vá em <b>Grupo → Já tenho um código</b> e digite <b>${fmtCode(code)}</b>.</div>`:''}
+   <p class="note" style="margin-top:10px">As localizações passam criptografadas pelo serviço gratuito ntfy.sh e ficam lá por no máximo 12 h. Sem o código do grupo, ninguém consegue ler.</p></div></div>`;
+  M.classList.add('on');M.querySelector('.x').onclick=()=>M.classList.remove('on');
+  M.querySelector('#jGo').onclick=async()=>{const n=M.querySelector('#jName').value.trim();if(!n){M.querySelector('#jName').focus();return}store.set('meuNome',n);M.classList.remove('on');await gJoin(code,n,role)};
+}
+// convite por link (?grupo=XXXXX-XXXXX&papel=ver)
+(function(){const q=new URLSearchParams(location.search);const c=normCode(q.get('grupo'));if(c.length!==10)return;const role=q.get('papel')==='ver'?'ver':'membro';
+  history.replaceState(null,'',location.pathname+'#grupo');if(grp&&grp.code===c&&grp.role===role)return;
+  setTimeout(()=>{if(grp&&grp.code!==c&&!confirm('Você já está em outro grupo. Trocar para o grupo '+fmtCode(c)+'?'))return;joinDialog(c,role)},600)})();
+
+// ---------- posição por mensagem (WhatsApp, SMS, iMessage) ----------
+// O satélite da Vivo (Starlink) só libera apps de mensagem e mapas; o navegador não passa.
+// Então a posição vai como texto + link. Quem abrir o link com internet vê o ponto no 3D
+// e, se estiver no grupo, repassa a posição para todos.
+function posMsg(f){
+  const nm=grp?grp.name:(store.get('meuNome','')||'Eu'),lat=f.lat.toFixed(5),lon=f.lon.toFixed(5),alt=Math.round(myElev(f)),pl=placeAt(f.lat,f.lon);
+  const u=`${location.origin}${location.pathname}?p=${lat},${lon},${alt},${Math.floor(f.t/1000)}&n=${encodeURIComponent(nm)}${grp&&grp.role==='membro'?'&id='+grp.id:''}`;
+  return `📍 ${nm} — Vale do Pati, ${fmtDay(dayKey(f.t))} às ${fmtHour(f.t)}\n${alt} m de altitude${pl&&pl.d<3000?', perto de '+pl.n:''}\nMapa 3D: ${u}\nGoogle Maps: https://maps.google.com/?q=${lat},${lon}`;
+}
+async function sharePos(){
+  const f=gps.fix;if(!f){startGps();alert('Ligue o GPS e espere a sua localização aparecer (ponto azul) para mandar.');return}
+  const text=posMsg(f);
+  try{if(navigator.share){await navigator.share({text});return}}catch(e){if(e.name==='AbortError')return}
+  try{await navigator.clipboard.writeText(text);showHint('Texto copiado ✓ Cole no WhatsApp ou SMS')}catch(e){prompt('Copie o texto:',text)}
+}
+(function(){const q=new URLSearchParams(location.search);const p=(q.get('p')||'').split(',').map(Number);if(p.length!==4||!p.every(isFinite))return;
+  const [lat,lon,alt,ts]=p,n=q.get('n')||'Alguém',id=q.get('id');const pos={t:ts*1000,lat,lon,alt,acc:null};
+  history.replaceState(null,'',location.pathname+'#mapa');
+  if(grp&&id&&id!==grp.id){const c=(MEM[id]&&MEM[id].color)||'#64748b';
+    if(mergeMember(id,{name:n,color:c,role:'membro'},pos,[[ts,lat,lon]])){gVer++;OUTBOX.push({k:'snap',id:grp.id,name:grp.name,color:grp.color,role:grp.role,others:[{id,name:n,color:c,role:'membro',pos}]});saveG();gFlush()}}
+  setTimeout(()=>{const key=inP(lat,lon)?'pati':'regiao';if(state.scene!==key)setScene(key,true);
+    setTimeout(()=>{flyTo([lat,lon],key==='pati'?1500:9000,0.85,curAz());setTimeout(()=>{showPoint(lat,lon,false,`📍 Posição de ${esc(n)} · ${fmtHour(pos.t)}`);showHint(`📍 ${n} estava aqui ${ago(pos.t)} (${fmtHour(pos.t)})`)},1200)},SC[key]?80:2500)},900);
+})();
+
+// ---------- alerta de SOS ----------
+function sosAlert(o){
+  const b=$('#sosBanner');b.innerHTML=`🆘 <b>${esc(o.name)}</b> pediu ajuda ${ago(o.t)}${o.pos?` — perto de ${esc((placeAt(o.pos.lat,o.pos.lon)||{}).n||'local desconhecido')}`:''}. Toque para ver.`;b.classList.add('on');
+  b.onclick=()=>{b.classList.remove('on');location.hash='grupo'};try{navigator.vibrate&&navigator.vibrate([400,150,400,150,400])}catch(e){}
+}
+
+// ---------- tela do grupo ----------
+function memberLine(m){
+  const p=m.pos,f=gps.fix;let rel='';
+  if(p&&f&&grp.role==='membro'){const d=hav([f.lat,f.lon],[p.lat,p.lon]),b=bearing([f.lat,f.lon],[p.lat,p.lon]);rel=` · ${distKm(d)} ${CARD(b)} de você`}
+  const pl=p?placeAt(p.lat,p.lon):null;
+  return `<div class="gmem ${m.sos?'sos':''}"><span class="av" style="background:${m.color}">${initials(m.name)}</span><div class="meta"><b>${esc(m.name)}</b>${m.role==='ver'?' <small>(acompanhando)</small>':''}<br>
+   <small>${p?`${ago(p.t)} · ${p.alt??'—'} m${pl&&pl.d<3000?' · perto de '+esc(pl.n):''}${rel}`:'ainda sem localização'}</small>${m.sos?'<br><b style="color:#b91c1c">🆘 pediu ajuda</b>':''}</div>
+   ${p?`<div class="acts"><button class="btn2" data-see="${m.id}">Mapa</button>${grp.role==='membro'?`<button class="btn2" data-rumo="${m.id}">Rumo</button>`:''}</div>`:''}</div>`;
+}
+let gDraft='';
+function gRender(){
+  const P=$('#grupoBody');if(!P)return;
+  const st=$('#grupoHome');if(st)st.innerHTML=grp?`<b>${grp.role==='ver'?'Acompanhando':'Grupo'} ${fmtCode(grp.code)}</b> · ${Object.keys(MEM).length} pessoa(s) · ${gConn}`:'Compartilhe a localização com o grupo e a família';
+  if(!grp){
+    P.innerHTML=`<div class="card"><h3>Como funciona</h3>
+      <ul class="tight"><li>Cada pessoa do grupo instala o app e entra pelo <b>link de convite</b>.</li>
+      <li>Com internet, a localização de cada um vai para o mapa dos outros. <b>No Pati não há sinal:</b> o celular guarda o caminho e envia tudo sozinho quando pegar internet (na saída, numa cidade ou num Wi-Fi).</li>
+      <li>Quem fica em casa recebe um <b>link de acompanhamento</b> e vê o último local de cada um, os recados e um alerta se alguém pedir ajuda.</li></ul></div>
+      <div class="card"><h3>Criar o grupo da viagem</h3><input id="gcName" class="gsearch" placeholder="Seu nome" value="${esc(store.get('meuNome',''))}"><button class="bigbtn" id="gcGo" style="width:100%;justify-content:center;margin-top:8px">Criar grupo</button></div>
+      <div class="card"><h3>Já tenho um código</h3><input id="gjCode" class="gsearch" placeholder="Código (ex.: ABCDE-23456)" autocapitalize="characters"><input id="gjName" class="gsearch" placeholder="Seu nome" value="${esc(store.get('meuNome',''))}">
+      <div class="tbtns"><button class="btn2" id="gjGo">Entrar no grupo</button><button class="btn2" id="gjVer">Só acompanhar</button></div></div>
+      <div class="card"><h3>Sem grupo?</h3><p class="note" style="margin:0 0 8px">Mande sua posição para qualquer pessoa por WhatsApp, SMS ou iMessage.</p><button class="btn2" id="gMsg0" style="width:100%">📍 Mandar minha posição</button></div>`;
+    P.querySelector('#gMsg0').onclick=sharePos;
+    P.querySelector('#gcGo').onclick=()=>{const n=P.querySelector('#gcName').value.trim();if(!n){P.querySelector('#gcName').focus();return}store.set('meuNome',n);gJoin(rid(10),n,'membro')};
+    const jj=role=>{const c=normCode(P.querySelector('#gjCode').value),n=P.querySelector('#gjName').value.trim();if(c.length!==10){alert('O código tem 10 letras e números (ex.: ABCDE-23456).');return}if(!n){P.querySelector('#gjName').focus();return}store.set('meuNome',n);gJoin(c,n,role)};
+    P.querySelector('#gjGo').onclick=()=>jj('membro');P.querySelector('#gjVer').onclick=()=>jj('ver');
+    return;
+  }
+  const mems=Object.values(MEM).sort((a,b)=>(b.sos||0)-(a.sos||0)||((b.pos?b.pos.t:0)-(a.pos?a.pos.t:0)));
+  const nr=OUTBOX.filter(o=>o.k!=='sos').length,parts=[];
+  if(OUTBOX.some(o=>o.k==='sos'))parts.push('o pedido de ajuda');if(nr)parts.push(nr+' recado(s)');
+  if(gPend&&gPend.pos&&grp.role==='membro'&&grp.share&&(!gLastPubPos||gPend.pos.t>gLastPubPos.t))parts.push('sua localização');
+  const pend=parts.join(', ').replace(/, ([^,]*)$/,' e $1');
+  P.innerHTML=`<div class="card"><div class="kicker">${grp.role==='ver'?'Acompanhando como':'Você é'} <span style="color:${grp.color}">● ${esc(grp.name)}</span></div>
+     <h3 style="margin:4px 0">Grupo ${fmtCode(grp.code)}</h3>
+     <p class="note" style="margin:4px 0">${gConn==='conectado'?'🟢 Conectado':gConn==='sem internet'?'⚪ Sem internet — tudo fica guardado e é enviado sozinho quando houver sinal':'🟡 '+gConn}${gLastPub?` · último envio ${ago(gLastPub)}`:''}${pend&&(gConn!=='conectado'||gErr)?`<br>⏳ Aguardando envio: ${pend}`:''}${gErr?`<br>⚠ ${esc(gErr)}`:''}</p>
+     ${grp.role==='membro'?`<label class="sw-row"><span><b>Compartilhar minha localização</b><br><small>Precisa do GPS ligado e do app aberto</small></span><input type="checkbox" id="gShareCb" ${grp.share?'checked':''}></label>`:''}
+     <div class="tbtns"><button class="bigbtn" id="gInv">Convidar o grupo</button><button class="btn2" id="gFam">Link para a família</button></div>
+     ${grp.role==='membro'?'<button class="btn2" id="gMsg" style="width:100%;margin-top:8px">📍 Mandar minha posição por WhatsApp / SMS</button>':''}</div>
+   ${grp.role==='membro'?(store.get('grupoMeuSos',0)?`<button class="sosbtn ok" id="gOk">✅ Estou bem — cancelar o pedido de ajuda</button>`:`<button class="sosbtn" id="gSos">🆘 Pedir ajuda ao grupo</button>`):''}
+   <div class="card"><h3>Pessoas</h3>${mems.length?mems.map(memberLine).join(''):'<p class="note">Ninguém apareceu ainda. Envie o convite. As pessoas aparecem aqui quando estiverem com internet.</p>'}
+     ${mems.some(m=>m.pos)?'<button class="btn2" id="gAll" style="width:100%;margin-top:8px">Ver todos no mapa 3D</button>':''}</div>
+   <div class="card"><h3>Recados</h3>
+     <div class="qchips">${(grp.role==='membro'?['Chegamos bem 🏠','Saindo agora 🥾','Tudo bem por aqui 👍','Vamos atrasar, mas está tudo bem ⏳']:['Tudo bem por aí? ❤','Boa caminhada! 🥾']).map(t=>`<button class="chip" data-q="${esc(t)}">${t}</button>`).join('')}</div>
+     <div style="display:flex;gap:6px;margin:6px 0 10px"><input id="gTxt" class="gsearch" style="margin:0" placeholder="Escrever recado" value="${esc(gDraft)}"><button class="btn2" id="gSend" style="flex:0 0 auto;padding:0 16px">Enviar</button></div>
+     <div class="feed">${FEED.slice(-30).reverse().map(f=>`<div class="fi ${f.k}"><span class="av sm" style="background:${f.color}">${initials(f.name)}</span><div><b>${esc(f.name)}</b> <small>${fmtDay(dayKey(f.t))} ${fmtHour(f.t)}${f.mine&&OUTBOX.some(o=>o.u===f.u)?' · ⏳ aguardando internet':''}</small><br>${f.k==='sos'?'🆘 ':f.k==='ok'?'✅ ':''}${esc(f.txt)}</div></div>`).join('')||'<p class="note">Nenhum recado ainda.</p>'}</div></div>
+   <div class="card"><p class="note">Privacidade: tudo é criptografado com o código do grupo antes de sair do celular e passa pelo ntfy.sh, que guarda por no máximo 12 h. O último local de cada pessoa continua visível depois disso, porque cada celular do grupo o reenvia ao publicar.</p>
+     <button id="gLeave" style="background:none;border:none;color:#b91c1c;padding:6px 0">Sair do grupo</button></div>`;
+  const sc=P.querySelector('#gShareCb');if(sc)sc.onchange=e=>{grp.share=e.target.checked;store.set('grupo',grp);if(grp.share&&!gps.on)startGps();gRender()};
+  P.querySelector('#gInv').onclick=()=>gShare('membro');const gm=P.querySelector('#gMsg');if(gm)gm.onclick=sharePos;P.querySelector('#gFam').onclick=()=>gShare('ver');
+  const so=P.querySelector('#gSos');if(so)so.onclick=()=>{if(!confirm('Enviar pedido de AJUDA para o grupo e a família, com a sua localização?'))return;store.set('grupoMeuSos',Date.now());gSend('sos','Preciso de ajuda!');sosSheet()};
+  const ok=P.querySelector('#gOk');if(ok)ok.onclick=()=>{store.set('grupoMeuSos',0);gSend('ok','Estou bem, pode desconsiderar o pedido de ajuda.')};
+  P.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>gSend('msg',b.dataset.q));
+  const tx=P.querySelector('#gTxt');tx.oninput=()=>gDraft=tx.value;if(gDraft&&document.activeElement===document.body)tx.focus();
+  P.querySelector('#gSend').onclick=()=>{const t=tx.value.trim();if(t){gDraft='';gSend('msg',t)}};
+  P.querySelectorAll('[data-see]').forEach(b=>b.onclick=()=>seeMember(MEM[b.dataset.see]));
+  P.querySelectorAll('[data-rumo]').forEach(b=>b.onclick=()=>{const m=MEM[b.dataset.rumo];gps.dest={n:m.name+' (último local)',la:m.pos.lat,lo:m.pos.lon};destVer++;needs=true;if(!gps.on)startGps();updateGpsChip();showHint('Seta até '+m.name+' na barra do GPS');seeMember(m)});
+  const al=P.querySelector('#gAll');if(al)al.onclick=seeAll;
+  P.querySelector('#gLeave').onclick=gLeave;
+}
+function seeMember(m){if(!m||!m.pos)return;location.hash='mapa';setTimeout(()=>{const key=inP(m.pos.lat,m.pos.lon)?'pati':'regiao';if(state.scene!==key)setScene(key,true);setTimeout(()=>flyTo([m.pos.lat,m.pos.lon],key==='pati'?1500:9000,0.85,curAz()),SC[key]?80:1600)},150)}
+function seeAll(){const ps=Object.values(MEM).filter(m=>m.pos).map(m=>m.pos);if(gps.fix)ps.push(gps.fix);if(!ps.length)return;const allP=ps.every(p=>inP(p.lat,p.lon));
+  location.hash='mapa';setTimeout(()=>{const key=allP?'pati':'regiao';if(state.scene!==key)setScene(key,true);const la=ps.reduce((s,p)=>s+p.lat,0)/ps.length,lo=ps.reduce((s,p)=>s+p.lon,0)/ps.length;let span=0;for(const p of ps)span=Math.max(span,hav([la,lo],[p.lat,p.lon]));setTimeout(()=>flyTo([la,lo],Math.max(allP?2500:12000,span*3.2),0.8,curAz()),SC[key]?80:1600)},150)}
+$('#zGrp').onclick=()=>{location.hash='grupo'};
+
+// ---------- desenho do grupo no 3D ----------
+setInterval(()=>{if(grp){gVer++;needs=true}},30000);
+const GMAT={};const gMat=c=>GMAT[c]||(GMAT[c]=lmat(c,3,.9));
+HOOKS.push(sc=>{
+  if(sc.gVer===gVer)return;sc.gVer=gVer;
+  for(const o of sc.gObjs||[]){sc.scene.remove(o);if(o.geometry)o.geometry.dispose()}sc.gObjs=[];
+  if(!grp)return;
+  for(const m of Object.values(MEM)){
+    if(m.trail&&m.trail.length>1){const pts=m.trail.filter(p=>sc.G.inside(p[1],p[2])).map(p=>[p[1],p[2]]);if(pts.length>1){const l=new LineSegments2(drapeGeom(sc,[pts],7),gMat(m.color));l.renderOrder=5;sc.scene.add(l);sc.gObjs.push(l)}}
+    if(m.pos&&sc.G.inside(m.pos.lat,m.pos.lon)){
+      const d=el('div',{class:'gmk'+(m.sos?' sos':'')},`<i style="background:${m.color}">${initials(m.name)}</i><span>${esc(m.name.split(' ')[0])} · ${ago(m.pos.t)}</span>`);
+      d.addEventListener('pointerdown',e=>e.stopPropagation());d.addEventListener('click',e=>{e.stopPropagation();location.hash='grupo'});
+      const o=new CSS2DObject(d);o.center.set(0.5,1);o.position.copy(sc.wTop(m.pos.lat,m.pos.lon,10));sc.scene.add(o);sc.gObjs.push(o);
+    }
+  }
+  needs=true;
+});
+gInit();
 const applyBig=v=>{document.documentElement.classList.toggle('big',!!v);$('#btnBig').classList.toggle('on',!!v)};applyBig(store.get('big',0));
 $('#btnBig').onclick=()=>{const v=!document.documentElement.classList.contains('big');store.set('big',v?1:0);applyBig(v)};
 $('#btnHowTo').onclick=()=>{location.hash='mapa';setTimeout(showTutorial,300)};
