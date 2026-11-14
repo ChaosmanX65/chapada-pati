@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Chapada Diamantina — Guia de Campo</title>
+<meta name="theme-color" content="#2b2118">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pati">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffaf0; --ink:#2b2118; --ink2:#5b4a3a; --muted:#8a7765;
+  --line:#e3d7c3; --accent:#b4561f; --accent2:#2c6e63; --water:#2f6fb0; --tea:#6b3d1d;
+  --shadow:0 6px 24px rgba(60,40,20,.14); --r:14px; --nav:62px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.15;margin:0 0 .4em}
+h2{font-size:1.65rem} h3{font-size:1.15rem}
+a{color:var(--accent)}
+button{font:inherit;color:inherit;cursor:pointer}
+header.top{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;gap:10px;padding:0 14px;background:rgba(43,33,24,.92);color:#f6ead6;z-index:30;backdrop-filter:blur(6px)}
+header.top .brand{font-family:Fraunces,serif;font-weight:700;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.top .brand small{font-family:"IBM Plex Sans";font-weight:400;opacity:.7;font-size:.75rem;margin-left:6px}
+header.top .sp{flex:1}
+header.top button.icon{background:none;border:1px solid rgba(246,234,214,.35);border-radius:999px;color:#f6ead6;padding:4px 11px;font-size:.8rem}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;height:var(--nav);display:flex;background:var(--paper);border-top:1px solid var(--line);z-index:30;padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:var(--muted);font-size:.72rem;font-weight:500}
+nav.tabs a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7}
+nav.tabs a.on{color:var(--accent)}
+@media(min-width:900px){
+  nav.tabs{top:52px;bottom:auto;height:44px;border-top:none;border-bottom:1px solid var(--line);justify-content:center}
+  nav.tabs a{flex:0 0 auto;flex-direction:row;padding:0 18px;font-size:.88rem;gap:7px}
+  nav.tabs a svg{width:18px;height:18px}
+  main{padding-top:96px!important;padding-bottom:0!important}
+  #mapa{top:96px!important;bottom:0!important}
+}
+main{padding-top:52px;padding-bottom:var(--nav)}
+section.page{display:none;max-width:980px;margin:0 auto;padding:22px 16px 40px}
+section.page.on{display:block}
+.lead{font-size:1.05rem;color:var(--ink2)}
+.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;font-weight:600;color:var(--accent)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:12px 0}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 12px;font-size:.82rem}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tag{display:inline-block;font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:999px;background:#efe4d1;color:var(--ink2);margin:2px 4px 2px 0}
+.note{font-size:.82rem;color:var(--muted)}
+.warn{border-left:4px solid #c0392b;background:#fff3ef}
+.tip{border-left:4px solid var(--accent2);background:#eef6f3}
+ul.tight{margin:.3em 0;padding-left:1.15em} ul.tight li{margin:.15em 0}
+details.src summary{cursor:pointer;font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 14px;font-size:.85rem;font-weight:500}
+.btn.ghost{background:transparent;color:var(--ink)}
+/* ---------- MAPA 3D ---------- */
+#mapa{position:fixed;top:52px;left:0;right:0;bottom:var(--nav);display:none;max-width:none;padding:0;overflow:hidden}
+#mapa.on{display:block}
+body.walking nav.tabs{display:none}
+body.walking #mapa{bottom:0}
+@media(min-width:900px){body.walking #mapa{top:52px!important}}
+#gl{position:absolute;inset:0;touch-action:none;background:#cfdde6}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.mk{pointer-events:auto;display:flex;align-items:center;gap:5px;transform:translateY(-50%);cursor:pointer;white-space:nowrap;padding:6px 6px 6px 0}
+.mk i{width:11px;height:11px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5);flex:0 0 auto}
+.mk span{font-size:11.5px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.95),0 0 2px #000;transition:opacity .2s}
+.mk.cidade i{width:14px;height:14px;background:#fff!important;border-color:#2b2118}
+.mk.cidade span{font-size:13px}
+.mk.hide span{opacity:0;pointer-events:none}
+.rl{font-size:10.5px;font-style:italic;color:#bfe6ff;text-shadow:0 1px 2px #000;white-space:nowrap;pointer-events:none}
+#walker{width:18px;height:18px;border-radius:50%;background:#fc4c02;border:3px solid #fff;box-shadow:0 0 0 0 rgba(252,76,2,.6);animation:pulse 1.6s infinite;pointer-events:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(252,76,2,.6)}70%{box-shadow:0 0 0 16px rgba(252,76,2,0)}100%{box-shadow:0 0 0 0 rgba(252,76,2,0)}}
+.ctl{position:absolute;z-index:5}
+#topbar{top:10px;left:10px;right:10px;display:flex;gap:8px;align-items:center;pointer-events:none}
+#topbar>*{pointer-events:auto}
+#topbar .sp{flex:1;pointer-events:none}
+.seg2{display:flex;background:rgba(255,250,240,.96);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.seg2 button{border:none;background:transparent;border-radius:999px;padding:7px 12px;font-size:.82rem;font-weight:600;color:var(--ink2)}
+.seg2 button.on{background:var(--ink);color:var(--paper)}
+.rbtn{width:40px;height:40px;border-radius:50%;background:rgba(255,250,240,.96);border:1px solid var(--line);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;padding:0}
+.rbtn svg{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:1.8}
+#compass svg{width:24px;height:24px;stroke:none}
+#panel{position:absolute;top:58px;right:10px;width:min(320px,calc(100% - 20px));max-height:calc(100% - 140px);overflow:auto;background:rgba(255,250,240,.98);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:12px 14px;display:none;z-index:7}
+#panel.on{display:block}
+#panel h4{margin:12px 0 6px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+#panel h4:first-child{margin-top:0}
+#panel label.row{display:flex;align-items:center;gap:9px;padding:5px 0;font-size:.9rem}
+#panel label.row input{width:18px;height:18px;accent-color:var(--accent)}
+#panel .sw{width:14px;height:14px;border-radius:4px;flex:0 0 auto}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;border:none;background:transparent;padding:8px 2px;font-size:.78rem}
+.seg button.on{background:var(--ink);color:var(--paper)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+#legend{position:absolute;left:10px;top:58px;background:rgba(255,250,240,.94);border:1px solid var(--line);border-radius:12px;padding:7px 9px;font-size:.68rem;max-width:180px;max-height:34%;overflow:auto;box-shadow:var(--shadow);z-index:4}
+#legend .lg{display:flex;align-items:center;gap:6px;margin:2px 0}
+#legend .lg b{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+#legend.min .body{display:none}
+#legend .hd{font-weight:600;cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+#ramp{height:9px;border-radius:5px;margin:4px 0 2px}
+#dock{position:absolute;left:10px;right:10px;bottom:12px;display:flex;gap:8px;justify-content:center;z-index:5;pointer-events:none}
+#dock>*{pointer-events:auto}
+.bigbtn{display:inline-flex;align-items:center;gap:8px;border:none;background:#fc4c02;color:#fff;border-radius:999px;padding:12px 18px;font-weight:600;font-size:.95rem;box-shadow:0 6px 18px rgba(252,76,2,.35)}
+.bigbtn.dark{background:var(--ink);box-shadow:var(--shadow)}
+.bigbtn svg{width:18px;height:18px;fill:currentColor}
+#sheet{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-radius:18px 18px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);padding:14px 16px 16px;transform:translateY(105%);transition:transform .28s ease;z-index:9}
+#sheet.on{transform:none}
+#sheetBody{max-height:min(58vh,560px);overflow-y:auto;padding-bottom:env(safe-area-inset-bottom)}
+#sheet .x{position:absolute;right:12px;top:10px;z-index:2;border:none;background:#efe4d1;border-radius:999px;width:32px;height:32px;font-size:1.1rem;line-height:1}
+@media(min-width:900px){#sheet{left:auto;right:12px;bottom:12px;width:410px;border-radius:16px}#sheetBody{max-height:calc(100vh - 190px)}}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:.86rem;margin:8px 0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:500}
+#loading{position:fixed;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;background:var(--bg);z-index:60;font-family:Fraunces,serif;font-size:1.1rem;color:var(--ink2);text-align:center;padding:20px}
+#loading .bar{width:220px;height:6px;border-radius:3px;background:#e7dccb;overflow:hidden}
+#loading .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.rcard{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.rcard:last-child{border-bottom:none}
+.rcard .meta{flex:1;min-width:0}
+.rcard .t{font-weight:600;font-size:.92rem}
+.rcard .s{font-size:.78rem;color:var(--muted)}
+.rcard svg.spark{width:84px;height:34px;flex:0 0 auto}
+.play{width:42px;height:42px;border-radius:50%;border:none;background:#fc4c02;color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.play svg{width:18px;height:18px;fill:#fff}
+.plist input{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;margin:6px 0 8px;background:#fff}
+.plist .it{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid #f0e6d6;cursor:pointer;font-size:.9rem}
+.plist .it i{width:10px;height:10px;border-radius:50%;flex:0 0 auto;border:1.5px solid rgba(0,0,0,.25)}
+.plist .it small{color:var(--muted);margin-left:auto;white-space:nowrap}
+/* ---------- HUD percurso ---------- */
+#hud{position:absolute;left:0;right:0;bottom:0;background:rgba(255,250,240,.97);border-radius:18px 18px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);padding:10px 12px calc(10px + env(safe-area-inset-bottom));z-index:8;display:none}
+body.walking #hud{display:block}
+body.walking #dock,body.walking #legend{display:none}
+@media(min-width:900px){#hud{left:12px;right:auto;bottom:12px;width:460px;border-radius:16px}}
+#hud .row1{display:flex;align-items:center;gap:8px}
+#hud .ttl{flex:1;min-width:0;font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hud .chipb{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-size:.78rem;font-weight:600}
+#hud .xb{border:none;background:#efe4d1;border-radius:999px;width:32px;height:32px;font-size:1.05rem}
+#hud .stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:8px 0 4px}
+#hud .stats4 div{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+#hud .stats4 b{display:block;font-family:Fraunces,serif;font-size:1.08rem;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:700}
+#hprof{width:100%;height:96px;display:block;touch-action:none;cursor:pointer}
+#hud .ctx{display:flex;gap:8px;margin-top:6px;font-size:.8rem;line-height:1.35}
+#hud .ctx>div{flex:1;background:#f3ebdd;border-radius:10px;padding:7px 9px;min-width:0}
+#hud .ctx .k{font-size:.64rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+#hud .ctx b.sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:baseline}
+#toast{position:absolute;left:12px;right:12px;top:62px;background:rgba(43,33,24,.93);color:#f6ead6;border-radius:14px;padding:10px 12px;font-size:.84rem;z-index:8;transform:translateY(-140%);transition:transform .3s ease,visibility .3s;visibility:hidden;box-shadow:var(--shadow)}
+#toast.on{transform:none;visibility:visible}
+#toast .k{font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;color:#f4a259;font-weight:600}
+#toast b{font-family:Fraunces,serif;font-size:1rem}
+@media(min-width:900px){#toast{left:auto;right:12px;width:380px}}
+.camseg{display:flex;gap:4px;margin-top:6px}
+.camseg button{flex:1;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 4px;font-size:.74rem}
+.camseg button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+/* profile chart */
+.prof{width:100%;height:auto;display:block;touch-action:pan-y}
+.prof .ax{stroke:#d8cab2;stroke-width:1}
+.prof text{font-size:11px;fill:var(--muted);font-family:"IBM Plex Sans"}
+.stats{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;margin:6px 0}
+.stats b{font-size:1.05rem;font-family:Fraunces,serif;display:block;color:var(--ink)}
+/* timeline */
+.tl{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;scroll-snap-type:x mandatory}
+.tl .card{flex:0 0 min(300px,82%);scroll-snap-align:start;margin:0}
+.tl .age{font-family:Fraunces,serif;font-size:1.25rem;color:var(--accent)}
+.unit{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);cursor:pointer}
+.unit:last-child{border-bottom:none}
+.unit b.sw{width:20px;height:20px;border-radius:5px;flex:0 0 auto;margin-top:2px;border:1px solid rgba(0,0,0,.15)}
+.unit .t{font-weight:600}
+.rock{display:flex;flex-direction:column}
+.rock svg.tex{width:100%;height:64px;border-radius:10px;margin-bottom:10px}
+.rock h3{margin-bottom:2px}
+.rock .sci{font-size:.8rem;color:var(--muted);margin-bottom:6px}
+.rock .lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-top:8px}
+.seen{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:10px;font-size:.84rem}
+.seen input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent2)}
+.seen input[type=text]{flex:1;border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit;font-size:.8rem;background:#fff}
+.hot{cursor:pointer}
+.hot circle{fill:var(--accent);stroke:#fff;stroke-width:2}
+.hot text{fill:#fff;font-weight:700;font-size:12px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.hot.on circle{fill:var(--ink)}
+.bars .b{display:flex;align-items:center;gap:8px;font-size:.82rem;margin:5px 0}
+.bars .b span.l{width:120px;flex:0 0 auto;color:var(--ink2)}
+.bars .b .t{flex:1;background:#efe4d1;border-radius:4px;height:16px;position:relative}
+.bars .b .t i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.bars .b em{font-style:normal;width:44px;text-align:right;font-weight:600}
+.sp-card .who{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.sp-card .who.fa{color:#9a3b2a}.sp-card .who.fl{color:#3f7a3a}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--paper);font-size:.75rem;padding:5px 8px;border-radius:8px;z-index:50;display:none;white-space:nowrap}
+/* ---------- UI amigável ---------- */
+html{font-size:16px} html.big{font-size:19px}
+body{font-size:1rem!important}
+header.top .icon.on{background:#f6ead6;color:#2b2118}
+[data-bg]{background-color:#cbbba3;background-size:cover;background-position:center}
+.hero{margin:-22px -16px 18px;min-height:300px;display:flex;align-items:flex-end;position:relative;color:#fff}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(20,12,4,.78))}
+.hero-in{position:relative;z-index:1;padding:20px 18px}
+.hero h1{font-size:2.3rem;margin:0 0 6px;color:#fff}
+.hero p{margin:0;font-size:1.02rem;max-width:560px;color:#f6ead6}
+@media(min-width:900px){.hero{margin:0 0 20px;border-radius:18px;min-height:360px;overflow:hidden}}
+h2.q{font-size:1.35rem;margin:10px 0 12px}
+.bigcards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bc{position:relative;min-height:150px;border-radius:16px;overflow:hidden;color:#fff;text-decoration:none;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;box-shadow:var(--shadow)}
+.bc:first-child{grid-column:1/-1;min-height:180px}
+.bc:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(15,10,5,.82))}
+.bc>*{position:relative;z-index:1}
+.bc b{font-size:1.02rem;line-height:1.2}
+.bc small{font-size:.8rem;opacity:.9;margin-top:3px;line-height:1.3}
+.bc-ic{position:absolute!important;top:10px;left:10px;width:40px;height:40px;border-radius:50%;background:#fc4c02;display:flex;align-items:center;justify-content:center}
+.bc-ic svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2}
+.bc:first-child .bc-ic svg{fill:#fff;stroke:none}
+.bc.warnc .bc-ic{background:#c0392b}
+@media(min-width:700px){.bigcards{grid-template-columns:repeat(3,1fr)}.bc:first-child{grid-column:span 2}}
+/* trilhas */
+.tcard{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:14px 0;box-shadow:0 2px 10px rgba(60,40,20,.06)}
+.tcard .ph{height:150px;position:relative}
+.tcard .ph .lvl{position:absolute;left:12px;top:12px;background:#fff;border-radius:999px;padding:4px 10px;font-size:.78rem;font-weight:700}
+.tcard .bd{padding:14px}
+.tcard h3{margin:0 0 4px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.facts div{background:#f3ebdd;border-radius:12px;padding:8px;text-align:center;font-size:.75rem;color:var(--ink2)}
+.facts b{display:block;font-family:Fraunces,serif;font-size:1.15rem;color:var(--ink)}
+.tbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.tbtns .bigbtn{flex:1;justify-content:center;min-height:48px}
+.btn2{flex:1;min-height:48px;border:1.5px solid var(--ink);background:transparent;border-radius:999px;font-weight:600;font-size:.92rem}
+.lv1{color:#2a7d3a}.lv2{color:#b07a00}.lv3{color:#c2410c}.lv4{color:#b91c1c}
+/* guia */
+.gsearch{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font:inherit;background:#fff;margin:6px 0 4px}
+.chips .chip{min-height:40px;padding:8px 14px;font-size:.9rem}
+.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:700px){.ggrid{grid-template-columns:repeat(4,1fr)}}
+.gi{border:none;padding:0;background:var(--paper);border-radius:14px;overflow:hidden;text-align:left;box-shadow:0 2px 8px rgba(60,40,20,.08);display:flex;flex-direction:column;position:relative}
+.gi .im{aspect-ratio:4/3;width:100%}
+.gi .tx{padding:8px 10px 10px}
+.gi .tx b{display:block;font-size:.92rem;line-height:1.2}
+.gi .tx small{color:var(--muted);font-size:.74rem}
+.gi .seenb{position:absolute;top:8px;right:8px;background:#2a7d3a;color:#fff;border-radius:999px;font-size:.7rem;font-weight:700;padding:3px 8px}
+.gi .tagc{position:absolute;top:8px;left:8px;background:rgba(255,250,240,.92);border-radius:999px;font-size:.68rem;font-weight:700;padding:3px 8px;color:var(--ink2)}
+#gModal{position:fixed;inset:0;z-index:70;background:rgba(20,12,4,.55);display:none;align-items:flex-end;justify-content:center}
+#gModal.on{display:flex}
+#gModal .box{background:var(--paper);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;position:relative}
+@media(min-width:700px){#gModal{align-items:center}#gModal .box{border-radius:20px}}
+#gModal .big{aspect-ratio:4/3;width:100%}
+#gModal .in{padding:16px 18px 24px}
+#gModal .x{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,250,240,.95);font-size:1.3rem;box-shadow:var(--shadow);z-index:2}
+#gModal .simple{font-size:1.08rem;font-family:Fraunces,serif;margin:6px 0 10px;color:var(--ink)}
+.credit{font-size:.7rem;color:var(--muted);margin-top:4px}
+.seenrow{display:flex;gap:8px;align-items:center;margin-top:14px}
+.seenrow button{flex:1;min-height:48px;border-radius:999px;border:1.5px solid #2a7d3a;background:#fff;color:#2a7d3a;font-weight:700}
+.seenrow button.on{background:#2a7d3a;color:#fff}
+.seenrow input{flex:1.3;min-height:48px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:inherit}
+/* aprender */
+details.acc{background:var(--paper);border:1px solid var(--line);border-radius:16px;margin:10px 0;overflow:hidden}
+details.acc summary{list-style:none;display:flex;gap:12px;align-items:center;padding:10px;cursor:pointer;min-height:72px}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary:after{content:"＋";margin-left:auto;font-size:1.3rem;color:var(--accent);padding-right:6px}
+details.acc[open] summary:after{content:"－"}
+.acc-ph{width:64px;height:64px;border-radius:12px;flex:0 0 auto}
+details.acc summary b{display:block;font-size:1.02rem}
+details.acc summary small{color:var(--muted);font-size:.82rem}
+.acc-b{padding:0 14px 14px}
+h4.sub{margin:14px 0 6px;font-size:.95rem}
+.envph{height:110px;border-radius:12px;margin:-4px -4px 10px}
+.stph{height:120px;border-radius:12px;margin:-4px -4px 10px}
+/* mapa: botões e tutorial */
+#zoomCol{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:5}
+#zoomCol button{width:46px;height:46px;border-radius:50%;background:rgba(255,250,240,.96);border:1px solid var(--line);box-shadow:var(--shadow);font-size:1.4rem;font-weight:600;display:flex;align-items:center;justify-content:center;padding:0;color:var(--ink)}
+#zoomCol button svg{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:2}
+body.walking #zoomCol{display:none}
+#tut{position:fixed;inset:0;z-index:80;background:rgba(20,12,4,.72);display:none;align-items:center;justify-content:center;padding:20px}
+#tut.on{display:flex}
+#tut .box{background:var(--paper);border-radius:20px;max-width:380px;width:100%;padding:22px;text-align:center}
+#tut .ill{height:120px;display:flex;align-items:center;justify-content:center}
+#tut .ill svg{width:120px;height:120px}
+#tut h3{font-size:1.3rem;margin:8px 0}
+#tut p{font-size:1rem;color:var(--ink2)}
+#tut .dots{display:flex;gap:6px;justify-content:center;margin:12px 0}
+#tut .dots i{width:8px;height:8px;border-radius:50%;background:#d9cdb9}
+#tut .dots i.on{background:var(--accent)}
+#tut .bigbtn{width:100%;justify-content:center;min-height:52px;font-size:1.05rem}
+#tut .skip{background:none;border:none;color:var(--muted);margin-top:8px;padding:8px;font-size:.9rem}
+.toastph{width:56px;height:56px;border-radius:10px;flex:0 0 auto}
+/* ---------- PWA: GPS, fotos, álbum ---------- */
+#zoomCol button.on{background:#2f6fb0;border-color:#2f6fb0}#zoomCol button.on svg{stroke:#fff}
+#zoomCol button.follow{box-shadow:0 0 0 3px #9cc7f0}
+#zCam{background:#fc4c02!important;border-color:#fc4c02!important}#zCam svg{stroke:#fff!important}
+#gpsChip{position:absolute;left:10px;top:96px;z-index:6;display:none;align-items:center;gap:8px;flex-wrap:wrap;max-width:calc(100% - 76px);background:rgba(43,33,24,.92);color:#f6ead6;border-radius:14px;padding:8px 12px;font-size:.82rem;box-shadow:var(--shadow);cursor:pointer}
+#gpsChip .dot{width:10px;height:10px;border-radius:50%;background:#aaa;flex:0 0 auto}#gpsChip .dot.ok{background:#4ade80}
+#gpsChip .recdot{width:10px;height:10px;border-radius:50%;background:#ef4444;animation:blink 1.2s infinite;flex:0 0 auto}
+@keyframes blink{50%{opacity:.25}}
+#gpsChip .dest{display:flex;align-items:center;gap:5px;background:#fc4c02;border-radius:999px;padding:2px 9px;font-weight:600}
+#gpsChip .dest i{display:inline-block;font-style:normal;font-weight:700}
+body.walking #gpsChip{display:none!important}
+#me{position:relative;width:22px;height:22px;pointer-events:none}
+#me i{position:absolute;inset:0;border-radius:50%;background:#2f80ed;border:3px solid #fff;box-shadow:0 0 0 6px rgba(47,128,237,.25),0 2px 6px rgba(0,0,0,.4)}
+#me b{display:none;position:absolute;left:50%;top:50%;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:16px solid #2f80ed;transform-origin:50% 100%;margin-top:-22px}
+.phmk{width:40px;height:40px;border-radius:10px;border:3px solid #fff;background:#ccc center/cover;box-shadow:0 2px 8px rgba(0,0,0,.5);pointer-events:auto;cursor:pointer;transform:translateY(-50%)}
+#phToast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(260px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:999px;z-index:90;font-size:.9rem;transition:transform .3s;white-space:nowrap}
+#phToast.on{transform:translateX(-50%)}
+.sw-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.sw-row span{flex:1}.sw-row small{color:var(--muted)}
+.sw-row input{width:26px;height:26px;accent-color:var(--accent2)}
+.dayh{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:8px}
+.minimap{width:100%;height:auto;display:block;margin:6px 0 10px}
+.phgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.pht{aspect-ratio:1;border:none;border-radius:10px;background:#ddd center/cover;position:relative;padding:0;overflow:hidden}
+.pht span{position:absolute;top:4px;left:4px;background:rgba(43,33,24,.8);color:#fff;font-size:.7rem;font-weight:700;border-radius:999px;padding:1px 7px}
+.pht em{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-size:.68rem;font-style:normal;padding:12px 6px 4px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.offc{display:flex;gap:12px;align-items:flex-start}
+.offc .ic{font-size:1.6rem}
+</style>
+</head>
+<body>
+<div id="loading"><div class="msg">Carregando relevo, satélite e trilhas…</div><div class="bar"><i></i></div></div>
+<header class="top"><div class="brand">Chapada Diamantina<small>guia de campo</small></div><div class="sp"></div><button class="icon" id="btnBig" aria-label="Aumentar letras">A+</button> <button class="icon" id="btnFontes">Créditos</button></header>
+<nav class="tabs" id="tabs">
+  <a href="#inicio" data-t="inicio"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Início</a>
+  <a href="#mapa" data-t="mapa"><svg viewBox="0 0 24 24"><path d="M3 18l5-8 4 5 3-4 6 7z"/><path d="M3 18h18"/></svg>Mapa 3D</a>
+  <a href="#trilha" data-t="trilha"><svg viewBox="0 0 24 24"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M9 12l3-4 4 3 3 1M12 8l-2 5"/></svg>Trilhas</a>
+  <a href="#album" data-t="album"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg>Álbum</a>
+  <a href="#guia" data-t="guia"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Guia</a>
+</nav><main>
+<section class="page" id="mapa">
+  <div id="gl"></div>
+  <div id="labels"></div>
+  <div id="topbar" class="ctl">
+    <div class="seg2" id="sceneSeg"><button data-s="regiao" class="on">Chapada toda</button><button data-s="pati">Vale do Pati</button></div>
+    <div class="sp"></div>
+    <button class="rbtn" id="btnFind" title="Buscar lugar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></svg></button>
+    <button class="rbtn" id="btnLayers" title="Camadas"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></button>
+    <button class="rbtn" id="compass" title="Norte para cima"><svg viewBox="0 0 26 26"><path d="M13 2l4 11h-8z" fill="#c0392b"/><path d="M13 24l-4-11h8z" fill="#8a7765"/></svg></button>
+  </div>
+  <div id="legend"></div>
+  <div id="gpsChip"></div>
+  <div id="zoomCol"><button id="zCam" aria-label="Tirar foto"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg></button><button id="zGps" aria-label="Minha localização"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button><button id="zIn" aria-label="Aproximar">+</button><button id="zOut" aria-label="Afastar">−</button><button id="zRot" aria-label="Girar"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-3-6.2"/><path d="M17 2v5h-5"/></svg></button><button id="zHome" aria-label="Voltar"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></button><button id="zHelp" aria-label="Ajuda" style="font-size:1.1rem">?</button></div>
+  <div id="panel">
+    <h4>Cor do mapa</h4>
+    <div class="seg" id="modeSeg">
+      <button data-m="sat" class="on">Foto</button><button data-m="alt">Altura</button><button data-m="geo">Pedras</button><button data-m="hid">Água</button>
+    </div>
+    <h4>Deixar as montanhas mais altas: <span id="exV"></span></h4>
+    <input type="range" id="exag" min="1" max="3" step="0.25">
+    <h4>Camadas</h4>
+    <label class="row"><input type="checkbox" id="lyRivers" checked><span class="sw" style="background:#4fb3ff"></span>Rios</label>
+    <label class="row only-pati"><input type="checkbox" id="lyTrails" checked><span class="sw" style="background:#ffe08a"></span>Trilhas (OpenStreetMap)</label>
+    <label class="row only-pati"><input type="checkbox" id="lyRoutes" checked><span class="sw" style="background:#fc4c02"></span>Percursos do Pati</label>
+    <label class="row only-reg"><input type="checkbox" id="lyPark" checked><span class="sw" style="background:#9be37d"></span>Limite do Parque Nacional</label>
+    <h4>Lugares</h4>
+    <div id="catRows"></div>
+    <p class="note">Toque no relevo para ver altitude, rocha, aquífero e rio mais próximo. Arraste com um dedo para girar e use dois dedos para zoom e inclinação.</p>
+  </div>
+  <div id="dock" class="ctl"></div>
+  <div id="toast"></div>
+  <div id="hud">
+    <div class="row1">
+      <button class="play" id="hPlay"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></button>
+      <div class="ttl" id="hTitle"></div>
+      <button class="chipb" id="hSpeed">1×</button>
+      <button class="xb" id="hClose">×</button>
+    </div>
+    <div class="stats4">
+      <div>Andou<b id="hD">0</b></div><div>Altura<b id="hZ">0</b></div><div>Terreno<b id="hG">0</b></div><div>A pé*<b id="hT">0</b></div>
+    </div>
+    <svg id="hprof" viewBox="0 0 400 96" preserveAspectRatio="none"></svg>
+    <div class="ctx"><div id="hNow"></div><div id="hNext"></div></div>
+    <div class="camseg" id="camSeg"><button data-c="seguir" class="on">Atrás de mim</button><button data-c="alto">Visto de cima</button><button data-c="livre">Eu giro</button></div>
+  </div>
+  <div id="sheet"><button class="x" id="sheetX">×</button><div id="sheetBody"></div></div>
+</section>
+
+<!-- =================== INÍCIO =================== -->
+<section class="page" id="inicio">
+  <div class="hero" data-bg="pati_vista">
+    <div class="hero-in">
+      <div class="kicker" style="color:#ffd9a8">Guia de campo</div>
+      <h1>Chapada Diamantina</h1>
+      <p>Explore o Vale do Pati antes de ir: o relevo em 3D, a trilha passo a passo, os bichos, as plantas e as pedras do caminho.</p>
+    </div>
+  </div>
+<div class="card offc" id="offCard"><div class="ic">📶</div><div style="flex:1"><b>Usar sem internet</b><br><span id="offStatus" class="note" style="font-size:.92rem">Verificando…</span>
+    <div id="instHelp" class="note" style="margin-top:8px;font-size:.88rem"><b>Instale na tela inicial:</b> no iPhone, toque em <b>Compartilhar ⬆ → Adicionar à Tela de Início</b>. No Android, toque em <b>⋮ → Instalar app</b>.<br><button class="btn" id="instBtn" style="display:none;margin-top:8px">Instalar agora</button></div></div></div>
+  <h2 class="q">O que você quer fazer?</h2>
+  <div class="bigcards">
+    <a class="bc" href="#trilha" data-bg="cachoeirao"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span><b>Fazer a trilha do Pati no celular</b><small>Veja o caminho em 3D, como num vídeo</small></a>
+    <a class="bc" href="#album" data-bg="pati_vista"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg></span><b>Meu álbum da viagem</b><small>Fotos e caminho de cada dia</small></a>
+    <a class="bc" href="#mapa" data-bg="morrao"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M3 18l5-8 4 5 3-4 6 7z"/></svg></span><b>Ver a Chapada em 3D</b><small>Mapa com relevo, satélite e lugares</small></a>
+    <a class="bc" href="#guia" data-bg="sp_augastes_lumachella"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M12 21V10"/><path d="M12 13c-4 0-7-3-7-7 4 0 7 3 7 7zM12 10c0-4 3-7 7-7 0 4-3 7-7 7z"/></svg></span><b>Bichos, plantas e pedras</b><small>Fotos reais para reconhecer na trilha</small></a>
+    <a class="bc" href="#aprender" data-bg="poco_encantado"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/></svg></span><b>Entender as rochas e as águas</b><small>Como a serra se formou, em linguagem simples</small></a>
+    <a class="bc warnc" href="#seguranca" data-bg="pati_cachoeira"><span class="bc-ic"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg></span><b>Antes de ir: segurança</b><small>Chuva, água, cobras e o que levar</small></a>
+  </div>
+  <div class="card tip" style="display:flex;gap:12px;align-items:center">
+    <div style="flex:1"><b>Primeira vez aqui?</b><br><span class="note" style="font-size:.9rem">Veja em 30 segundos como mexer no mapa 3D.</span></div>
+    <button class="btn" id="btnHowTo">Como usar</button>
+  </div>
+  <p class="note" style="text-align:center">Dica: o botão <b>A+</b>, no alto da tela, aumenta as letras.</p>
+</section>
+
+<!-- =================== TRILHAS =================== -->
+<section class="page" id="trilha">
+  <div class="kicker">Vale do Pati</div>
+  <h2>Escolha um trecho e aperte ▶</h2>
+  <p class="lead">O ▶ mostra o caminho em 3D, como num vídeo do Strava. Você vê as subidas, as descidas, os rios que vai cruzar e as casas onde dá para dormir.</p>
+  <div id="routeCards"></div>
+  <div class="card">
+    <h3>Como a travessia costuma ser feita</h3>
+    <p>O vale fica dentro do Parque Nacional e tem cerca de <b>12.300 hectares</b>. A travessia clássica tem uns <b>70 km</b> e leva de 3 a 6 dias. Você dorme em casas de famílias que moram no vale. Lá dentro não há estrada nem sinal de celular.</p>
+    <p><b>3 dias:</b> Guiné → Mirante → Igrejinha · Cachoeirão por cima · saída pelo Capão.</p>
+    <p><b>5 dias:</b> Guiné → Igrejinha · Cachoeirão · Funis e Morro do Castelo · Prefeitura · Ladeira do Império → Andaraí.</p>
+    <p class="note">Entradas mais comuns: Beco do Guiné, Aleixos (Guiné), Bomba (Vale do Capão) e Ladeira do Império (Andaraí).</p>
+  </div>
+  <div class="card">
+    <h3>O que observar nas pedras pelo caminho</h3>
+    <ul class="tight" id="alongList"></ul>
+  </div>
+  <a class="card warn" href="#seguranca" style="display:block;text-decoration:none;color:inherit"><b>Antes de ir, leia as dicas de segurança →</b><br><span class="note">Chuva forte, água para beber, cobras e o que levar na mochila.</span></a>
+</section>
+
+<!-- =================== GUIA =================== -->
+<section class="page" id="guia">
+  <div class="kicker">Guia de campo com fotos</div>
+  <h2>O que você pode encontrar</h2>
+  <p class="lead">Toque numa foto para saber mais. Marque o que você já viu na trilha. Fica salvo no seu celular.</p>
+  <input type="search" id="gSearch" class="gsearch" placeholder="Procurar (ex.: beija-flor, quartzito, cachoeira)">
+  <div class="chips" id="gFilter"></div>
+  <div class="ggrid" id="gGrid"></div>
+  <div class="card warn" style="margin-top:16px"><b>Dentro do Parque Nacional não se tira nada:</b> nem pedra, nem planta, nem cristal. Fotografe e anote.</div>
+</section>
+
+<!-- =================== APRENDER =================== -->
+<section class="page" id="aprender">
+  <div class="kicker">Aprender</div>
+  <h2>A Chapada explicada de forma simples</h2>
+  <p class="lead">Toque em cada assunto para abrir.</p>
+
+  <details class="acc" open>
+    <summary><span class="acc-ph" data-bg="pai_inacio"></span><span><b>Como a serra se formou</b><small>Areia, mar e gelo que viraram pedra</small></span></summary>
+    <div class="acc-b">
+      <p>Quase todas as pedras da Chapada já foram <b>areia, cascalho ou lama</b>, levados por rios, ventos e mares rasos há mais de 1 bilhão de anos. Com o tempo, ficaram enterradas, endureceram e foram dobradas. Depois, a chuva e os rios gastaram as partes moles. As partes duras ficaram de pé e formaram os paredões, os morros e as cachoeiras.</p>
+      <h4 class="sub">Linha do tempo (arraste para o lado)</h4>
+      <div class="tl" id="timeline"></div>
+    </div>
+  </details>
+
+  <details class="acc">
+    <summary><span class="acc-ph" data-bg="castelo"></span><span><b>O "corte" da serra</b><small>Do Guiné até Andaraí, por dentro da terra</small></span></summary>
+    <div class="acc-b">
+      <p class="note">É como cortar a serra com uma faca, de oeste para leste, na altura do Vale do Pati. A linha preta é o relevo de verdade. As cores mostram a rocha que aparece na superfície. Toque no desenho para ver a altitude e a rocha.</p>
+      <div id="xsec"></div>
+    </div>
+  </details>
+
+  <details class="acc">
+    <summary><span class="acc-ph" data-bg="s_cruzada"></span><span><b>O que procurar nas pedras</b><small>Dunas, ondas e dobras gravadas na rocha</small></span></summary>
+    <div class="acc-b"><div class="grid" id="structs"></div></div>
+  </details>
+
+  <details class="acc">
+    <summary><span class="acc-ph" data-bg="fumaca"></span><span><b>De onde vem tanta água</b><small>Chuva, esponjas de musgo, nascentes e cachoeiras</small></span></summary>
+    <div class="acc-b">
+      <p>A Chapada funciona como uma <b>esponja no meio do sertão</b>. As serras fazem o ar úmido subir e virar chuva. A água entra nas rachaduras das pedras e nos brejos do alto, e depois sai devagar em nascentes. Daqui nascem os rios <b>Paraguaçu</b>, <b>de Contas</b> e <b>Jacuípe</b>.</p>
+      <p class="note">Toque nos números do desenho.</p>
+      <div id="cycle"></div>
+      <div id="cycleTxt" class="card tip" style="margin-bottom:0"></div>
+      <div class="grid" style="margin-top:12px">
+        <div class="card" style="margin:0"><h3>Por que a água é cor de chá?</h3><p>Não é sujeira. É o "chá" das folhas e do musgo dos brejos lá de cima (os taninos). Como as pedras quase não soltam minerais, a água fica escura, levemente ácida e leve.</p></div>
+        <div class="card" style="margin:0"><h3>Cachoeiras são degraus de pedra dura</h3><p>A água cai onde o rio sai do planalto e encontra a beira do paredão. A Fumaça tem cerca de 340 m de queda.</p></div>
+        <div class="card" style="margin:0"><h3>Marimbus, o "pantanal" da Chapada</h3><p>No pé da serra o terreno fica plano. Os rios se espalham em lagoas e brejos e depois seguem para o Paraguaçu.</p></div>
+        <div class="card" style="margin:0"><h3>Para onde vai a água</h3><p>O rio Paraguaçu passa por Andaraí e corre cerca de 600 km até a Baía de Todos os Santos. No caminho, a barragem de Pedra do Cavalo ajuda a abastecer Salvador.</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="acc">
+    <summary><span class="acc-ph" data-bg="poco_encantado"></span><span><b>A água debaixo da terra</b><small>Os três tipos de "caixa-d'água" natural</small></span></summary>
+    <div class="acc-b">
+      <div class="grid" id="aquifers"></div>
+      <div class="card" style="margin-top:12px"><h3>Quanto de cada um há na região</h3><div class="bars" id="hydroBars"></div></div>
+    </div>
+  </details>
+
+  <details class="acc">
+    <summary><span class="acc-ph" data-bg="e_rupestre"></span><span><b>Altitude e vegetação</b><small>Por que a paisagem muda tanto</small></span></summary>
+    <div class="acc-b">
+      <p>Quanto mais alto, mais frio, mais vento e menos terra sobre a pedra. Acima de uns 900 m fica o <b>campo rupestre</b>, cheio de plantas que só existem aqui. Um levantamento recente listou <b>459 plantas</b> exclusivas da Chapada Diamantina.</p>
+      <div class="card"><h3>Quanto do Parque está em cada altura</h3><p class="note">Calculado do relevo, dentro do limite do Parque Nacional.</p><div class="bars" id="bandBars"></div></div>
+      <div class="grid" id="envs"></div>
+    </div>
+  </details>
+
+  <details class="acc">
+    <summary><span class="acc-ph" data-bg="r_carbonado"></span><span><b>E os diamantes?</b><small>De onde vieram e por que deram nome à Chapada</small></span></summary>
+    <div class="acc-b">
+      <p>Os diamantes estavam presos em <b>cascalhos antigos de rio que viraram pedra</b>, os conglomerados da Formação Tombador. A chuva e os rios soltam esses cascalhos, e os garimpeiros procuravam os diamantes no leito dos rios. A região ficou famosa também pelo <b>carbonado</b>, o "diamante negro". A rocha de onde os diamantes vieram originalmente ainda não foi encontrada.</p>
+    </div>
+  </details>
+
+  <details class="acc">
+    <summary><span class="acc-ph" data-bg="e_gerais"></span><span><b>Mapa das rochas (para curiosos)</b><small>Lista técnica das unidades geológicas</small></span></summary>
+    <div class="acc-b"><p class="note">Dados do Serviço Geológico do Brasil, escala 1:1.000.000. Toque numa unidade para vê-la no mapa 3D.</p><div id="unitList"></div></div>
+  </details>
+</section>
+
+<!-- =================== SEGURANÇA =================== -->
+<section class="page" id="seguranca">
+  <div class="kicker">Antes de ir</div>
+  <h2>Dicas de segurança</h2>
+  <div class="card warn">
+    <h3>Cabeça d'água: o maior risco</h3>
+    <p>Uma chuva forte longe dali, mesmo sem chover onde você está, pode fazer o rio subir em minutos. É mais comum de <b>novembro a março</b>.</p>
+    <ul class="tight">
+      <li>Fique atento se a água ficar barrenta, se descerem folhas e galhos ou se o barulho aumentar.</li>
+      <li>Saia do rio <b>na hora</b> e suba para o lado mais alto. Não tente atravessar.</li>
+      <li>Não acampe na beira do rio nem em pedras no meio dele.</li>
+      <li>O rio baixa em algumas horas. Espere.</li>
+    </ul>
+  </div>
+  <div class="card tip"><h3>Água para beber</h3><p>Tem água em quase todo o Pati, mas trate antes de beber (filtro, clorador ou fervura). No alto, nos gerais, há trechos longos sem água, então saia com a garrafa cheia.</p></div>
+  <div class="card"><h3>Cobras</h3><p>Use bota e calça, olhe onde põe a mão nas pedras e leve lanterna à noite. Se alguém for picado: mantenha a calma, deixe a pessoa parada e procure ajuda rápido. Não corte, não chupe e não amarre o local.</p></div>
+  <div class="card"><h3>O que levar</h3><ul class="tight"><li>Lanterna, capa de chuva e casaco (as noites esfriam).</li><li>Remédios pessoais e um kit de primeiros socorros.</li><li>Dinheiro em espécie (não há banco nem cartão).</li><li>Saco para trazer todo o lixo de volta.</li></ul></div>
+  <div class="card"><h3>Combinados importantes</h3><ul class="tight"><li>Vá com <b>guia credenciado</b>. Os guias também reservam as camas nas casas.</li><li>Avise alguém do seu roteiro e da data em que pretende sair.</li><li>Fogo é proibido no Parque. Em 2015, os incêndios queimaram mais de 50 mil hectares na região.</li><li>Não tire plantas, pedras nem cristais.</li></ul></div>
+</section>
+
+<!-- =================== ÁLBUM =================== -->
+<section class="page" id="album">
+  <div class="kicker">Minha viagem</div>
+  <h2>Álbum do Pati</h2>
+  <p class="lead">As fotos e o caminho de cada dia ficam guardados <b>neste celular</b> e funcionam sem internet. No fim da viagem, gere o álbum para guardar ou compartilhar.</p>
+  <div id="albumWarn" class="card warn" style="display:none"></div>
+  <div class="facts" id="albumSum" style="grid-template-columns:repeat(4,1fr)"></div>
+  <div class="tbtns"><button class="bigbtn" id="alCam">📷 Tirar foto</button><button class="btn2" id="alGal">Adicionar da galeria</button></div>
+  <div id="albumDays" style="margin-top:12px"></div>
+  <div class="card">
+    <h3>Guardar a viagem</h3>
+    <div class="tbtns"><button class="bigbtn dark" id="alExport">Gerar álbum</button><button class="btn2" id="alGpx">Exportar caminho (GPX)</button></div>
+    <p class="note">O <b>álbum</b> é uma página com todas as fotos, legendas e o mapa de cada dia, para abrir em qualquer celular ou computador. O <b>GPX</b> abre no Google Earth, no Wikiloc, no Strava e no ArcGIS.</p>
+    <button id="alClear" style="background:none;border:none;color:#b91c1c;padding:8px 0;font-size:.9rem">Apagar tudo deste celular</button>
+  </div>
+</section>
+</main>
+<div id="tip"></div><div id="tut"></div><div id="gModal"></div><div id="phToast"></div>
+<input type="file" id="camIn" accept="image/*" capture="environment" hidden><input type="file" id="galIn" accept="image/*" multiple hidden>
+<script>const CURATED=[{"n": "Lençóis", "c": "cidade", "la": -12.5633, "lo": -41.3889, "d": "Antiga capital do diamante (séc. XIX). Casario tombado pelo IPHAN; as lajes do rio Lençóis mostram marcas de ondas fossilizadas em metarenito."}, {"n": "Palmeiras", "c": "cidade", "la": -12.5156, "lo": -41.5786, "d": "Sede do município onde ficam o Vale do Capão e parte do Pati. Base do ICMBio/Parque Nacional."}, {"n": "Vale do Capão (Caeté-Açu)", "c": "vila", "la": -12.6136, "lo": -41.4886, "d": "Vila no fundo de um vale sinclinal. Saída para a Cachoeira da Fumaça e, via Bomba, para o Pati."}, {"n": "Andaraí", "c": "cidade", "la": -12.8071, "lo": -41.3328, "d": "Ponto final clássico da travessia pela Ladeira do Império. Às margens do rio Paraguaçu."}, {"n": "Mucugê", "c": "cidade", "la": -13.0053, "lo": -41.3706, "d": "Cidade histórica com cemitério bizantino. Projeto Sempre-Viva protege a sempre-viva-de-Mucugê."}, {"n": "Igatu", "c": "vila", "la": -12.8889, "lo": -41.3164, "d": "'Machu Picchu baiana': ruínas de casas de garimpeiros feitas de lajes de metarenito do Tombador. Cavernas em metarenito."}, {"n": "Guiné", "c": "vila", "la": -12.753, "lo": -41.54, "d": "Povoado de Mucugê ao pé da Serra do Sincorá. Saída mais usada para o Pati (Beco do Guiné e Aleixos). Posição aproximada."}, {"n": "Vila do Bomba", "c": "vila", "la": -12.6538, "lo": -41.4879, "d": "Fim da estrada no Capão; início da trilha pelos Gerais do Vieira até o Pati."}, {"n": "Igrejinha", "c": "apoio", "la": -12.7755, "lo": -41.4757, "d": "Primeira casa para quem desce a Rampa. Pensão, camping e mercadinho."}, {"n": "Casa do Seu Wilson", "c": "apoio", "la": -12.7776, "lo": -41.4597, "d": "Casa de nativo no Pati de Cima."}, {"n": "Agnaldo e Miguel", "c": "apoio", "la": -12.7789, "lo": -41.4576, "d": "Casa perto do início da subida ao Morro do Castelo, logo após cruzar o rio Pati."}, {"n": "Casa da Dona Raquel", "c": "apoio", "la": -12.7837, "lo": -41.456, "d": "Uma das casas mais tradicionais. Os filhos de Dona Raquel atuam como guias."}, {"n": "Prefeitura", "c": "apoio", "la": -12.788, "lo": -41.4388, "d": "Antiga 'prefeitura' do Pati, hoje casa de apoio (Jailson e Maria), à beira do rio. Fogão a lenha e mercadinho."}, {"n": "Casa do Seu Eduardo", "c": "apoio", "la": -12.8047, "lo": -41.418, "d": "Pati de Baixo, perto do Cachoeirão por baixo e da saída para Andaraí."}, {"n": "Mirante do Pati", "c": "mirante", "la": -12.7815, "lo": -41.4785, "d": "Vista clássica do vale, com o Morro Branco e o Morro do Castelo. Logo depois começa a descida da Rampa."}, {"n": "Morro do Castelo", "c": "morro", "la": -12.7729, "lo": -41.4481, "d": "Morro de metarenito com cerca de 1.400 m no meio do vale. Uma gruta atravessa o morro de um lado ao outro."}, {"n": "Cachoeirão (por cima)", "c": "agua", "la": -12.8101, "lo": -41.4414, "d": "Mirante sobre o cânion do Cachoeirão. Os guias falam em quedas de 220 a 260 m, que viram filetes na seca."}, {"n": "Cachoeira do Calixto", "c": "agua", "la": -12.763, "lo": -41.4516, "d": "Cachoeira no vale do rio Calixto, afluente do Pati."}, {"n": "Cachoeira dos Funis", "c": "agua", "la": -12.771, "lo": -41.468, "d": "Sequência de poços e quedas no rio Funis, perto da Igrejinha."}, {"n": "Poço da Árvore", "c": "agua", "la": -12.7843, "lo": -41.4319, "d": "Poço para banho a cerca de 1 km da Prefeitura."}, {"n": "Encontro dos rios", "c": "agua", "la": -12.8022, "lo": -41.4115, "d": "Confluência no Pati de Baixo, antes da Ladeira do Império."}, {"n": "Gerais do Vieira", "c": "geo", "la": -12.6818, "lo": -41.4844, "d": "Planalto de campo rupestre sobre metarenitos. As turfeiras e os brejos dos 'gerais' guardam água e alimentam nascentes."}, {"n": "Ponte do Rio Preto", "c": "agua", "la": -12.7719, "lo": -41.4915, "d": "Travessia do rio Preto nos Gerais do Rio Preto, a uns 4 km do Guiné. Água cor de chá."}, {"n": "Ladeira do Império", "c": "geo", "la": -12.8028, "lo": -41.4019, "d": "Subida histórica, calçada com pedras, que liga o Pati a Andaraí."}, {"n": "Morro do Pai Inácio", "c": "morro", "la": -12.4553, "lo": -41.4728, "d": "Morro-testemunho de topo plano (~1.120 m): o metarenito resistente protege o morro da erosão."}, {"n": "Cachoeira da Fumaça (aprox.)", "c": "agua", "la": -12.6, "lo": -41.452, "d": "Queda de cerca de 340 m. O vento devolve a água para cima como 'fumaça'. Trilha por cima a partir do Capão (~6 km)."}, {"n": "Marimbus", "c": "agua", "la": -12.6955, "lo": -41.3383, "d": "'Pantanal' da Chapada: planície alagada no pé da serra, com lagoas ligadas e alimentadas pelo rio Santo Antônio."}];
+const PH={"pai_inacio": {"src": "Wikimedia Commons", "title": "Vale do Pai Inácio.jpg", "author": "Joedison Rocha", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Pai_Inácio.jpg"}, "fumaca": {"src": "Wikimedia Commons", "title": "Cachoeira da Fumaça, Chapada Diamantina.JPG", "author": "Jack5599", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Cachoeira_da_Fumaça,_Chapada_Diamantina.JPG"}, "pati_vista": {"src": "Wikimedia Commons", "title": "Vista do Alto do Morro do Castelo.jpg", "author": "Ricardo Lima", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vista_do_Alto_do_Morro_do_Castelo.jpg"}, "castelo": {"src": "Wikimedia Commons", "title": "Vista do Morro do Castelo, no Vale da Pati - Parque Nacional da Chapada Diamantina.JPG", "author": "Willemarcel", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Vista_do_Morro_do_Castelo,_no_Vale_da_Pati_-_Parque_Nacional_da_Chapada_Diamantina.JPG"}, "casa_castelo": {"src": "Wikimedia Commons", "title": "Casa sob Morro do Castelo - Vale do Pati.jpg", "author": "Felipe Lessa", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Casa_sob_Morro_do_Castelo_-_Vale_do_Pati.jpg"}, "cachoeirao": {"src": "Wikimedia Commons", "title": "Cachoeirão do Vale do Pati.jpg", "author": "Panta LH", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Cachoeirão_do_Vale_do_Pati.jpg"}, "pati_mata": {"src": "Wikimedia Commons", "title": "Vale do Pati Mika Lira (22).jpg", "author": "Mikaelli Ernesto", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Pati_Mika_Lira_(22).jpg"}, "marimbus": {"src": "Wikimedia Commons", "title": "Área de Proteção Ambiental Marimbus Iraquara - Maria Michela (01).jpg", "author": "MariaMBosetti", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Área_de_Proteção_Ambiental_Marimbus_Iraquara_-_Maria_Michela_(01).jpg"}, "capao": {"src": "Wikimedia Commons", "title": "Vale do Capao, Chapada Diamantina.jpg", "author": "Samory Santos", "lic": "CC-BY-3.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Capao,_Chapada_Diamantina.jpg"}, "r_quartzito": {"src": "Wikimedia Commons", "title": "Quartzite 2 jpg.jpg", "author": "USGS", "lic": "PD USGS", "url": "https://commons.wikimedia.org/wiki/File:Quartzite_2_jpg.jpg"}, "r_rio": {"src": "Wikimedia Commons", "title": "Parque Nacional da Chapada Diamantina Ederval Rocha (17).jpg", "author": "Ederval Rocha", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Parque_Nacional_da_Chapada_Diamantina_Ederval_Rocha_(17).jpg"}, "s_ondas": {"src": "Wikimedia Commons", "title": "Fossil ripple marks in sandstone - geograph.org.uk - 6902167.jpg", "author": "Gordon Hatton", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Fossil_ripple_marks_in_sandstone_-_geograph.org.uk_-_6902167.jpg"}, "r_conglomerado": {"src": "Wikimedia Commons", "title": "Conglomerate rock called puddingstone. - geograph.org.uk - 480555.jpg", "author": "Roy Parkhouse", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Conglomerate_rock_called_puddingstone._-_geograph.org.uk_-_480555.jpg"}, "r_siltito": {"src": "Wikimedia Commons", "title": "SiltstoneUSGOV.jpg", "author": "USGS", "lic": "PD USGS", "url": "https://commons.wikimedia.org/wiki/File:SiltstoneUSGOV.jpg"}, "r_ardosia": {"src": "Wikimedia Commons", "title": "SlateUSGOV.jpg", "author": "USGS", "lic": "PD USGS", "url": "https://commons.wikimedia.org/wiki/File:SlateUSGOV.jpg"}, "r_arcoseo": {"src": "Wikimedia Commons", "title": "Granite and arkose (GeoDIL number - 2).jpg", "author": "Dexter Perkins", "lic": "CC-Zero", "url": "https://commons.wikimedia.org/wiki/File:Granite_and_arkose_(GeoDIL_number_-_2).jpg"}, "r_diamictito": {"src": "Wikimedia Commons", "title": "SpionKop Cgl 0088 diamictite.jpg", "author": "Rygel, M.C.", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:SpionKop_Cgl_0088_diamictite.jpg"}, "r_quartzo": {"src": "Wikimedia Commons", "title": "Quartz, Tibet.jpg", "author": "JJ Harrison (https://www.jjharrison.com.au/)", "lic": "CC-BY-SA-2.5", "url": "https://commons.wikimedia.org/wiki/File:Quartz,_Tibet.jpg"}, "r_carbonado": {"src": "Wikimedia Commons", "title": "Carbonado diamondites Bangui region, Central African Republic.jpg", "author": "James St. John", "lic": "CC-BY-2.0", "url": "https://commons.wikimedia.org/wiki/File:Carbonado_diamondites_Bangui_region,_Central_African_Republic.jpg"}, "s_dobras": {"src": "Wikimedia Commons", "title": "Folded Rock Strata Polridmouth - geograph.org.uk - 5134101.jpg", "author": "Nigel Mykura", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Folded_Rock_Strata_Polridmouth_-_geograph.org.uk_-_5134101.jpg"}, "s_estromatolito": {"src": "Wikimedia Commons", "title": "Stromatolithe Paléoarchéen - MNHT.PAL.2009.10.1.jpg", "author": "Didier Descouens", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Stromatolithe_Paléoarchéen_-_MNHT.PAL.2009.10.1.jpg"}, "e_caatinga": {"src": "Wikimedia Commons", "title": "Caatinga - Sítio Gravatá dos Velez, Queimadas - PB .2.jpg", "author": "Trigueiro martins", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Caatinga_-_Sítio_Gravatá_dos_Velez,_Queimadas_-_PB_.2.jpg"}, "sp_augastes_lumachella": {"src": "iNaturalist", "title": "Augastes lumachella", "author": "(c) Joao Quental, some rights reserved (CC BY)", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/6439"}, "sp_kerodon_rupestris": {"src": "iNaturalist", "title": "Kerodon rupestris", "author": "(c) Ericson Cernawsky Igual, some rights reserved (CC BY-SA), uploaded by Ericson Cernawsky Igual", "lic": "CC-BY-SA", "url": "https://www.inaturalist.org/taxa/43808"}, "sp_callithrix_jacchus": {"src": "iNaturalist", "title": "Callithrix jacchus", "author": "(c) animalencounters, some rights reserved (CC BY-NC)", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/43373"}, "sp_callicebus_barbarabrownae": {"src": "iNaturalist", "title": "Callicebus barbarabrownae", "author": "(c) CaracalShan, some rights reserved (CC BY), uploaded by CaracalShan", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/43662"}, "sp_puma_concolor": {"src": "iNaturalist", "title": "Puma concolor", "author": "(c) pfaucher, some rights reserved (CC BY-NC), uploaded by pfaucher", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/42007"}, "sp_leopardus_pardalis": {"src": "iNaturalist", "title": "Leopardus pardalis", "author": "(c) kviall, some rights reserved (CC BY-NC)", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/41997"}, "sp_myrmecophaga_tridactyla": {"src": "iNaturalist", "title": "Myrmecophaga tridactyla", "author": "(c) Andy Jones, some rights reserved (CC BY-NC), uploaded by Andy Jones", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/47107"}, "sp_cariama_cristata": {"src": "iNaturalist", "title": "Cariama cristata", "author": "(c) Mauricio Silvera, some rights reserved (CC BY-NC), uploaded by Mauricio Silvera", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/14"}, "sp_streptoprocne_zonaris": {"src": "iNaturalist", "title": "Streptoprocne zonaris", "author": "(c) Arnold Wijker, some rights reserved (CC BY-NC), uploaded by Arnold Wijker", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/6597"}, "sp_hydrochoerus_hydrochaeris": {"src": "iNaturalist", "title": "Hydrochoerus hydrochaeris", "author": "(c) Carlos Sanchez, some rights reserved (CC BY-NC), uploaded by Carlos Sanchez", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/74442"}, "sp_caiman_latirostris": {"src": "iNaturalist", "title": "Caiman latirostris", "author": "(c) David Bell, some rights reserved (CC BY-NC), uploaded by David Bell", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/116518"}, "sp_bothrops": {"src": "iNaturalist", "title": "Bothrops", "author": "(c) Lucas Botelho, some rights reserved (CC BY-NC), uploaded by Lucas Botelho", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/30767"}, "sp_crotalus_durissus": {"src": "iNaturalist", "title": "Crotalus durissus", "author": "(c) Lucas Botelho, some rights reserved (CC BY-NC), uploaded by Lucas Botelho", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/30693"}, "sp_cichla": {"src": "iNaturalist", "title": "Cichla", "author": "(c) Joshua Rains, some rights reserved (CC BY-NC), uploaded by Joshua Rains", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/87480"}, "sp_vellozia": {"src": "iNaturalist", "title": "Vellozia", "author": "(c) Marinês Eiterer, some rights reserved (CC BY-NC), uploaded by Marinês Eiterer", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/347864"}, "sp_paepalanthus": {"src": "iNaturalist", "title": "Paepalanthus", "author": "(c) Riccardo Rocca, some rights reserved (CC BY), uploaded by Riccardo Rocca", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/82151"}, "sp_cattleya_elongata": {"src": "iNaturalist", "title": "Cattleya elongata", "author": "(c) Panta LH, some rights reserved (CC BY-SA)", "lic": "CC-BY-SA", "url": "https://www.inaturalist.org/taxa/703336"}, "sp_orthophytum": {"src": "iNaturalist", "title": "Orthophytum", "author": "(c) Rich Hoyer, some rights reserved (CC BY-NC-SA), uploaded by Rich Hoyer", "lic": "CC-BY-NC-SA", "url": "https://www.inaturalist.org/taxa/142341"}, "sp_microlicia": {"src": "iNaturalist", "title": "Microlicia", "author": "(c) Laurent Quéno, some rights reserved (CC BY-NC), uploaded by Laurent Quéno", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/553227"}, "sp_melocactus": {"src": "iNaturalist", "title": "Melocactus", "author": "(c) Daniel A. Monsalve Ortiz, some rights reserved (CC BY), uploaded by Daniel A. Monsalve Ortiz", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/49197"}, "sp_lychnophora": {"src": "iNaturalist", "title": "Lychnophora", "author": "(c) Joey Santore, some rights reserved (CC BY-NC), uploaded by Joey Santore", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/487108"}, "sp_drosera": {"src": "iNaturalist", "title": "Drosera", "author": "(c) Saryu Mae 前 朝琉, some rights reserved (CC BY), uploaded by Saryu Mae 前 朝琉", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/51935"}, "sp_sphagnum": {"src": "iNaturalist", "title": "Sphagnum", "author": "(c) Justin Paulin, some rights reserved (CC BY), uploaded by Justin Paulin", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/54704"}, "sp_syagrus_coronata": {"src": "iNaturalist", "title": "Syagrus coronata", "author": "(c) Gustavo Sandres, some rights reserved (CC BY-NC), uploaded by Gustavo Sandres", "lic": "CC-BY-NC", "url": "https://www.inaturalist.org/taxa/366062"}, "sp_nymphaea": {"src": "iNaturalist", "title": "Nymphaea", "author": "(c) George Shepherd, some rights reserved (CC BY-NC-SA)", "lic": "CC-BY-NC-SA", "url": "https://www.inaturalist.org/taxa/51122"}, "pati_cachoeira": {"src": "Wikimedia Commons", "title": "Vale do Pati Mika Lira (29).jpg", "author": "Mikaelli Ernesto", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Vale_do_Pati_Mika_Lira_(29).jpg"}, "andarai": {"src": "Wikimedia Commons", "title": "Centro Histórico de Andaraí por Patricia Laraia2.jpg", "author": "Patricialaraia", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Centro_Histórico_de_Andaraí_por_Patricia_Laraia2.jpg"}, "r_metarenito": {"src": "Wikimedia Commons", "title": "Parque Nacional da Chapada Diamantina Ederval Rocha (9).jpg", "author": "Ederval Rocha", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Parque_Nacional_da_Chapada_Diamantina_Ederval_Rocha_(9).jpg"}, "s_cruzada": {"src": "Wikimedia Commons", "title": "Sandstone Cross-bedding (5930953092).jpg", "author": "Zion National Park", "lic": "CC-BY-2.0, PD US NPS", "url": "https://commons.wikimedia.org/wiki/File:Sandstone_Cross-bedding_(5930953092).jpg"}, "r_granito": {"src": "Wikimedia Commons", "title": "Granite, Kismórágy.jpg", "author": "Szilas", "lic": "PD", "url": "https://commons.wikimedia.org/wiki/File:Granite,_Kismórágy.jpg"}, "s_fraturas": {"src": "Wikimedia Commons", "title": "Granite outcrop with joints - geograph.org.uk - 1453632.jpg", "author": "Jonathan Wilkins", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Granite_outcrop_with_joints_-_geograph.org.uk_-_1453632.jpg"}, "poco_encantado": {"src": "Wikimedia Commons", "title": "Raio Poço Encantado.jpg", "author": "Cesar Monteiro", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Raio_Poço_Encantado.jpg"}, "e_gerais": {"src": "Wikimedia Commons", "title": "Chapada Diamantina 05.JPG", "author": "Luciana Caran", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Chapada_Diamantina_05.JPG"}, "e_rupestre": {"src": "Wikimedia Commons", "title": "Chapada Diamantina 04.JPG", "author": "Luciana Caran", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Chapada_Diamantina_04.JPG"}, "lencois_rio": {"src": "Wikimedia Commons", "title": "Lençois-Ba. Foto- Tatiana Azeviche - Setur (7029549257).jpg", "author": "Turismo Bahia", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Lençois-Ba._Foto-_Tatiana_Azeviche_-_Setur_(7029549257).jpg"}, "lencois_casa": {"src": "Wikimedia Commons", "title": "Casa em Lençóis (2443578831).jpg", "author": "Samory Pereira Santos from Salvador, Brazil", "lic": "CC-BY-SA-2.0", "url": "https://commons.wikimedia.org/wiki/File:Casa_em_Lençóis_(2443578831).jpg"}, "morrao": {"src": "Wikimedia Commons", "title": "Morrão - Parque Nacional da Chapada Diamantina - Bahia 01.jpg", "author": "Jeilsonandrade", "lic": "CC-BY-SA-3.0", "url": "https://commons.wikimedia.org/wiki/File:Morrão_-_Parque_Nacional_da_Chapada_Diamantina_-_Bahia_01.jpg"}, "igatu": {"src": "Wikimedia Commons", "title": "Área Contígua de Proteção do Centro Histórico de Igatu - Andaraí - 20240531104013.jpg", "author": "Albertoleoncio", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Área_Contígua_de_Proteção_do_Centro_Histórico_de_Igatu_-_Andaraí_-_20240531104013.jpg"}, "r_laterita": {"src": "Wikimedia Commons", "title": "Laterite stone during rainy season 03.jpg", "author": "Eloquenttheory", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Laterite_stone_during_rainy_season_03.jpg"}, "mucuge": {"src": "Wikimedia Commons", "title": "Projeto Sempre Viva - Mucugê.jpg", "author": "Claudio JJ", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Projeto_Sempre_Viva_-_Mucugê.jpg"}, "sp_syngonanthus": {"src": "iNaturalist", "title": "Syngonanthus", "author": "(c) Sara Piotter, some rights reserved (CC BY), uploaded by Sara Piotter", "lic": "CC-BY", "url": "https://www.inaturalist.org/taxa/141022"}, "r_calcario": {"src": "Wikimedia Commons", "title": "Lapa Doce, APA Marimbus-Iraquara LourdesBallesteros (04).jpg", "author": "Lourdes Ballesteros", "lic": "CC-BY-SA-4.0", "url": "https://commons.wikimedia.org/wiki/File:Lapa_Doce,_APA_Marimbus-Iraquara_LourdesBallesteros_(04).jpg"}, "e_cerrado": {"src": "Wikimedia Commons", "title": "Cerrado em Gouveia.jpg", "author": "Moosoop", "lic": "CC-Zero", "url": "https://commons.wikimedia.org/wiki/File:Cerrado_em_Gouveia.jpg"}};</script>
+<!-- ============ conteúdo ============ -->
+<script>
+const GEO_COLORS={
+  MP12tq:'#e9c27d',MP12ta:'#d6a159',MP12tg:'#b9773a',MP12ca:'#9cbf78',
+  MP3NP1mca:'#f2df8c',MP3NP1mcaf:'#e3c968',MP3NP1mcc:'#c9a843',
+  NP12be:'#8fb2c8',NP23sn:'#5f9bd1',NP23snl:'#4f8fc6',NP2sa:'#86b6df',PP2_gamma_ju:'#e06666',
+  PP4pm:'#e39f9b',PP4pa:'#c68798',PP4rro:'#a979c2',PP4rrl:'#9468ad',
+  ENdl:'#f2e6c2',N1dl:'#e9d7a5',Q2a:'#fbf3d6'
+};
+const HYD_COLORS={'Poroso/Fissural':'#7fb0d8','Formações cenozóicas':'#f0d488','Carbonatos-Metacarbonatos':'#55b88e','Cristalino':'#c49acb','Vulcânicas':'#d98c7a'};
+const HYD_TXT={
+ 'Poroso/Fissural':'Rochas sedimentares antigas e endurecidas (metarenitos, conglomerados). A água corre sobretudo pelas fraturas e por poros residuais. Água leve e pouco mineralizada, ótima para nascentes; a produtividade dos poços varia muito conforme as fraturas.',
+ 'Formações cenozóicas':'Coberturas recentes de areia, argila e cascalho (aluviões e coberturas lateríticas). Aquífero poroso raso: armazena água entre os grãos e dá poços rasos e cacimbas.',
+ 'Carbonatos-Metacarbonatos':'Calcários da Formação Salitre. A água dissolve a rocha e abre condutos, cavernas e dolinas (é o carste). Muita água em pontos localizados, água "dura" (rica em cálcio) e alta vulnerabilidade à contaminação.'
+};
+// mapa sigla -> ficha de rocha
+const SIGLA_ROCK={MP12tq:'quartzito',MP12ta:'metarenito',MP12tg:'conglomerado',MP12ca:'pelito',MP3NP1mca:'metarenito',MP3NP1mcaf:'arcoseo',MP3NP1mcc:'conglomerado',NP12be:'diamictito',NP23sn:'calcario',NP23snl:'calcario',PP2_gamma_ju:'granito',NP2sa:'calcario',PP4pm:'metarenito',PP4pa:'ardosia',PP4rro:'conglomerado',PP4rrl:'pelito',ENdl:'laterita',N1dl:'laterita',Q2a:'aluviao'};
+const UNIT_INFO={
+ MP12t:{g:'Grupo Chapada Diamantina',env:'Rios entrelaçados, leques aluviais e dunas de deserto'},
+ MP12c:{g:'Grupo Chapada Diamantina',env:'Mar raso e planícies de maré'},
+ MP3NP1mc:{g:'Grupo Chapada Diamantina',env:'Rios e deltas'},
+ NP12be:{g:'Grupo Una',env:'Sedimentos glaciais e glácio-marinhos'},
+ NP23usa:{g:'Grupo Una — Formação Salitre',env:'Mar raso carbonático'},
+ NP2sa:{g:'Grupo Una — Formação Salitre',env:'Mar raso carbonático'},
+ P4M1p:{g:'Grupo Paraguaçu',env:'Desertos de dunas e lagos/mar raso'},
+ PP4rr:{g:'Grupo Rio dos Remédios',env:'Bacia de rifte com vulcanismo'},
+ NP23sn:{g:'Grupo Una — Formação Salitre',env:'Mar raso carbonático'},
+ PP2_gamma_ju:{g:'Embasamento (granito)',env:'Magma cristalizado em profundidade'},
+ C:{g:'Cobertura cenozoica',env:'Alteração do solo e depósitos de rio recentes'}
+};
+function unitGroup(u){const k=(u.pai||'').split(' ')[0]||u.sigla;return UNIT_INFO[k]||UNIT_INFO[u.sigla]||UNIT_INFO.C}
+function fmtAge(a,b){if(!b||b===0)return 'atual (Quaternário)';const f=x=>x>=1000?(x/1000).toLocaleString('pt-BR',{maximumFractionDigits:2})+' bilhão':x+' milhões';return `${f(b)} – ${f(a)} de anos`}
+
+const TIMELINE=[
+ {age:'~1,8–1,6 bilhão de anos',t:'Rifte e vulcões',d:'A crosta se estica e abre bacias. Vulcões e leques de cascalho depositam o <b>Grupo Rio dos Remédios</b> (metaconglomerados de Ouricuri do Ouro, metargilitos de Lagoa de Dentro).'},
+ {age:'~1,8–1,6 bilhão',t:'Deserto e lagos',d:'O <b>Grupo Paraguaçu</b>: dunas de deserto (Formação <b>Mangabeira</b>) e lagos/mar raso com areias e lamas que viraram metarenitos, siltitos e ardósias (Formação <b>Açuruá</b>). Segundo o mapa do SGB, é o Açuruá que aflora no fundo do Vale do Pati e do Capão, onde a erosão já cortou o Tombador.'},
+ {age:'~1,6–1,2 bilhão',t:'Rios que trouxeram diamantes',d:'A <b>Formação Tombador</b>: rios entrelaçados, leques de cascalho e dunas. Gerou os metarenitos dos topos e paredões, como o Morro do Castelo e a borda do Cachoeirão, e os <b>conglomerados diamantíferos</b>.'},
+ {age:'~1,2 bilhão',t:'O mar invade',d:'A <b>Formação Caboclo</b>: mar raso e planícies de maré, com argilitos, siltitos, calcários e tapetes de microrganismos (laminitos algais e estromatólitos).'},
+ {age:'~1,2–0,72 bilhão',t:'Rios e deltas de novo',d:'A <b>Formação Morro do Chapéu</b>: areias de rios e deltas que preenchem vales escavados na Caboclo.'},
+ {age:'~0,72–0,64 bilhão',t:'Gelo',d:'A <b>Formação Bebedouro</b>: diamictitos (blocos soltos numa massa de lama) deixados por geleiras numa das glaciações globais.'},
+ {age:'~0,64–0,54 bilhão',t:'Mar quente de calcário',d:'A <b>Formação Salitre</b>: calcários e dolomitos de mar raso. Hoje são as cavernas de Iraquara (Lapa Doce, Torrinha, Pratinha) e os poços azuis.'},
+ {age:'~0,6 bilhão',t:'Dobramento Brasiliano',d:'A colisão de continentes comprime e <b>dobra</b> as camadas em ondas de direção NNW–SSE. A Serra do Sincorá é um conjunto de dobras: veja as cristas paralelas no 3D.'},
+ {age:'últimos ~100 milhões',t:'Erosão diferencial',d:'O planalto sobe devagar e é erodido. Os metarenitos resistem e formam serras, paredões e <b>morros-testemunho</b> (Pai Inácio, Castelo). Os pelitos e calcários viram vales. Nos topos planos ficam crostas lateríticas.'},
+ {age:'séc. XIX',t:'Corrida do diamante',d:'Por volta de 1844 começa a grande exploração de diamantes. Surgem Mucugê, Lençóis, Andaraí e Igatu, e as casas de pedra de Igatu usam as próprias lajes de metarenito.'}
+];
+
+const STRUCTS=[
+ {ph:'s_cruzada',t:'Estratificação cruzada',d:'Linhas inclinadas dentro de uma camada: são as frentes de antigas dunas ou barras de rio. A inclinação mostra para onde ia o vento ou a água.',w:'Paredões do Pati, Morro do Pai Inácio, lajes de Lençóis.'},
+ {ph:'s_ondas',t:'Marcas de onda',d:'Pequenas ondulações fossilizadas no topo de camadas: fundo de rio raso ou de maré, há mais de 1 bilhão de anos.',w:'Lajedos do rio Lençóis (Serrano) e calçadas da cidade.'},
+ {ph:'r_conglomerado',t:'Seixos de conglomerado',d:'Seixos arredondados de quartzo e quartzito presos na rocha. Quanto maior o seixo, mais forte era a corrente.',w:'Leitos de rio, Igatu, Lençóis.'},
+ {ph:'s_dobras',t:'Dobras',d:'Camadas encurvadas, em arco (anticlinal) ou em calha (sinclinal). Vistas de longe, desenham as cristas paralelas da serra.',w:'Vista dos mirantes. No 3D, as cristas NNW–SSE.'},
+ {ph:'s_fraturas',t:'Fraturas e juntas',d:'Rachaduras retas e paralelas cortando a rocha. Guiam rios, cânions, fendas e a queda das cachoeiras.',w:'Fenda do Cachoeirão, cânions laterais do Pati.'},
+ {ph:'castelo',t:'Cavernas em quartzito',d:'Raras no mundo: a água dissolve muito devagar o cimento entre os grãos de quartzo e abre condutos.',w:'Gruta do Morro do Castelo, Igatu, Gruta do Lapão (Lençóis).'}
+];
+
+const ROCKS=[
+ {id:'metarenito',n:'Metarenito',s:'arenito levemente metamorfizado',k:'meta',tex:'sand',u:['Tombador','Morro do Chapéu','Mangabeira'],
+  r:['Grãos de areia visíveis, colados com sílica','Branco, rosado, cinza ou amarelado (óxido de ferro)','Risca o vidro e não reage ao vinagre','Muitas vezes mostra estratificação cruzada'],
+  w:['Paredões do Vale do Pati e do Cachoeirão','Morro do Pai Inácio','Lajes das ruas de Lençóis e Mucugê','Casas de pedra de Igatu'],
+  f:'É a "pele" da Chapada. Resistente à erosão, por isso forma serras, mirantes e cachoeiras.'},
+ {id:'quartzito',n:'Quartzo-arenito / quartzito',s:'quase 100% quartzo',k:'meta',tex:'quartz',u:['Tombador'],
+  r:['Muito duro, branco a cinza-claro, aspecto "açucarado" ou vítreo','A quebra atravessa os grãos','Soa "metálico" quando batido com outra pedra','Forma lajedos lisos e escorregadios quando molhado'],
+  w:['Gerais do Rio Preto (ponte do rio Preto)','Borda do Cachoeirão','Planalto da Cachoeira da Fumaça'],
+  f:'É uma das unidades mais extensas da serra. Dá solos arenosos brancos e pobres, o chão do campo rupestre.'},
+ {id:'conglomerado',n:'Metaconglomerado',s:'cascalho de rio petrificado',k:'meta',tex:'pebble',u:['Tombador','Morro do Chapéu','Ouricuri do Ouro'],
+  r:['Seixos arredondados (1 a 20 cm) num "cimento" de areia','Seixos de quartzo leitoso, quartzito e às vezes jaspe','Pode estar em bancos de metros de espessura'],
+  w:['Leitos e margens de rios (Serrano, Lençóis)','Igatu e garimpos antigos','Trechos do Pati de Baixo'],
+  f:'É a rocha-fonte dos diamantes da Chapada (paleoplácer). Os garimpeiros chamam os cascalhos de "cascalho virgem".'},
+ {id:'pelito',n:'Metapelito / metassiltito / argilito',s:'lama e silte endurecidos',k:'meta',tex:'shale',u:['Caboclo','Tombador (intercalações)','Lagoa de Dentro'],
+  r:['Grão finíssimo, liso ao toque, cor vermelha, roxa, verde ou cinza','Quebra em placas finas','O canivete risca','Aparece em camadas finas entre arenitos'],
+  w:['Encostas suaves e vales','Cortes de estrada entre Lençóis e Palmeiras','Areias coloridas do rio Lençóis (alteração)'],
+  f:'É mole: erode rápido e forma depressões. Por isso os vales se alinham às faixas de pelito.'},
+ {id:'ardosia',n:'Ardósia, siltito e metarenito do Açuruá',s:'lamas e areias metamorfizadas, ~1,7 bilhão de anos',k:'meta',tex:'slate',u:['Açuruá'],
+  r:['Cinza-escuro a esverdeado','Parte em placas planas e regulares (clivagem)','Superfície às vezes com brilho sedoso'],
+  w:['Fundo do Vale do Pati (Igrejinha, Prefeitura, Pati de Baixo)','Vale do Capão e Vila do Bomba','Ladeira do Império'],
+  f:'São as rochas mais antigas que você pisa no Pati. O vale foi escavado até elas, abaixo do Tombador dos topos.'},
+ {id:'arcoseo',n:'Metarenito feldspático (arcóseo)',s:'areia com feldspato',k:'meta',tex:'arkose',u:['Morro do Chapéu','Bebedouro'],
+  r:['Grãos rosados ou brancos foscos (feldspato) junto com quartzo','Cor geral rosada','Menos resistente que o quartzito'],
+  w:['Extremo norte e leste do recorte'],
+  f:'O feldspato mostra que a areia veio de perto de uma área de granito e foi pouco transportada.'},
+ {id:'diamictito',n:'Diamictito',s:'"lama com blocos" deixada pelo gelo',k:'sed',tex:'diamict',u:['Bebedouro'],
+  r:['Blocos e seixos de tamanhos muito diferentes, soltos numa massa fina','Os seixos às vezes têm faces planas e riscadas (estrias glaciais)','Sem camadas bem definidas'],
+  w:['Faixa a leste da serra, a caminho de Itaetê (veja no mapa, modo Geologia)'],
+  f:'É a prova de geleiras na Bahia há uns 700 milhões de anos.'},
+ {id:'calcario',n:'Calcário e dolomito',s:'rocha de carbonato de cálcio',k:'sed',tex:'lime',u:['Salitre (Nova América / Gabriel)','Caboclo (lentes)'],
+  r:['Cinza, creme ou azulado, grão fino','O canivete risca; vinagre forte faz bolhinhas','Superfície "rendada" pela dissolução (lapiás)','Espeleotemas: estalactites e estalagmites'],
+  w:['Cavernas de Iraquara (Lapa Doce, Torrinha, Pratinha)','Poço Encantado e Poço Azul (Itaetê / Nova Redenção)','Faixa a leste da serra (Itaetê, Nova Redenção)'],
+  f:'A água dissolve o calcário e cria o carste: cavernas, rios subterrâneos e dolinas. Na Caboclo aparecem estromatólitos.'},
+ {id:'granito',n:'Granito',s:'rocha ígnea do embasamento, >2 bilhões de anos',k:'ign',tex:'granite',u:['Granito de Jussiape'],
+  r:['Cristais visíveis, entrelaçados: quartzo (vítreo), feldspato (rosa/branco) e mica/biotita (pontinhos pretos)','Sem camadas','Superfícies arredondadas e "caroços" de alteração (esfoliação)'],
+  w:['Extremo sudoeste da região (Jussiape), fora do roteiro do Pati'],
+  f:'É o "porão" da Chapada: magma que cristalizou em profundidade antes de todas as camadas sedimentares.'},
+ {id:'laterita',n:'Laterita / canga',s:'crosta de ferro do solo',k:'solo',tex:'laterite',u:['Coberturas detrito-lateríticas'],
+  r:['Vermelho-ferrugem a marrom, pesada','Aspecto de "pele de sapo" ou esponja (nódulos)','Às vezes atrai levemente um ímã'],
+  w:['Topos planos e chapadões a oeste e leste','Estradas de terra vermelha'],
+  f:'Formou-se por intemperismo tropical de longa duração nos últimos milhões de anos. Cobre grandes áreas dos chapadões ao redor da serra.'},
+ {id:'aluviao',n:'Aluvião (areia e cascalho)',s:'sedimento solto dos rios atuais',k:'solo',tex:'alluvium',u:['Depósitos aluvionares'],
+  r:['Areia branca ou cinza e cascalho soltos','Praias e bancos nos rios','Areias pretas finas nos garimpos (minerais pesados)'],
+  w:['Marimbus','Planícies do Paraguaçu e do Santo Antônio','Praias do rio Pati'],
+  f:'É onde se garimpava. O rio reconcentra os diamantes liberados dos conglomerados.'},
+ {id:'quartzo',n:'Cristal de quartzo',s:'mineral SiO₂',k:'min',tex:'crystal',u:['Veios em metarenitos'],
+  r:['Prisma de seis faces com ponta','Transparente a leitoso','Risca o vidro e não tem clivagem'],
+  w:['Veios e fendas nos paredões','Cascalhos de rio'],
+  f:'Preencheu fraturas quando fluidos quentes circularam durante o dobramento.'},
+ {id:'diamante',n:'Diamante e carbonado',s:'carbono puro',k:'min',tex:'diamond',u:['Conglomerados Tombador','Aluviões'],
+  r:['Brilho adamantino ("gorduroso") e dureza 10','Carbonado: agregado negro e poroso, típico da Chapada','Você quase certamente não vai achar um, mas vai pisar onde eles estavam'],
+  w:['Museus de Lençóis e Mucugê','Histórias dos garimpeiros nas casas do Pati'],
+  f:'A origem primária ainda é incerta. O carbonado da Bahia e da África Central é um mistério científico.'}
+];
+
+const CYCLE=[
+ {x:70,y:40,t:'Chuva orográfica',d:'O vento úmido que vem do Atlântico sobe a serra, esfria e condensa. Chove mais nas cristas do Sincorá do que no sertão em volta. É isso que faz o Pati ser verde.'},
+ {x:170,y:95,t:'Gerais e turfeiras',d:'Nos planaltos, brejos e turfeiras de musgo funcionam como esponjas. Seguram a água das chuvas e a soltam devagar o ano todo.'},
+ {x:245,y:150,t:'Infiltração nas fraturas',d:'O metarenito quase não tem poros, mas é muito fraturado. A água desce pelas fraturas: é o aquífero fissural.'},
+ {x:325,y:120,t:'Nascentes e olhos-d\'água',d:'Onde uma fratura ou uma camada de pelito impermeável corta a encosta, a água volta à superfície como nascente.'},
+ {x:400,y:75,t:'Cachoeiras',d:'O rio despenca da borda do planalto (Fumaça, Cachoeirão). Nos paredões, cada queda marca uma camada mais resistente.'},
+ {x:480,y:165,t:'Vale e rio cor de chá',d:'No fundo do vale, o rio já carrega os taninos dos gerais. Nas cheias, a cabeça d\'água desce rápido pelos cânions estreitos.'},
+ {x:575,y:190,t:'Marimbus',d:'No pé da serra o relevo fica plano. O rio espalha e forma lagoas e brejos, e depois segue para o Paraguaçu.'},
+ {x:120,y:200,t:'Carste do Salitre',d:'Fora da serra, a leste (Itaetê) e a noroeste (Iraquara), a água entra nos calcários, dissolve a rocha e corre em rios subterrâneos, como na Pratinha e na Lapa Doce.'}
+];
+
+const ENVS=[
+ {ph:'e_rupestre',t:'Campo rupestre',d:'Acima de ~900 m, sobre metarenitos. Solos rasos e arenosos, ventos e incêndios. Canela-de-ema, sempre-vivas, orquídeas e bromélias de pedra, com muito endemismo.',c:'#d9c27a'},
+ {ph:'e_gerais',t:'Gerais, brejos e turfeiras',d:'Planaltos alagáveis (Gerais do Vieira, do Rio Preto). Capins, sempre-vivas, plantas carnívoras e musgo Sphagnum. São as "caixas-d\'água" das nascentes.',c:'#a7c48a'},
+ {ph:'pati_mata',t:'Mata ciliar e de grotão',d:'Ao longo dos rios e nos fundos de vale úmidos, como o fundo do Pati. Árvores altas e epífitas, com elementos de Mata Atlântica.',c:'#4f8a4a'},
+ {ph:'e_caatinga',t:'Caatinga',d:'Entre ~500 e 900 m, nas encostas secas e no pé da serra. Cactos, bromélias de chão e árvores que perdem as folhas na seca.',c:'#c79a5a'},
+ {ph:'e_cerrado',t:'Cerrado',d:'Em manchas de solo mais profundo nos planaltos e chapadões. Árvores tortas de casca grossa e capim.',c:'#b5a24a'},
+ {ph:'marimbus',t:'Áreas alagadas (Marimbus)',d:'Lagoas e brejos com aguapés, ninfeias e papiro. Peixes, jacarés, capivaras e aves aquáticas.',c:'#5b9bb8'}
+];
+
+const SPECIES=[
+ {g:'fa',ph:'sp_augastes_lumachella',n:'Beija-flor-de-gravatinha-vermelha',s:'Augastes lumachella',a:'Campo rupestre',d:'É o único beija-flor que só existe na Chapada, e é o símbolo da região. Vive acima de uns 950 m. Procure a "gravatinha" vermelha no pescoço e o rosto verde brilhante perto das flores do campo rupestre.',st:'Só existe aqui'},
+ {g:'fa',ph:'sp_kerodon_rupestris',n:'Mocó',s:'Kerodon rupestris',a:'Pedras e lajedos',d:'Parente do preá que mora nas rachaduras das pedras. Ágil, sobe nas rochas. Muitas vezes você ouve o assobio antes de ver o bicho.',st:''},
+ {g:'fa',ph:'sp_callithrix_jacchus',n:'Sagui (mico-estrela)',s:'Callithrix jacchus',a:'Matas e quintais',d:'Macaquinho com tufos brancos nas orelhas. É comum nas beiradas das matas e perto das casas do vale.',st:''},
+ {g:'fa',ph:'sp_callicebus_barbarabrownae',n:'Guigó-da-caatinga',s:'Callicebus barbarabrownae',a:'Caatinga',d:'Macaco raro da caatinga baiana. Os casais cantam juntos ao amanhecer.',st:'Muito ameaçado'},
+ {g:'fa',ph:'sp_puma_concolor',n:'Onça-parda (suçuarana)',s:'Puma concolor',a:'Toda a região',d:'É o maior caçador do Parque. É raro de ver, mas deixa pegadas na areia dos rios. Se encontrar uma: não corra, fique de frente para ela e pareça grande.',st:''},
+ {g:'fa',ph:'sp_leopardus_pardalis',n:'Jaguatirica',s:'Leopardus pardalis',a:'Matas',d:'Gato-do-mato com manchas em forma de anel. Câmeras escondidas já registraram a jaguatirica dentro do Parque.',st:''},
+ {g:'fa',ph:'sp_myrmecophaga_tridactyla',n:'Tamanduá-bandeira',s:'Myrmecophaga tridactyla',a:'Gerais e cerrado',d:'Come cupins e formigas. Anda nas áreas abertas, então procure os cupinzeiros cavados.',st:'Ameaçado'},
+ {g:'fa',ph:'sp_cariama_cristata',n:'Seriema',s:'Cariama cristata',a:'Cerrado e gerais',d:'Ave de pernas longas e topete. O canto alto se ouve de longe pela manhã.',st:''},
+ {g:'fa',ph:'sp_streptoprocne_zonaris',n:'Andorinhão-de-coleira',s:'Streptoprocne zonaris',a:'Paredões e cachoeiras',d:'Voa em bandos muito rápidos pelos cânions e dorme atrás das quedas d\'água.',st:''},
+ {g:'fa',ph:'sp_hydrochoerus_hydrochaeris',n:'Capivara',s:'Hydrochoerus hydrochaeris',a:'Marimbus e rios',d:'O maior roedor do mundo. Vive em grupos perto da água, no Marimbus.',st:''},
+ {g:'fa',ph:'sp_caiman_latirostris',n:'Jacaré-de-papo-amarelo',s:'Caiman latirostris',a:'Marimbus',d:'Jacaré tímido das lagoas do Marimbus. Mantenha distância e não alimente.',st:''},
+ {g:'fa',ph:'sp_bothrops',n:'Jararaca',s:'Bothrops spp.',a:'Toda a região',d:'Cobra venenosa que se camufla no chão e nas folhas. Use bota e olhe onde pisa e onde põe a mão.',st:'Venenosa'},
+ {g:'fa',ph:'sp_crotalus_durissus',n:'Cascavel',s:'Crotalus durissus',a:'Áreas secas e pedregosas',d:'Cobra venenosa com chocalho na ponta da cauda. Se ouvir o chocalho, pare e se afaste devagar.',st:'Venenosa'},
+ {g:'fa',ph:'sp_cichla',n:'Tucunaré',s:'Cichla spp.',a:'Rios e Marimbus',d:'Peixe que veio da Amazônia. Aqui ele é invasor e compete com os peixes nativos.',st:'Não é daqui'},
+ {g:'fl',ph:'sp_vellozia',n:'Canela-de-ema',s:'Vellozia spp.',a:'Campo rupestre',d:'Tronco grosso e fibroso, que resiste ao fogo. Depois das chuvas ou de uma queimada, dá flores lilás ou brancas.',st:''},
+ {g:'fl',ph:'sp_syngonanthus',n:'Sempre-viva-de-Mucugê',s:'Syngonanthus mucugensis',a:'Campo rupestre úmido',d:'Pequena "bolinha" branca que não murcha. Quase sumiu de tanto ser colhida para artesanato, e hoje é protegida em Mucugê. A foto mostra uma planta do mesmo gênero.',st:'Só existe aqui · ameaçada'},
+ {g:'fl',ph:'sp_paepalanthus',n:'Outras sempre-vivas',s:'Paepalanthus e Syngonanthus',a:'Gerais',d:'Bolinhas brancas ou cor de creme em hastes finas. Os gerais floridos são lindos depois das chuvas.',st:''},
+ {g:'fl',ph:'sp_cattleya_elongata',n:'Orquídea-das-pedras',s:'Cattleya elongata',a:'Fendas de rocha',d:'Cresce direto na pedra, em sol pleno. Várias orquídeas assim só existem na Chapada.',st:'Só existe aqui'},
+ {g:'fl',ph:'sp_orthophytum',n:'Bromélias de pedra',s:'Orthophytum e outras',a:'Lajedos',d:'Rosetas sobre as pedras que guardam água no meio. Servem de casa para sapos e insetos.',st:''},
+ {g:'fl',ph:'sp_microlicia',n:'Quaresmeirinhas',s:'Microlicia spp.',a:'Campo rupestre',d:'Arbustos pequenos de flor rosa. É o grupo com mais espécies exclusivas da Chapada (38).',st:'Muitas só existem aqui'},
+ {g:'fl',ph:'sp_melocactus',n:'Coroa-de-frade',s:'Melocactus spp.',a:'Caatinga e lajedos',d:'Cacto redondo com um "chapéu" vermelho no topo, de onde saem as flores.',st:''},
+ {g:'fl',ph:'sp_lychnophora',n:'Arnica-da-serra',s:'Lychnophora spp.',a:'Campo rupestre',d:'Arbusto cheiroso de folhas estreitas. Foi muito colhido para fazer remédio.',st:'Proibido colher'},
+ {g:'fl',ph:'sp_drosera',n:'Plantinha carnívora',s:'Drosera spp.',a:'Brejos',d:'Pequena e avermelhada, com gotinhas que grudam. Ela "come" insetos porque o solo é muito pobre.',st:''},
+ {g:'fl',ph:'sp_sphagnum',n:'Musgo dos brejos',s:'Sphagnum',a:'Gerais úmidos',d:'Forma colchões que seguram a água da chuva e mantêm as nascentes vivas. Evite pisar nos brejos.',st:''},
+ {g:'fl',ph:'sp_nymphaea',n:'Ninfeia',s:'Nymphaea spp.',a:'Marimbus',d:'Flor aquática das lagoas do Marimbus, parente da vitória-régia.',st:''},
+ {g:'fl',ph:'sp_syagrus_coronata',n:'Licuri',s:'Syagrus coronata',a:'Caatinga',d:'Palmeira da caatinga com coquinhos que se comem.',st:''}
+];
+
+const ALONG=[
+ '<b>Subida do Guiné e dos Aleixos:</b> você sobe a escarpa oeste da Serra do Sincorá, cruzando camadas de metarenito inclinadas pelo dobramento.',
+ '<b>Gerais do Rio Preto:</b> planalto de quartzo-arenito do Tombador, com solo branco, campo rupestre, turfeiras e água cor de chá.',
+ '<b>Mirante e Rampa:</b> na descida você sai do Tombador e entra nas rochas mais antigas do Açuruá (Grupo Paraguaçu). O vale foi escavado ao longo de fraturas e camadas mais moles.',
+ '<b>Fundo do vale (Igrejinha, Prefeitura):</b> metarenitos, siltitos e ardósias do Açuruá, com ~1,7 bilhão de anos. Repare nas placas finas e escuras nos barrancos.',
+ '<b>Morro do Castelo e Calixto:</b> topo de metarenito do Tombador, um morro-testemunho. A gruta que atravessa o morro é uma caverna em rocha de quartzo, coisa rara.',
+ '<b>Cachoeirão:</b> a borda do cânion é de quartzo-arenito do Tombador. Os rios do planalto despencam em várias quedas guiadas por fraturas.',
+ '<b>Leito do rio Pati:</b> blocos rolados de metarenito e conglomerado, panelas (marmitas) escavadas pelo redemoinho dos seixos e praias de areia branca.',
+ '<b>Ladeira do Império:</b> calçamento histórico de lajes, com descida para as planícies do Paraguaçu e os argilitos da Caboclo em Andaraí.'
+];
+
+
+
+// fotos e textos simples
+const ROCK_PH={metarenito:'r_metarenito',quartzito:'r_quartzito',conglomerado:'r_conglomerado',pelito:'r_siltito',ardosia:'r_ardosia',arcoseo:'r_arcoseo',diamictito:'r_diamictito',calcario:'r_calcario',granito:'r_granito',laterita:'r_laterita',aluviao:'r_rio',quartzo:'r_quartzo',diamante:'r_carbonado'};
+const ROCK_SIMPLE={metarenito:'Areia de rio e de deserto que virou pedra dura.',quartzito:'Areia quase só de quartzo, tão dura que risca o vidro.',conglomerado:'Cascalho de rio grudado numa pedra só. Era aqui que ficavam os diamantes.',pelito:'Lama antiga que virou pedra. É mole e se quebra em plaquinhas.',ardosia:'Lama e areia de 1,7 bilhão de anos. São as pedras do fundo do Pati.',arcoseo:'Areia com grãos rosados de feldspato.',diamictito:'Uma mistura de pedras de todos os tamanhos deixada por geleiras.',calcario:'Pedra feita no fundo de um mar antigo. A água a dissolve e abre cavernas.',granito:'Rocha de magma que esfriou devagar, bem fundo na terra.',laterita:'Crosta de ferro que se forma no solo e tem cor de ferrugem.',aluviao:'Areia e cascalho soltos que os rios de hoje carregam.',quartzo:'Cristal transparente de seis lados, muito duro.',diamante:'Carbono puro, o mineral mais duro que existe.'};
+const POI_PH={'Morro do Pai Inácio':'pai_inacio','Cachoeira da Fumaça (aprox.)':'fumaca','Mirante do Pati':'pati_vista','Morro do Castelo':'castelo','Cachoeirão (por cima)':'cachoeirao','Igatu':'igatu','Lençóis':'lencois_casa','Marimbus':'marimbus','Vale do Capão (Caeté-Açu)':'capao','Andaraí':'andarai','Mucugê':'mucuge','Gerais do Vieira':'e_gerais','Gruta da Lapinha (Morro do Castelo)':'castelo'};
+const PLAIN={MP12tq:'Quartzito branco (areia antiga de rio e de deserto)',MP12ta:'Arenito duro do Tombador',MP12tg:'Conglomerado com seixos (onde ficavam os diamantes)',MP12ca:'Argilito (lama de um mar antigo)',MP3NP1mca:'Arenito de rios antigos',MP3NP1mcaf:'Arenito rosado de rios antigos',MP3NP1mcc:'Conglomerado de rios antigos',NP12be:'Diamictito (pedras deixadas por geleiras)',NP23sn:'Calcário (forma cavernas)',NP23snl:'Calcário (forma cavernas)',NP2sa:'Calcário e dolomito (mar antigo)',PP4pm:'Arenito de um deserto antigo',PP4pa:'Rochas do Açuruá (areia e lama de 1,7 bilhão de anos)',PP4rro:'Conglomerado do Rio dos Remédios',PP4rrl:'Lama antiga do Rio dos Remédios',ENdl:'Crosta de ferro do solo (laterita)',N1dl:'Crosta de ferro do solo (laterita)',Q2a:'Areia e cascalho de rio',PP2_gamma_ju:'Granito'};
+
+const SOURCES=[
+ ['Limite do Parque Nacional da Chapada Diamantina — OpenStreetMap (relação 4722289)','https://www.openstreetmap.org/relation/4722289'],
+ ['Trilhas, rios e lugares do Vale do Pati — © colaboradores do OpenStreetMap (ODbL)','https://www.openstreetmap.org/copyright'],
+ ['Imagem de satélite — Sentinel-2 cloudless 2020 by EOX IT Services GmbH (contém dados Copernicus Sentinel modificados)','https://s2maps.eu'],
+ ['Mapa geológico — SGB/CPRM, Litoestratigrafia 1:1.000.000 (GeoSGB, serviço WFS)','https://geoservicos.sgb.gov.br/geoserver/wms?service=WMS&request=GetCapabilities'],
+ ['Domínios hidrogeológicos 1:2.500.000 — SGB/CPRM','https://geoservicos.sgb.gov.br/geoserver/wms?service=WMS&request=GetCapabilities'],
+ ['Modelo de elevação — Copernicus GLO-30 (30 m). Produzido com Copernicus WorldDEM-30 © DLR e.V. 2010-2014 e © Airbus Defence and Space GmbH 2014-2018, fornecido no âmbito do COPERNICUS pela União Europeia e ESA','https://registry.opendata.aws/copernicus-dem/'],
+ ['Pontos do Pati — trilhas públicas do Wikiloc (Igrejinha, Mirante, Prefeitura, Cachoeirão, Castelo…)','https://www.wikiloc.com/hiking-trails/vale-do-pati-4-dias-chapada-diamantina-12529146'],
+ ['Roteiro completo do Vale do Pati — Mochileiros.com','https://www.mochileiros.com/topic/74969-roteiro-completo-do-vale-do-pati/'],
+ ['Vale do Pati — Wikipédia (área, municípios)','https://pt.wikipedia.org/wiki/Vale_do_Pati'],
+ ['Lista preliminar de plantas endêmicas da Chapada Diamantina — Biodiversidade Brasileira/ICMBio (2023)','https://revistaeletronica.icmbio.gov.br/BioBR/article/download/2264/1541?inline=1'],
+ ['Beija-flor e plantas — ((o))eco','https://www.oeco.org.br/wp-content/uploads/wp-post-to-pdf-enhanced-cache/1/19968-beija-flor-e-plantas-um-caso-de-amor.pdf'],
+ ['Hidrogeoquímica das águas subterrâneas de Lençóis — Mattos et al. 2015','https://periodicos.univali.br/index.php/bjast/article/view/7513/5383'],
+ ['Aquífero Salitre em Irecê — ABAS (recarga a partir dos metassedimentos)','https://aguassubterraneas.abas.org/asubterraneas/article/download/29315/18918/108205'],
+ ['Carste siliciclástico de Igatu — SBE','https://www.cavernas.org.br/wp-content/uploads/2023/10/37cbe_396-401.pdf'],
+ ['Marimbus — bahia.ws','https://www.bahia.ws/en/marimbus-chapada-diamantina/'],
+ ['Cachoeira da Fumaça — Viagens e Caminhos','https://www.viagensecaminhos.com/cachoeira-da-fumaca/'],
+ ['Evolução diagenética da Fm. Morro do Chapéu — Geonomos (estratigrafia do Grupo Chapada Diamantina)','https://periodicos.ufmg.br/index.php/revistageonomos/article/view/11503/8241']
+];
+</script>
+
+<script type="importmap">
+{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
+import {Line2} from 'three/addons/lines/Line2.js';
+import {LineMaterial} from 'three/addons/lines/LineMaterial.js';
+import {LineGeometry} from 'three/addons/lines/LineGeometry.js';
+import {LineSegments2} from 'three/addons/lines/LineSegments2.js';
+import {LineSegmentsGeometry} from 'three/addons/lines/LineSegmentsGeometry.js';
+
+const $=s=>document.querySelector(s);
+const el=(t,a={},h='')=>{const e=document.createElement(t);for(const k in a)e.setAttribute(k,a[k]);e.innerHTML=h;return e};
+const store={get(k,d){try{const v=localStorage.getItem('cd_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('cd_'+k,JSON.stringify(v))}catch(e){}}};
+const HOOKS=[],PLACE_HOOK={fn:null};
+const fmt=(x,d=0)=>x.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+// ======================================================================
+// CARREGAMENTO
+// ======================================================================
+const FILES=[['data/regiao.json','json'],['data/pati.json','json']];
+let done=0; const bar=$('#loading .bar i');
+const got=await Promise.all(FILES.map(async([u,k])=>{const r=await fetch(u);if(!r.ok)throw new Error('Falha ao carregar '+u);const v=await r[k==='buf'?'arrayBuffer':k]();done++;bar.style.width=(done/FILES.length*100)+'%';return v}));
+const [RJ,PJ]=got;
+const b64=s=>{const bin=atob(s),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u.buffer};
+const Rbuf=b64(RJ.dem);
+async function blobImg(url){const r=await fetch(url);if(!r.ok)throw new Error('Falha ao carregar '+url);const im=new Image();im.src=URL.createObjectURL(await r.blob());await im.decode();return im}
+let GP=null;const IMG={};
+async function ensureAssets(key){
+  if(key==='pati'&&!GP){const r=await fetch('data/pati_dem.json');if(!r.ok)throw new Error('Falha ao carregar o relevo do Pati');GP=new Grid(PJ.meta,b64((await r.json()).dem))}
+  if(!IMG[key])IMG[key]=await blobImg('img/'+key+'.jpg');
+}
+
+// ======================================================================
+// GRADES DE ELEVAÇÃO
+// ======================================================================
+class Grid{
+  constructor(m,buf){this.m=m;this.d=new Int16Array(buf);this.NX=m.NX;this.NY=m.NY}
+  gi(lon){return(lon-this.m.W)/(this.m.E-this.m.W)*(this.NX-1)}
+  gj(lat){return(this.m.N-lat)/(this.m.N-this.m.S)*(this.NY-1)}
+  inside(lat,lon){return lat<=this.m.N&&lat>=this.m.S&&lon>=this.m.W&&lon<=this.m.E}
+  cell(lat,lon){let x=Math.max(0,Math.min(this.NX-1.0001,this.gi(lon))),y=Math.max(0,Math.min(this.NY-1.0001,this.gj(lat)));const i=Math.floor(x),j=Math.floor(y),N=this.NX,D=this.d;return{fx:x-i,fy:y-j,a:D[j*N+i],b:D[j*N+i+1],c:D[(j+1)*N+i],d:D[(j+1)*N+i+1]}}
+  elev(lat,lon){const q=this.cell(lat,lon);return q.a*(1-q.fx)*(1-q.fy)+q.b*q.fx*(1-q.fy)+q.c*(1-q.fx)*q.fy+q.d*q.fx*q.fy}
+  top(lat,lon){const q=this.cell(lat,lon);return Math.max(q.a,q.b,q.c,q.d)}
+}
+const GR=new Grid(RJ.meta,Rbuf);
+const inP=(lat,lon)=>lat<=PJ.meta.N&&lat>=PJ.meta.S&&lon>=PJ.meta.W&&lon<=PJ.meta.E;
+function hav(a,b){const R=6371000,t=Math.PI/180,dLa=(b[0]-a[0])*t,dLo=(b[1]-a[1])*t;const h=Math.sin(dLa/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+function pip(pt,ring){let x=pt[0],y=pt[1],ins=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];if(((yi>y)!=(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))ins=!ins}return ins}
+function inPolys(pt,polys){for(const p of polys){if(pip(pt,p[0])){let hole=false;for(let k=1;k<p.length;k++)if(pip(pt,p[k])){hole=true;break}if(!hole)return true}}return false}
+const geoList=(lat,lon)=>inP(lat,lon)?PJ.geo:RJ.geo;
+const geoAt=(lat,lon)=>geoList(lat,lon).find(u=>inPolys([lon,lat],u.polys));
+const hydAt=(lat,lon)=>(inP(lat,lon)?PJ.hyd:RJ.hyd).find(u=>inPolys([lon,lat],u.polys));
+const elevAt=(lat,lon)=>inP(lat,lon)&&GP?GP.elev(lat,lon):GR.elev(lat,lon);
+const unitBySigla=s=>PJ.geo.find(u=>u.sigla===s)||RJ.geo.find(u=>u.sigla===s);
+function vegZone(z){return z<500?'Caatinga baixa e planícies':z<900?'Caatinga e transições':z<1200?'Campo rupestre, gerais e cerrado':'Campo rupestre de altitude'}
+
+// ======================================================================
+// PERCURSOS: amostragem a cada 10 m, inclinação, tempo (Tobler)
+// ======================================================================
+const POIS=PJ.pois, poiByName=n=>POIS.find(p=>p.n===n);
+for(const r of PJ.routes){
+  const P=r.p, cum=[0]; for(let k=1;k<P.length;k++)cum.push(cum[k-1]+hav(P[k-1],P[k]));
+  const L=cum[cum.length-1], n=Math.ceil(L/10)+1, la=new Float64Array(n), lo=new Float64Array(n), d=new Float32Array(n), z=new Float32Array(n);
+  let k=0;
+  for(let i=0;i<n;i++){const s=Math.min(L,i*10);while(k<cum.length-2&&cum[k+1]<s)k++;const f=(s-cum[k])/Math.max(1e-9,cum[k+1]-cum[k]);la[i]=P[k][0]+(P[k+1][0]-P[k][0])*f;lo[i]=P[k][1]+(P[k+1][1]-P[k][1])*f;d[i]=s;z[i]=r.zp[Math.min(i,r.zp.length-1)]}
+  const zs=new Float32Array(n); for(let i=0;i<n;i++){let s=0,c=0;for(let j=-4;j<=4;j++){const q=i+j;if(q>=0&&q<n){s+=z[q];c++}}zs[i]=s/c}
+  const g=new Float32Array(n), up=new Float32Array(n), dn=new Float32Array(n), t=new Float32Array(n);
+  for(let i=0;i<n;i++){const a=Math.max(0,i-3),b=Math.min(n-1,i+3);g[i]=(zs[b]-zs[a])/Math.max(1,d[b]-d[a])}
+  for(let i=1;i<n;i++){const dz=zs[i]-zs[i-1];up[i]=up[i-1]+Math.max(0,dz);dn[i]=dn[i-1]+Math.max(0,-dz);
+    const v=6*Math.exp(-3.5*Math.abs(g[i]+0.05))*0.85; t[i]=t[i-1]+(d[i]-d[i-1])/1000/v}
+  r.nm=r.n;r.desc=r.d;
+  Object.assign(r,{L,n,la,lo,d,z:zs,g,up,dn,t,km:L/1000,zmin:Math.min(...zs),zmax:Math.max(...zs)});
+}
+const idxAt=(r,s)=>Math.max(0,Math.min(r.n-1,Math.round(s/10)));
+const fmtT=h=>{const m=Math.round(h*60);return m<60?m+' min':Math.floor(m/60)+'h'+String(m%60).padStart(2,'0')};
+const geoRunAt=(r,s)=>r.geo.find(q=>s>=q[0]-12&&s<=q[1]+12)||r.geo[r.geo.length-1];
+
+// ======================================================================
+// UTILITÁRIOS DE UI
+// ======================================================================
+const tip=$('#tip');
+function showTip(x,y,h){tip.innerHTML=h;tip.style.display='block';const w=tip.offsetWidth;tip.style.left=Math.min(innerWidth-w-6,Math.max(6,x-w/2))+'px';tip.style.top=(y-44)+'px'}
+function hideTip(){tip.style.display='none'}
+function spark(r,w=84,h=34){const X=i=>i/(r.n-1)*w,Y=z=>h-2-(z-r.zmin)/Math.max(1,r.zmax-r.zmin)*(h-4);let p='';const st=Math.max(1,Math.floor(r.n/60));for(let i=0;i<r.n;i+=st)p+=(p?'L':'M')+X(i).toFixed(1)+','+Y(r.z[i]).toFixed(1);return `<svg class="spark" viewBox="0 0 ${w} ${h}"><path d="${p}L${w},${h}L0,${h}Z" fill="${r.col}" fill-opacity=".15"/><path d="${p}" fill="none" stroke="${r.col}" stroke-width="1.6"/></svg>`}
+function profileSVG(r){
+  const W=380,H=170,pl=36,pr=8,pt=12,pb=30;
+  const zmin=Math.floor((r.zmin-30)/100)*100, zmax=Math.ceil((r.zmax+30)/100)*100, L=r.L;
+  const X=d=>pl+d/L*(W-pl-pr), Y=z=>pt+(1-(z-zmin)/(zmax-zmin))*(H-pt-pb);
+  let path='';const st=Math.max(1,Math.floor(r.n/400));for(let i=0;i<r.n;i+=st)path+=(path?'L':'M')+X(r.d[i]).toFixed(1)+','+Y(r.z[i]).toFixed(1);
+  let g='';const step=(zmax-zmin)>600?200:100;
+  for(let z=zmin;z<=zmax;z+=step)g+=`<line class="ax" x1="${pl}" x2="${W-pr}" y1="${Y(z)}" y2="${Y(z)}" stroke-dasharray="${z===zmin?'':'2 3'}"/><text x="${pl-5}" y="${Y(z)+3}" text-anchor="end">${z}</text>`;
+  const ks=L>16000?4000:L>8000?2000:1000;for(let d=0;d<=L;d+=ks)g+=`<text x="${X(d)}" y="${H-4}" text-anchor="middle">${d/1000} km</text>`;
+  let band='';for(const q of r.geo)band+=`<rect x="${X(q[0])}" y="${H-pb+3}" width="${Math.max(1,X(q[1])-X(q[0]))}" height="6" fill="${GEO_COLORS[q[2]]||'#ccc'}"/>`;
+  const svg=el('div',{},`<svg class="prof" viewBox="0 0 ${W} ${H}" role="img" aria-label="Perfil de altitude">${g}<path d="${path}L${X(L)},${Y(zmin)}L${X(0)},${Y(zmin)}Z" fill="${r.col}" fill-opacity=".14"/><path d="${path}" fill="none" stroke="${r.col}" stroke-width="2" stroke-linejoin="round"/>${band}
+    <line class="cx" y1="${pt}" y2="${H-pb}" stroke="#2b2118" stroke-width="1" style="display:none"/><circle class="cd" r="4.5" fill="${r.col}" stroke="#fff" stroke-width="2" style="display:none"/><rect x="${pl}" y="0" width="${W-pl-pr}" height="${H}" fill="transparent"/></svg>`).firstChild;
+  const cx=svg.querySelector('.cx'),cd=svg.querySelector('.cd');
+  const move=e=>{const b=svg.getBoundingClientRect();const s=Math.max(0,Math.min(L,((e.clientX-b.left)/b.width*W-pl)/(W-pl-pr)*L));const i=idxAt(r,s);
+    cx.setAttribute('x1',X(r.d[i]));cx.setAttribute('x2',X(r.d[i]));cd.setAttribute('cx',X(r.d[i]));cd.setAttribute('cy',Y(r.z[i]));cx.style.display=cd.style.display='';
+    const gr=geoRunAt(r,r.d[i]);const u=unitBySigla(gr[2]);showTip(e.clientX,e.clientY,`${fmt(r.d[i]/1000,1)} km · <b>${Math.round(r.z[i])} m</b> · ${Math.round(r.g[i]*100)}%${u?'<br>'+u.nome.replace('Litofácies ',''):''}`)};
+  const out=()=>{cx.style.display=cd.style.display='none';hideTip()};
+  svg.addEventListener('pointermove',move);svg.addEventListener('pointerdown',move);svg.addEventListener('pointerleave',out);svg.addEventListener('pointerup',e=>{if(e.pointerType!=='mouse')setTimeout(out,1500)});
+  return svg;
+}
+function statsHTML(r){return `<div class="stats"><div><b>${fmt(r.km,1)} km</b>distância</div><div><b>↑ ${fmt(r.up[r.n-1])} m</b>subida</div><div><b>↓ ${fmt(r.dn[r.n-1])} m</b>descida</div><div><b>${fmtT(r.t[r.n-1])}</b>em movimento*</div><div><b>${Math.round(r.zmin)}–${Math.round(r.zmax)} m</b>altitude</div></div>`}
+
+// ======================================================================
+// CENAS 3D
+// ======================================================================
+const CAT={cidade:['Cidades','#ffffff'],vila:['Vilas e povoados','#f2c14e'],apoio:['Casas de apoio (nativos)','#e4572e'],abrigo:['Abrigos e bivaques','#b8b0a6'],agua:['Cachoeiras, poços e fontes','#3a86ff'],mirante:['Mirantes, morros e passagens','#9b5de5'],morro:['Morros','#9b5de5'],geo:['Grutas, fendas e geossítios','#8a5a2b']};
+const state={scene:'regiao',mode:'sat',rivers:true,trails:true,routes:true,park:true,cats:{cidade:1,vila:1,apoio:1,abrigo:1,agua:1,mirante:1,geo:1},route:null,unit:null,exag:{regiao:2,pati:1.5}};
+let renderer,camera,controls,labelR,needs=true,started=false;
+const SC={};
+const RAMP=[[300,'#55703c'],[450,'#7d8c4b'],[650,'#a9a25f'],[850,'#c9a56b'],[1050,'#b98c5c'],[1250,'#9f7c68'],[1450,'#cbbfb3'],[1700,'#f5f0e8']];
+function hexRGB(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function rampC(z){for(let k=1;k<RAMP.length;k++)if(z<=RAMP[k][0]){const a=RAMP[k-1],b=RAMP[k],t=(z-a[0])/(b[0]-a[0]),A=hexRGB(a[1]),B=hexRGB(b[1]);return A.map((v,i)=>v+(B[i]-v)*t)}return hexRGB(RAMP[RAMP.length-1][1])}
+
+function makeScene(key){
+  const G=key==='pati'?GP:GR, J=key==='pati'?PJ:RJ, m=J.meta, S=key==='pati'?0.05:0.01;
+  const sc={key,G,J,m,S,img:IMG[key],WU:m.dx*(m.NX-1)*S,HU:m.dy*(m.NY-1)*S,markers:[],rlabels:[]};
+  sc.lonX=lon=>(lon-m.W)/(m.E-m.W)*sc.WU-sc.WU/2; sc.latZ=lat=>(m.N-lat)/(m.N-m.S)*sc.HU-sc.HU/2;
+  sc.zY=z=>(z-300)*S*state.exag[key];
+  sc.w=(lat,lon,off=0)=>new THREE.Vector3(sc.lonX(lon),sc.zY(G.elev(lat,lon))+off,sc.latZ(lat));
+  sc.wTop=(lat,lon,offm)=>new THREE.Vector3(sc.lonX(lon),sc.zY(G.top(lat,lon))+offm*S*state.exag[key]+0.02,sc.latZ(lat));
+  sc.ll=p=>[m.N-(p.z+sc.HU/2)/sc.HU*(m.N-m.S),m.W+(p.x+sc.WU/2)/sc.WU*(m.E-m.W)];
+  const scene=new THREE.Scene(); scene.background=new THREE.Color('#cfdde6'); scene.fog=new THREE.Fog('#cfdde6',sc.WU*1.4,sc.WU*4);
+  scene.add(new THREE.HemisphereLight('#fffaf0','#6b5a4a',1.7));
+  const sun=new THREE.DirectionalLight('#fff1d6',1.5); sun.position.set(-sc.WU,sc.WU*1.2,-sc.WU*0.6); scene.add(sun);
+  sc.scene=scene;
+  // texturas base
+  const NX=m.NX,NY=m.NY,D=G.d;
+  const bc=document.createElement('canvas'),hc=document.createElement('canvas');bc.width=hc.width=NX;bc.height=hc.height=NY;
+  const bi=bc.getContext('2d').createImageData(NX,NY),hi=hc.getContext('2d').createImageData(NX,NY);
+  const az=315*Math.PI/180,al=45*Math.PI/180;
+  for(let j=0;j<NY;j++)for(let i=0;i<NX;i++){
+    const z=D[j*NX+i],zl=D[j*NX+Math.max(0,i-1)],zr=D[j*NX+Math.min(NX-1,i+1)],zu=D[Math.max(0,j-1)*NX+i],zd=D[Math.min(NY-1,j+1)*NX+i];
+    const dzdx=(zr-zl)/(2*m.dx)*1.6,dzdy=(zd-zu)/(2*m.dy)*1.6,slope=Math.atan(Math.hypot(dzdx,dzdy)),asp=Math.atan2(dzdy,-dzdx);
+    let hs=Math.sin(al)*Math.cos(slope)+Math.cos(al)*Math.sin(slope)*Math.cos(az-Math.PI/2-asp);hs=Math.max(0,Math.min(1,hs));
+    const c=rampC(z),k=(j*NX+i)*4,sh=0.5+0.6*hs;bi.data[k]=Math.min(255,c[0]*sh);bi.data[k+1]=Math.min(255,c[1]*sh);bi.data[k+2]=Math.min(255,c[2]*sh);bi.data[k+3]=255;
+    const gg=Math.min(255,255*(0.42+0.68*hs));hi.data[k]=hi.data[k+1]=hi.data[k+2]=gg;hi.data[k+3]=255}
+  bc.getContext('2d').putImageData(bi,0,0);hc.getContext('2d').putImageData(hi,0,0);
+  sc.base=bc; sc.shade=hc;
+  sc.tc=document.createElement('canvas'); sc.tc.width=m.TW; sc.tc.height=m.TH;
+  sc.tex=new THREE.CanvasTexture(sc.tc); sc.tex.colorSpace=THREE.SRGBColorSpace; sc.tex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+  sc.geom=new THREE.PlaneGeometry(sc.WU,sc.HU,NX-1,NY-1); sc.geom.rotateX(-Math.PI/2);
+  sc.mesh=new THREE.Mesh(sc.geom,new THREE.MeshStandardMaterial({map:sc.tex,roughness:1,metalness:0,polygonOffset:true,polygonOffsetFactor:3,polygonOffsetUnits:6,alphaTest:key==='regiao'?0.5:0,side:THREE.DoubleSide}));
+  scene.add(sc.mesh);
+  if(key==='pati'){const sk=new THREE.Mesh(new THREE.BoxGeometry(sc.WU,2,sc.HU),new THREE.MeshStandardMaterial({color:'#7d6a56'}));sk.position.y=-1.2;scene.add(sk)}
+  applyHeights(sc);
+  // marcadores
+  const list=key==='pati'?POIS:CURATED;
+  for(const p of list){
+    if(!G.inside(p.la,p.lo))continue;
+    const cat=p.c==='morro'?'mirante':p.c;
+    const d=el('div',{class:'mk '+p.c},`<i style="background:${CAT[p.c][1]}"></i><span>${p.n}</span>`);
+    d.addEventListener('pointerdown',e=>e.stopPropagation());d.addEventListener('click',e=>{e.stopPropagation();showPoi(p)});
+    const o=new CSS2DObject(d);o.center.set(0,0.5);o.userData={p,cat};scene.add(o);sc.markers.push(o);
+  }
+  if(key==='pati'){
+    // nomes de rios (OSM) no meio do traçado
+    const seen=new Set();
+    for(const r of PJ.rivers){if(!r.n||seen.has(r.n)||r.p.length<6)continue;seen.add(r.n);const q=r.p[Math.floor(r.p.length/2)];
+      const o=new CSS2DObject(el('div',{class:'rl'},r.n));o.userData={ll:q};scene.add(o);sc.rlabels.push(o)}
+    const o=new CSS2DObject(el('div',{class:'rl'},'Rio Pati'));o.userData={ll:[-12.7905,-41.4335]};scene.add(o);sc.rlabels.push(o);
+  }
+  placeMarkers(sc);
+  sc.pin=new THREE.Mesh(new THREE.ConeGeometry(1.4,4.5,16),new THREE.MeshStandardMaterial({color:'#c0392b'}));sc.pin.rotation.x=Math.PI;sc.pin.visible=false;scene.add(sc.pin);
+  SC[key]=sc; drawTex(sc); buildVectors(sc);
+  return sc;
+}
+async function buildScene(key){
+  const L=$('#loading');L.style.display='flex';$('#loading .bar i').style.width='30%';
+  $('#loading .msg').textContent=key==='pati'?'Baixando o Vale do Pati em alta resolução…':'Baixando o mapa da Chapada…';
+  try{await ensureAssets(key);$('#loading .bar i').style.width='80%';$('#loading .msg').textContent='Montando o relevo em 3D…';await new Promise(r=>setTimeout(r,30));makeScene(key);L.style.display='none'}
+  catch(e){$('#loading .msg').textContent=e.message+'. Verifique a internet e toque para tentar de novo.';L.onclick=()=>{L.onclick=null;buildScene(key).then(()=>setScene(key,true))};throw e}
+}
+// ---------- linhas vetoriais (nítidas em qualquer zoom) ----------
+const MATS=[];
+function lmat(color,w,op=1){const m=new LineMaterial({color,linewidth:w,transparent:true,opacity:op,resolution:new THREE.Vector2(innerWidth,innerHeight)});MATS.push(m);return m}
+function drapeGeom(sc,lines,offm){
+  const pos=[],step=sc.key==='pati'?25:90;
+  for(const L of lines){let prev=null,a=null;for(const q of L){if(prev){const n=Math.max(1,Math.ceil(hav(prev,q)/step));for(let s=1;s<=n;s++){const b=sc.wTop(prev[0]+(q[0]-prev[0])*s/n,prev[1]+(q[1]-prev[1])*s/n,offm);pos.push(a.x,a.y,a.z,b.x,b.y,b.z);a=b}}else a=sc.wTop(q[0],q[1],offm);prev=q}}
+  const g=new LineSegmentsGeometry();g.setPositions(pos);return g;
+}
+function segs(sc,lines,color,w,offm,op=1){const o=new LineSegments2(drapeGeom(sc,lines,offm),lmat(color,w,op));o.renderOrder=2;sc.scene.add(o);sc.vecs.push(o);return o}
+function buildVectors(sc){
+  for(const o of sc.vecs||[]){sc.scene.remove(o);o.geometry.dispose();const i=MATS.indexOf(o.material);if(i>=0)MATS.splice(i,1);o.material.dispose()}
+  sc.vecs=[];sc.V={};const m=sc.m;
+  const cutBy=(lines,ok)=>{const out=[];for(const L of lines){let cur=[];for(const q of L){if(ok(q))cur.push(q);else{if(cur.length>1)out.push(cur);cur=[]}}if(cur.length>1)out.push(cur)}return out};
+  if(sc.key==='pati'){
+    const inB=q=>inP(q[0],q[1]);
+    sc.V.rivers=[segs(sc,cutBy(PJ.rivers.filter(r=>r.k==='stream').map(r=>r.p),inB),'#7cc8ff',1.6,3),segs(sc,cutBy(PJ.rivers.filter(r=>r.k==='river').map(r=>r.p),inB),'#5ab4ff',2.8,3)];
+    sc.V.trails=[segs(sc,cutBy(PJ.roads.map(r=>r.p),inB),'#f5e8cd',2.2,4,.9),segs(sc,cutBy(PJ.trails.map(t=>t.p),inB),'#ffe08a',1.8,4,.9)];
+    sc.V.routes={};for(const r of PJ.routes){if(r.id==='travessia')continue;const cs=segs(sc,[r.p],'#ffffff',7,6),ln=segs(sc,[r.p],r.col,4.2,6.5);cs.material.depthWrite=false;cs.renderOrder=3;ln.renderOrder=4;sc.V.routes[r.id]=[cs,ln]}
+  }else{
+    const ll=c=>c.map(q=>[m.N-q[1]/(m.NY-1)*(m.N-m.S),m.W+q[0]/(m.NX-1)*(m.E-m.W)]);
+    const inClip=q=>inPolys([q[1],q[0]],RJ.clip);
+    const cut=(lines)=>{const out=[];for(const L of lines){let cur=[];for(const q of L){if(inClip(q))cur.push(q);else{if(cur.length>1)out.push(cur);cur=[]}}if(cur.length>1)out.push(cur)}return out};
+    const big=c=>c.filter(q=>q[2]>=1.3);
+    sc.V.rivers=[segs(sc,cut(RJ.streams.map(c=>c.filter(q=>q[2]>=0.85)).filter(c=>c.length>1).map(ll)),'#8fd0ff',1.1,8,.85),segs(sc,cut(RJ.streams.map(big).filter(c=>c.length>1).map(ll)),'#5ab4ff',2.2,9)];
+    sc.V.park=[segs(sc,RJ.park.flatMap(p=>p.map(r=>r.map(c=>[c[1],c[0]]))),'#9be37d',2.6,12)];
+    const P=PJ.meta;sc.V.rect=[segs(sc,[[[P.N,P.W],[P.N,P.E],[P.S,P.E],[P.S,P.W],[P.N,P.W]]],'#fc4c02',2.6,14)];
+  }
+  updateVectors();
+}
+function updateVectors(){
+  const sc=SC[state.scene];if(!sc||!sc.V)return;const V=sc.V;
+  for(const o of V.rivers||[])o.visible=state.rivers;
+  for(const o of V.trails||[])o.visible=state.trails;
+  for(const o of V.park||[])o.visible=state.park;
+  for(const id in V.routes||{}){const sel=state.route===id,dim=state.route&&!sel,vis=state.routes&&!walk.r;const [c,l]=V.routes[id];c.visible=l.visible=vis;c.material.opacity=dim?.35:1;l.material.opacity=dim?.45:1;c.material.linewidth=sel?10:7;l.material.linewidth=sel?6:4.2}
+  needs=true;
+}
+function applyHeights(sc){const pos=sc.geom.attributes.position,D=sc.G.d,N=sc.m.NX*sc.m.NY;for(let k=0;k<N;k++)pos.setY(k,sc.zY(D[k]));pos.needsUpdate=true;sc.geom.computeVertexNormals();sc.geom.computeBoundingSphere();sc.geom.computeBoundingBox()}
+function placeMarkers(sc){for(const o of sc.markers){const p=o.userData.p;o.position.copy(sc.w(p.la,p.lo,1.5*sc.S/0.05))}for(const o of sc.rlabels){const q=o.userData.ll;o.position.copy(sc.w(q[0],q[1],0.5))}}
+
+// --- desenho da textura ---
+function drawTex(sc){
+  const m=sc.m,ctx=sc.tc.getContext('2d'),TW=m.TW,TH=m.TH,k=TW/2048;
+  const tx=lon=>(lon-m.W)/(m.E-m.W)*TW, ty=lat=>(m.N-lat)/(m.N-m.S)*TH;
+  const path=(polys)=>{ctx.beginPath();for(const p of polys)for(const ring of p){ring.forEach((c,i)=>i?ctx.lineTo(tx(c[0]),ty(c[1])):ctx.moveTo(tx(c[0]),ty(c[1])));ctx.closePath()}};
+  const line=(pts,ll)=>{ctx.beginPath();pts.forEach((q,i)=>{const x=ll?tx(q[1]):q[0],y=ll?ty(q[0]):q[1];i?ctx.lineTo(x,y):ctx.moveTo(x,y)})};
+  ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.setLineDash([]);ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.clearRect(0,0,TW,TH);
+  if(state.mode==='sat'){ctx.drawImage(sc.img,0,0,TW,TH);ctx.globalCompositeOperation='multiply';ctx.globalAlpha=.18;ctx.drawImage(sc.shade,0,0,TW,TH);ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over'}
+  else if(state.mode==='alt')ctx.drawImage(sc.base,0,0,TW,TH);
+  else{
+    const list=state.mode==='geo'?sc.J.geo:sc.J.hyd;
+    ctx.drawImage(sc.base,0,0,TW,TH);
+    for(const u of list){ctx.fillStyle=state.mode==='geo'?(GEO_COLORS[u.sigla]||'#ccc'):(HYD_COLORS[u.dom]||'#ccc');ctx.globalAlpha=(state.unit&&state.mode==='geo'&&u.sigla!==state.unit)?0.15:1;path(u.polys);ctx.fill('evenodd')}
+    ctx.globalAlpha=1;ctx.globalCompositeOperation='multiply';ctx.drawImage(sc.shade,0,0,TW,TH);ctx.globalCompositeOperation='source-over';
+    ctx.strokeStyle='rgba(60,40,20,.5)';ctx.lineWidth=1.2*k;for(const u of list){path(u.polys);ctx.stroke()}
+    if(state.unit&&state.mode==='geo'){const u=list.find(x=>x.sigla===state.unit);if(u){ctx.strokeStyle='#2b2118';ctx.lineWidth=4*k;path(u.polys);ctx.stroke()}}
+  }
+  if(sc.key==='regiao'){
+    ctx.globalCompositeOperation='destination-in';path(RJ.clip);ctx.fillStyle='#000';ctx.fill();ctx.globalCompositeOperation='source-over';
+  }
+  sc.tex.needsUpdate=true;needs=true;
+}
+if(innerWidth<600)$('#legend').classList.add('min');
+function updateLegend(){
+  const L=$('#legend');const mini=L.classList.contains('min');let b='';let t='';
+  if(state.mode==='sat'){t='Foto de satélite';b=`<div class="lg"><b style="background:#4fb3ff"></b>Rios</div>${state.scene==='pati'?'<div class="lg"><b style="background:#ffe08a"></b>Trilhas (OSM)</div>':'<div class="lg"><b style="background:#9be37d"></b>Limite do Parque</div><div class="lg"><b style="background:#fc4c02"></b>Área do Pati 3D</div>'}`}
+  else if(state.mode==='alt'){t='Altura (metros)';b=`<div id="ramp" style="background:linear-gradient(90deg,${RAMP.map(r=>r[1]).join(',')})"></div><div style="display:flex;justify-content:space-between"><span>300</span><span>1000</span><span>1700</span></div>`}
+  else if(state.mode==='geo'){t='Tipos de pedra';for(const u of SC[state.scene]?SC[state.scene].J.geo.slice(0,10):[])b+=`<div class="lg"><b style="background:${GEO_COLORS[u.sigla]}"></b>${PLAIN[u.sigla]||u.nome}</div>`}
+  else{t='Água debaixo da terra';for(const k of [...new Set((state.scene==='pati'?PJ:RJ).hyd.map(u=>u.dom))])b+=`<div class="lg"><b style="background:${HYD_COLORS[k]}"></b>${k}</div>`}
+  L.innerHTML=`<div class="hd"><span>${t}</span><span>${mini?'▸':'▾'}</span></div><div class="body">${b}</div>`;
+  L.querySelector('.hd').onclick=()=>{L.classList.toggle('min');updateLegend()};
+}
+
+// ======================================================================
+// INICIALIZAÇÃO DO 3D
+// ======================================================================
+function initMap(){
+  if(started)return;started=true;
+  renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  $('#gl').appendChild(renderer.domElement);
+  labelR=new CSS2DRenderer({element:$('#labels')});
+  camera=new THREE.PerspectiveCamera(50,1,0.5,9000);
+  controls=new OrbitControls(camera,renderer.domElement);
+  controls.enableDamping=true;controls.dampingFactor=.08;controls.maxPolarAngle=Math.PI*0.48;controls.screenSpacePanning=false;
+  controls.addEventListener('change',()=>needs=true);
+  setScene(state.scene,true);
+  addEventListener('resize',resize);resize();
+  let down=null;const ray=new THREE.Raycaster(),v2=new THREE.Vector2();
+  renderer.domElement.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY,performance.now()];if(walk.r&&walk.cam==='seguir'){setCam('livre')}});
+  renderer.domElement.addEventListener('pointerup',e=>{
+    if(!down)return;const mv=Math.hypot(e.clientX-down[0],e.clientY-down[1]),dt=performance.now()-down[2];down=null;if(mv>8||dt>600)return;
+    const sc=SC[state.scene],b=renderer.domElement.getBoundingClientRect();v2.set((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1);
+    ray.setFromCamera(v2,camera);const hit=ray.intersectObject(sc.mesh)[0];if(!hit)return;const [lat,lon]=sc.ll(hit.point);
+    if(PLACE_HOOK.fn){PLACE_HOOK.fn(lat,lon).then(done=>{if(!done)showPoint(lat,lon)});return}
+    if(sc.key==='regiao'&&inP(lat,lon)&&!$('#sheet').classList.contains('on')){showPoint(lat,lon,true);return}
+    showPoint(lat,lon);
+  });
+  loop();
+}
+function resize(){if(!renderer)return;const h=$('#gl');const w=h.clientWidth,ht=h.clientHeight;if(!w)return;renderer.setSize(w,ht);labelR.setSize(w,ht);camera.aspect=w/ht;
+  const hud=$('#hud');if(walk.r&&innerWidth<900)camera.setViewOffset(w,ht,0,Math.round(hud.offsetHeight*0.42),w,ht);else camera.clearViewOffset();camera.updateProjectionMatrix();for(const l of walk.lines)l.material.resolution.set(w,ht);for(const mm of MATS)mm.resolution.set(w,ht);needs=true}
+function setScene(key,instant){
+  if(!SC[key]){buildScene(key).then(()=>setScene(key,instant));return}
+  for(const k in SC)if(k!==key){SC[k].tex.dispose();SC[k].geom.dispose()}
+  for(const k in SC)for(const o of [...SC[k].markers,...SC[k].rlabels])o.element.style.display=k===key?'':'none';
+  state.scene=key;const sc=SC[key];
+  document.querySelectorAll('#sceneSeg button').forEach(b=>b.classList.toggle('on',b.dataset.s===key));
+  document.querySelectorAll('.only-pati').forEach(e=>e.style.display=key==='pati'?'':'none');document.querySelectorAll('.only-reg').forEach(e=>e.style.display=key==='regiao'?'':'none');
+  $('#exag').value=state.exag[key];$('#exV').textContent=state.exag[key]+'×';
+  controls.minDistance=key==='pati'?6:15;controls.maxDistance=sc.WU*2.2;
+  drawTex(sc);updateLegend();renderDock();closeSheet();
+  if(key==='pati')flyTo([-12.80,-41.445],9500,0.82,0.35,instant);else flyTo(null,0,0,0,instant,true);
+}
+// voo: alvo lat/lon, distância em metros, ângulo polar, azimute
+let flyAnim=null;
+function flyTo(ll,dm,pol,az,instant,overview){
+  const sc=SC[state.scene];let tgt,pos;
+  if(overview){tgt=new THREE.Vector3(0,sc.zY(900),sc.HU*0.04);const d=sc.HU*1.05;pos=new THREE.Vector3(tgt.x+d*0.1,tgt.y+d*0.6,tgt.z+d*0.78)}
+  else{tgt=sc.w(ll[0],ll[1]);const d=dm*sc.S;pos=new THREE.Vector3(tgt.x+d*Math.sin(pol)*Math.sin(az),tgt.y+d*Math.cos(pol),tgt.z+d*Math.sin(pol)*Math.cos(az))}
+  if(instant){controls.target.copy(tgt);camera.position.copy(pos);controls.update();needs=true;return}
+  flyAnim={t0:performance.now(),from:[camera.position.clone(),controls.target.clone()],to:[pos,tgt]};
+}
+const curAz=()=>Math.atan2(camera.position.x-controls.target.x,camera.position.z-controls.target.z);
+function stepFly(){const t=Math.min(1,(performance.now()-flyAnim.t0)/1100),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;camera.position.lerpVectors(flyAnim.from[0],flyAnim.to[0],e);controls.target.lerpVectors(flyAnim.from[1],flyAnim.to[1],e);if(t>=1)flyAnim=null;needs=true}
+const SHORT={cidade:'cidade',vila:'povoado',apoio:'casa de apoio',abrigo:'abrigo',agua:'água',mirante:'mirante / passagem',morro:'morro',geo:'geossítio'};
+const LBL={cidade:1e9,vila:5200,apoio:2600,abrigo:900,agua:2200,mirante:2400,morro:2400,geo:2000};
+let lastT=performance.now();
+function loop(){
+  requestAnimationFrame(loop);
+  const now=performance.now(),dt=Math.min(0.1,(now-lastT)/1000);lastT=now;
+  if(!$('#mapa').classList.contains('on'))return;
+  const sc=SC[state.scene];if(!sc)return;
+  for(const h of HOOKS)h(sc,dt);
+  if(walk.r)stepWalk(dt);
+  if(flyAnim)stepFly();
+  const moving=controls.enabled?controls.update():false;
+  if(!needs&&!moving&&!flyAnim&&!(walk.r&&walk.playing))return;needs=false;
+  const dm=1/sc.S;
+  for(const o of sc.markers){const c=o.userData.cat,vis=!!state.cats[c];o.visible=vis;if(vis){const d=camera.position.distanceTo(o.position)*dm/state.exag[sc.key]**0;o.element.classList.toggle('hide',d>(LBL[o.userData.p.c]||2000)*(sc.key==='regiao'?3:1)*(o.userData.p.src==='cur'?3.2:1))}}
+  for(const o of sc.rlabels){o.visible=state.rivers&&camera.position.distanceTo(o.position)*dm<3500}
+  $('#compass svg').style.transform=`rotate(${curAz()}rad)`;
+  renderer.render(sc.scene,camera);labelR.render(sc.scene,camera);
+}
+
+// ======================================================================
+// PAINÉIS
+// ======================================================================
+const sheet=$('#sheet'),sb=$('#sheetBody');
+function openSheet(h){sb.innerHTML='';if(typeof h==='string')sb.innerHTML=h;else sb.appendChild(h);sb.scrollTop=0;sheet.classList.add('on');$('#panel').classList.remove('on')}
+function closeSheet(){sheet.classList.remove('on');for(const k in SC)SC[k].pin.visible=false;needs=true}
+$('#sheetX').onclick=closeSheet;
+function nearestRiver(lat,lon){let best=null,bd=1e9;for(const r of PJ.rivers){for(const q of r.p){const d=hav(q,[lat,lon]);if(d<bd){bd=d;best=r}}}return bd<400?{n:best.n||(best.k==='stream'?'riacho sem nome':'rio sem nome'),d:bd}:null}
+function geoBlock(lat,lon){
+  const g=geoAt(lat,lon),h=hydAt(lat,lon),z=elevAt(lat,lon);let s='';
+  if(g){const inf=unitGroup(g),rk=SIGLA_ROCK[g.sigla];
+    s+=`<div class="card" style="margin:8px 0;padding:12px;display:flex;gap:12px">${rk&&ROCK_PH[rk]?`<div class="toastph" data-bg="${ROCK_PH[rk]}" style="width:72px;height:72px"></div>`:''}<div style="flex:1"><div class="kicker">Pedra deste lugar</div><b style="font-size:1.02rem">${PLAIN[g.sigla]||g.nome}</b>
+    <div class="note">Idade: ${fmtAge(g.imin,g.imax)}. Origem: ${inf.env.toLowerCase()}.</div><details style="margin-top:4px"><summary class="note">Nome técnico</summary><div class="note">${g.nome} · ${inf.g} · ${g.lito}</div></details>${rk?`<button class="btn ghost" style="margin-top:8px" data-rock="${rk}">Ver foto e como reconhecer →</button>`:''}</div></div>`}
+  if(h)s+=`<div class="card" style="margin:8px 0;padding:12px"><div class="kicker" style="color:var(--water)">Água debaixo da terra</div><b>${{'Poroso/Fissural':'Água nas rachaduras da pedra','Formações cenozóicas':'Água entre areias e cascalhos','Carbonatos-Metacarbonatos':'Água em cavernas de calcário'}[h.dom]||h.dom}</b><div style="font-size:.84rem;margin-top:4px">${HYD_TXT[h.dom]||''}</div></div>`;
+  s+=`<div class="card" style="margin:8px 0;padding:12px"><div class="kicker" style="color:#3f7a3a">Vegetação que você deve ver</div><b>${vegZone(z)}</b><div class="note">Estimativa pela altitude (${Math.round(z)} m). Veja a aba Fauna e flora.</div></div>`;
+  if(inP(lat,lon)){const r=nearestRiver(lat,lon);if(r)s+=`<div class="card tip" style="margin:8px 0;padding:12px"><b>${r.n[0].toUpperCase()+r.n.slice(1)} a ~${Math.round(r.d/10)*10} m</b><br><span style="font-size:.84rem">Cuidado com cabeça d'água na época das chuvas (nov–mar).</span></div>`}
+  else{const i0=GR.gi(lon),j0=GR.gj(lat);let best=null,bd=4;for(const c of RJ.streams)for(const q of c){const d=Math.hypot(q[0]-i0,q[1]-j0);if(d<bd){bd=d;best=q}}
+    if(best){const a=Math.pow(10,best[2]);s+=`<div class="card tip" style="margin:8px 0;padding:12px"><b>Curso d'água a ~${Math.round(bd*RJ.meta.dx/10)*10} m</b><br><span style="font-size:.84rem">Bacia a montante ≈ <b>${a<20?fmt(a,1):fmt(a)} km²</b>, calculada a partir do relevo.</span></div>`}}
+  return s;
+}
+function bindRockBtns(root){root.querySelectorAll('[data-rock]').forEach(b=>b.onclick=()=>openGuide('rk_'+b.dataset.rock))}
+function showPoint(lat,lon,offerPati){
+  const sc=SC[state.scene];sc.pin.position.copy(sc.w(lat,lon,2.2*sc.S/0.05*4));sc.pin.scale.setScalar(sc.key==='pati'?1:2.2);sc.pin.visible=true;needs=true;
+  const z=Math.round(elevAt(lat,lon));
+  const d=el('div',{},`<div class="kicker">Você tocou aqui</div><h3>${z} metros de altitude</h3><div class="note">${fmt(-lat,4)}° S · ${fmt(-lon,4)}° O</div>
+   ${offerPati?'<button class="bigbtn" id="goPati" style="margin:10px 0 4px">Abrir o Vale do Pati em 3D detalhado</button>':''}${geoBlock(lat,lon)}`);
+  if(offerPati)d.querySelector('#goPati').onclick=()=>setScene('pati');
+  bindRockBtns(d);openSheet(d);hydrate(d);
+}
+function routesThrough(p){return PJ.routes.map(r=>{const e=r.ev.find(e=>e.t==='poi'&&e.n===p.n);return e?{r,d:e.d}:null}).filter(Boolean)}
+function showPoi(p){
+  const sc=SC[state.scene];sc.pin.visible=false;const z=Math.round(elevAt(p.la,p.lo));
+  const names={cidade:'Cidade',vila:'Vila / povoado',apoio:'Casa de apoio',abrigo:'Abrigo / bivaque',mirante:'Mirante / morro / passagem',morro:'Morro',agua:'Água',geo:'Geossítio'};
+  const rs=routesThrough(p);
+  const d=el('div',{},`${POI_PH[p.n]?`<div data-bg="${POI_PH[p.n]}" style="height:150px;border-radius:12px;margin:0 36px 10px 0"></div>`:''}<div class="kicker">${names[p.c]}</div><h3>${p.n}</h3><div class="note">${z} m · ${fmt(-p.la,4)}° S, ${fmt(-p.lo,4)}° O${p.src==='osm'?' · fonte: OpenStreetMap':''}</div><p style="margin:.5em 0">${p.d}</p>
+   ${rs.length?'<div class="kicker" style="margin-top:8px">Percorrer a partir daqui</div>'+rs.map(x=>`<div class="rcard">${spark(x.r)}<div class="meta"><div class="t">${x.r.nm}</div><div class="s">km ${fmt(x.d/1000,1)} de ${fmt(x.r.km,1)}</div></div><button class="play" data-r="${x.r.id}" data-d="${x.d}"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></button></div>`).join(''):''}${geoBlock(p.la,p.lo)}`);
+  d.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>startWalk(b.dataset.r,+b.dataset.d));
+  bindRockBtns(d);openSheet(d);hydrate(d);
+  flyTo([p.la,p.lo],(p.c==='cidade'?3500:1400)*(state.scene==='regiao'?4:1),0.9,curAz());
+}
+function routePicker(){
+  const d=el('div',{},`<div class="kicker">Percorrer como no Strava</div><h3>Escolha um trecho</h3><p class="note">Traçados pelas trilhas do OpenStreetMap, com relevo de 30 m. O tempo* é estimado pela fórmula de Tobler com mochila e não conta as paradas.</p>`);
+  for(const r of PJ.routes){const c=el('div',{class:'rcard'},`${spark(r)}<div class="meta"><div class="t"><span style="color:${r.col}">●</span> ${r.nm}</div><div class="s">${fmt(r.km,1)} km · ↑${fmt(r.up[r.n-1])} m ↓${fmt(r.dn[r.n-1])} m · ${fmtT(r.t[r.n-1])}*</div></div><button class="play"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></button>`);
+    c.querySelector('.play').onclick=()=>startWalk(r.id,0);c.querySelector('.meta').onclick=()=>previewRoute(r.id);d.appendChild(c)}
+  openSheet(d);
+}
+function previewRoute(id){
+  state.route=id;updateVectors();const r=PJ.routes.find(x=>x.id===id);
+  const d=el('div',{},`<div class="kicker">Percurso</div><h3><span style="color:${r.col}">●</span> ${r.nm}</h3><p style="margin:.3em 0;font-size:.9rem">${r.desc}</p>${statsHTML(r)}`);
+  d.appendChild(profileSVG(r));
+  const b=el('button',{class:'bigbtn',style:'margin-top:10px'},'<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg> Percorrer');b.onclick=()=>startWalk(id,0);d.appendChild(b);
+  d.appendChild(el('p',{class:'note'},'A faixa colorida sob o perfil mostra as rochas ao longo do caminho.'));
+  openSheet(d);
+  let a=1e9,b2=-1e9,c=1e9,e=-1e9;for(const q of r.p){a=Math.min(a,q[0]);b2=Math.max(b2,q[0]);c=Math.min(c,q[1]);e=Math.max(e,q[1])}
+  flyTo([(a+b2)/2-0.006,(c+e)/2],Math.max(3000,hav([a,c],[b2,e])*1.5),0.85,curAz());
+}
+function placeList(){
+  const sc=SC[state.scene];const list=(state.scene==='pati'?POIS:CURATED).filter(p=>sc.G.inside(p.la,p.lo));
+  const d=el('div',{class:'plist'},`<div class="kicker">Buscar lugar</div><input type="search" placeholder="Nome (ex.: Prefeitura, Cachoeirão)"><div class="items"></div>`);
+  const draw=q=>{const it=d.querySelector('.items');it.innerHTML='';const n=q.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+    list.filter(p=>!n||p.n.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().includes(n)).sort((a,b)=>(a.src==='osm')-(b.src==='osm')||a.n.localeCompare(b.n)).slice(0,80).forEach(p=>{
+      const r=el('div',{class:'it'},`<i style="background:${CAT[p.c][1]}"></i>${p.n}<small>${SHORT[p.c]}</small>`);r.onclick=()=>showPoi(p);it.appendChild(r)})};
+  d.querySelector('input').oninput=e=>draw(e.target.value);draw('');openSheet(d);
+}
+function renderDock(){
+  const D=$('#dock');D.innerHTML='';
+  if(state.scene==='regiao'){const b=el('button',{class:'bigbtn'},'Entrar no Vale do Pati 3D');b.onclick=()=>setScene('pati');D.appendChild(b)}
+  else{const b=el('button',{class:'bigbtn'},'<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg> Percorrer uma trilha');b.onclick=routePicker;D.appendChild(b)}
+}
+// controles
+function dolly(f){const t=controls.target,v=camera.position.clone().sub(t);const sc=SC[state.scene];const d=Math.max(controls.minDistance,Math.min(controls.maxDistance,v.length()*f));v.setLength(d);flyAnim={t0:performance.now(),from:[camera.position.clone(),t.clone()],to:[t.clone().add(v),t.clone()]}}
+function orbit(a){const t=controls.target,v=camera.position.clone().sub(t);v.applyAxisAngle(new THREE.Vector3(0,1,0),a);flyAnim={t0:performance.now(),from:[camera.position.clone(),t.clone()],to:[t.clone().add(v),t.clone()]}}
+$('#zIn').onclick=()=>{if(walk.r&&walk.cam!=='livre')setCam('livre');dolly(0.6)};$('#zOut').onclick=()=>{if(walk.r&&walk.cam!=='livre')setCam('livre');dolly(1.6)};
+$('#zRot').onclick=()=>{if(walk.r&&walk.cam!=='livre')setCam('livre');orbit(Math.PI/4)};
+$('#zHome').onclick=()=>{if(walk.r){setCam('seguir');return}setScene(state.scene)};
+$('#zHelp').onclick=()=>showTutorial();
+const TUT=[
+ ['<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="44" fill="#f3ebdd"/><path d="M28 60h64" stroke="#b4561f" stroke-width="4"/><path d="M28 60l10-8v16zM92 60l-10-8v16z" fill="#b4561f"/><circle cx="60" cy="60" r="10" fill="#2b2118"/></svg>','Girar a vista','Encoste <b>um dedo</b> no mapa e arraste para os lados para girar a paisagem.'],
+ ['<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="44" fill="#f3ebdd"/><circle cx="44" cy="70" r="8" fill="#2b2118"/><circle cx="76" cy="50" r="8" fill="#2b2118"/><path d="M38 78 l-10 10 M82 42 l10 -10" stroke="#b4561f" stroke-width="4"/></svg>','Aproximar e afastar','Use <b>dois dedos</b>: afaste para chegar perto e junte para ver de longe. Os botões <b>+</b> e <b>−</b> do lado direito fazem o mesmo.'],
+ ['<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="44" fill="#f3ebdd"/><circle cx="60" cy="52" r="10" fill="#e4572e" stroke="#fff" stroke-width="3"/><circle cx="60" cy="52" r="20" fill="none" stroke="#e4572e" stroke-width="2" opacity=".5"/></svg>','Tocar para descobrir','Toque num <b>nome</b> ou em <b>qualquer ponto</b> do relevo para ver a altitude, a pedra, a água e as fotos.'],
+ ['<svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="44" fill="#fc4c02"/><path d="M50 40 l30 20 l-30 20z" fill="#fff"/></svg>','Fazer a trilha','No Vale do Pati, aperte <b>▶ Percorrer uma trilha</b>. O app anda sozinho pelo caminho e mostra o que vem pela frente.']
+];
+let tutI=0;
+function showTutorial(){tutI=0;drawTut();$('#tut').classList.add('on')}
+function drawTut(){const t=TUT[tutI];$('#tut').innerHTML=`<div class="box"><div class="ill">${t[0]}</div><h3>${t[1]}</h3><p>${t[2]}</p><div class="dots">${TUT.map((_,i)=>`<i class="${i===tutI?'on':''}"></i>`).join('')}</div><button class="bigbtn" id="tutN">${tutI<TUT.length-1?'Próximo':'Começar'}</button><br><button class="skip" id="tutS">Pular</button></div>`;
+  $('#tutN').onclick=()=>{if(tutI<TUT.length-1){tutI++;drawTut()}else endTut()};$('#tutS').onclick=endTut}
+function endTut(){$('#tut').classList.remove('on');store.set('tutDone',1)}
+function maybeTutorial(){if(!store.get('tutDone',0))showTutorial()}
+$('#btnLayers').onclick=()=>{$('#panel').classList.toggle('on')};
+$('#btnFind').onclick=placeList;
+$('#compass').onclick=()=>{const t=controls.target,d=camera.position.distanceTo(t);const sc=SC[state.scene];flyTo(sc.ll(t),d/sc.S,0.9,0)};
+document.querySelectorAll('#sceneSeg button').forEach(b=>b.onclick=()=>{if(walk.r)stopWalk();setScene(b.dataset.s)});
+document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+function setMode(m){state.mode=m;if(m!=='geo')state.unit=null;document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.m===m));if(started)drawTex(SC[state.scene]);updateLegend()}
+$('#exag').oninput=e=>{const sc=SC[state.scene];const v=+e.target.value;const t=controls.target;const ll=sc.ll(t);state.exag[sc.key]=v;$('#exV').textContent=v+'×';applyHeights(sc);placeMarkers(sc);buildVectors(sc);sc.trackVer=-1;sc.photoVer=-1;sc.destVer=-1;const ny=sc.zY(sc.G.elev(ll[0],ll[1]));camera.position.y+=ny-t.y;t.y=ny;if(walk.r)buildWalkLines();needs=true};
+$('#lyRivers').onchange=e=>{state.rivers=e.target.checked;updateVectors()};
+$('#lyTrails').onchange=e=>{state.trails=e.target.checked;updateVectors()};
+$('#lyRoutes').onchange=e=>{state.routes=e.target.checked;updateVectors()};
+$('#lyPark').onchange=e=>{state.park=e.target.checked;updateVectors()};
+$('#catRows').innerHTML=['cidade','vila','apoio','abrigo','agua','mirante','geo'].map(c=>`<label class="row"><input type="checkbox" data-cat="${c}" checked><span class="sw" style="background:${CAT[c][1]};border:1px solid rgba(0,0,0,.25)"></span>${CAT[c][0]}</label>`).join('');
+document.querySelectorAll('[data-cat]').forEach(c=>c.onchange=e=>{state.cats[c.dataset.cat]=e.target.checked;needs=true});
+
+// ======================================================================
+// MODO PERCORRER (estilo Strava)
+// ======================================================================
+const walk={r:null,s:0,playing:false,speed:1,cam:'seguir',lines:[],head:null,lastEv:-1,toastT:0,hud:0,camPos:new THREE.Vector3(),camTgt:new THREE.Vector3()};
+const SPEEDS=[0.5,1,2,4,8], BASE=110; // m de trilha por segundo em 1×
+let walkerObj=null;
+function buildWalkLines(){
+  const sc=SC.pati,r=walk.r;for(const l of walk.lines){sc.scene.remove(l);l.geometry.dispose()}walk.lines=[];
+  const pos=[];const st=2;for(let i=0;i<r.n;i+=st){const v=sc.wTop(r.la[i],r.lo[i],4);pos.push(v.x,v.y,v.z)}
+  const g1=new LineGeometry();g1.setPositions(pos);const g2=new LineGeometry();g2.setPositions(pos);
+  const res=new THREE.Vector2(renderer.domElement.clientWidth,renderer.domElement.clientHeight);
+  const m1=new LineMaterial({color:0xffffff,linewidth:5,transparent:true,opacity:.9,resolution:res});
+  const m2=new LineMaterial({color:new THREE.Color(r.col).getHex(),linewidth:6.5,resolution:res});
+  const l1=new Line2(g1,m1),l2=new Line2(g2,m2);l1.renderOrder=2;l2.renderOrder=3;l1.computeLineDistances();
+  sc.scene.add(l1,l2);walk.lines=[l1,l2];walk.step=st;
+}
+function startWalk(id,s0){
+  if(!SC.pati){buildScene('pati').then(()=>startWalk(id,s0));return}
+  if(state.scene!=='pati'){setScene('pati',true)}
+  const r=PJ.routes.find(x=>x.id===id);walk.r=r;walk.s=s0||0;walk.lastEv=walk.s-1;walk.playing=false;
+  document.body.classList.add('walking');closeSheet();$('#panel').classList.remove('on');
+  state.route=null;updateVectors();buildWalkLines();
+  if(!walkerObj){walkerObj=new CSS2DObject(el('div',{id:'walker'}));}
+  SC.pati.scene.add(walkerObj);
+  $('#hTitle').innerHTML=`<span style="color:${r.col}">●</span> ${r.nm}`;
+  drawHudProfile();setCam('seguir');
+  const p=posAt(walk.s);walk.head=heading(walk.s);placeCam(p,walk.head,true);
+  updateWalk(true);setTimeout(()=>{resize();setPlaying(true)},350);
+}
+function stopWalk(){
+  setPlaying(false);const sc=SC.pati;for(const l of walk.lines)sc.scene.remove(l);walk.lines=[];if(walkerObj)sc.scene.remove(walkerObj);
+  walk.r=null;document.body.classList.remove('walking');controls.enabled=true;$('#toast').classList.remove('on');updateVectors();setTimeout(resize,50);
+}
+function posAt(s){const r=walk.r,f=Math.max(0,Math.min(r.n-1,s/10)),i=Math.floor(f),t=f-i,j=Math.min(r.n-1,i+1);const la=r.la[i]+(r.la[j]-r.la[i])*t,lo=r.lo[i]+(r.lo[j]-r.lo[i])*t;return SC.pati.w(la,lo,0)}
+function heading(s){const a=posAt(Math.max(0,s-40)),b=posAt(Math.min(walk.r.L,s+220));return Math.atan2(b.x-a.x,b.z-a.z)}
+function placeCam(p,h,instant){
+  const sc=SC.pati,S=sc.S;let cp,ct;
+  if(walk.cam==='seguir'){const back=700*S,up=300*S*Math.max(1,state.exag.pati*0.8);cp=new THREE.Vector3(p.x-Math.sin(h)*back,p.y+up,p.z-Math.cos(h)*back);ct=new THREE.Vector3(p.x+Math.sin(h)*320*S,p.y+40*S,p.z+Math.cos(h)*320*S);
+    const [la,lo]=sc.ll(cp);const floor=sc.zY(sc.G.top(la,lo))+90*S*state.exag.pati;if(cp.y<floor)cp.y=floor}
+  else if(walk.cam==='alto'){cp=new THREE.Vector3(p.x,p.y+3000*S,p.z+1100*S);ct=p.clone()}
+  else return;
+  if(instant){walk.camPos.copy(cp);walk.camTgt.copy(ct)}else{const k=1-Math.exp(-walk.dt*2.6);walk.camPos.lerp(cp,k);walk.camTgt.lerp(ct,k)}
+  camera.position.copy(walk.camPos);controls.target.copy(walk.camTgt);camera.lookAt(walk.camTgt);
+}
+function setCam(c){walk.cam=c;document.querySelectorAll('#camSeg button').forEach(b=>b.classList.toggle('on',b.dataset.c===c));controls.enabled=c==='livre';if(c!=='livre'&&walk.r){walk.camPos.copy(camera.position);walk.camTgt.copy(controls.target)}needs=true}
+document.querySelectorAll('#camSeg button').forEach(b=>b.onclick=()=>setCam(b.dataset.c));
+function setPlaying(v){walk.playing=v;$('#hPlay').innerHTML=v?'<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>':'<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>';if(v&&walk.s>=walk.r.L-1){walk.s=0;walk.lastEv=-1}}
+$('#hPlay').onclick=()=>setPlaying(!walk.playing);
+$('#hSpeed').onclick=()=>{const i=(SPEEDS.indexOf(walk.speed)+1)%SPEEDS.length;walk.speed=SPEEDS[i];$('#hSpeed').textContent=String(walk.speed).replace('.',',')+'×'};
+$('#hClose').onclick=stopWalk;
+function stepWalk(dt){
+  walk.dt=dt;const r=walk.r;
+  if(walk.playing){walk.s=Math.min(r.L,walk.s+BASE*walk.speed*dt);if(walk.s>=r.L)setPlaying(false)}
+  const p=posAt(walk.s);
+  const h=heading(walk.s);let dh=h-walk.head;while(dh>Math.PI)dh-=2*Math.PI;while(dh<-Math.PI)dh+=2*Math.PI;walk.head+=dh*(1-Math.exp(-dt*1.8));
+  if(walk.cam==='livre'){const prev=walk.prevP||p;const dlt=p.clone().sub(prev);camera.position.add(dlt);controls.target.add(dlt)}
+  else placeCam(p,walk.head,false);
+  walk.prevP=p;
+  walkerObj.position.copy(SC.pati.wTop(...lla(walk.s),6));
+  walk.lines[1].geometry.instanceCount=Math.max(0,Math.floor(walk.s/10/walk.step));
+  walk.hud+=dt;if(walk.hud>0.1||!walk.playing){walk.hud=0;updateWalk()}
+  needs=true;
+}
+function lla(s){const r=walk.r,i=idxAt(r,s);return[r.la[i],r.lo[i]]}
+// HUD
+let HP=null;
+function drawHudProfile(){
+  const r=walk.r,W=400,H=96,pt=6,pb=16,svg=$('#hprof');
+  const zmin=r.zmin-20,zmax=r.zmax+20,X=d=>d/r.L*W,Y=z=>pt+(1-(z-zmin)/(zmax-zmin))*(H-pt-pb);
+  let p='';const st=Math.max(1,Math.floor(r.n/300));for(let i=0;i<r.n;i+=st)p+=(p?'L':'M')+X(r.d[i]).toFixed(1)+','+Y(r.z[i]).toFixed(1);p+='L'+W+','+Y(r.z[r.n-1]).toFixed(1);
+  let band='';for(const q of r.geo)band+=`<rect x="${X(q[0])}" y="${H-pb+4}" width="${Math.max(1,X(q[1])-X(q[0]))}" height="6" fill="${GEO_COLORS[q[2]]||'#ccc'}"/>`;
+  let ev='';for(const e of r.ev){const x=X(e.d);ev+=e.t==='rio'?`<line x1="${x}" x2="${x}" y1="${H-pb}" y2="${H-pb-6}" stroke="#3a86ff" stroke-width="1.5"/>`:`<circle cx="${x}" cy="${H-pb-3}" r="2.6" fill="${CAT[e.c][1]}" stroke="#2b2118" stroke-width=".6"/>`}
+  svg.innerHTML=`<defs><clipPath id="hcl"><rect id="hclr" x="0" y="0" width="0" height="${H}"/></clipPath></defs>
+   <path d="${p}L${W},${H-pb}L0,${H-pb}Z" fill="#d9cdb9"/><path d="${p}L${W},${H-pb}L0,${H-pb}Z" fill="${r.col}" fill-opacity=".55" clip-path="url(#hcl)"/>
+   <path d="${p}" fill="none" stroke="${r.col}" stroke-width="1.6" vector-effect="non-scaling-stroke"/>${band}${ev}
+   <line id="hcur" y1="0" y2="${H-pb}" stroke="#fc4c02" stroke-width="2" vector-effect="non-scaling-stroke"/>
+`;
+  HP={X,W};
+}
+const hprof=$('#hprof');let scrub=false,wasPlaying=false;
+const seek=e=>{const b=hprof.getBoundingClientRect();walk.s=Math.max(0,Math.min(walk.r.L,(e.clientX-b.left)/b.width*walk.r.L));walk.lastEv=walk.s;if(walk.cam!=='livre'){const p=posAt(walk.s);walk.head=heading(walk.s);placeCam(p,walk.head,true)}else{const p=posAt(walk.s);const dlt=p.clone().sub(walk.prevP||p);camera.position.add(dlt);controls.target.add(dlt);walk.prevP=p}needs=true};
+hprof.addEventListener('pointerdown',e=>{scrub=true;wasPlaying=walk.playing;setPlaying(false);hprof.setPointerCapture(e.pointerId);seek(e)});
+hprof.addEventListener('pointermove',e=>{if(scrub)seek(e)});
+hprof.addEventListener('pointerup',e=>{scrub=false;if(wasPlaying)setPlaying(true)});
+function updateWalk(){
+  const r=walk.r,s=walk.s,i=idxAt(r,s);
+  $('#hD').textContent=`${fmt(s/1000,1)} / ${fmt(r.km,1)} km`;$('#hZ').textContent=Math.round(r.z[i])+' m';
+  const g=Math.round(r.g[i]*100),ag=Math.abs(g);$('#hG').textContent=ag<3?'Plano':(g>0?'Sobe ':'Desce ')+(ag<8?'leve':ag<15?'forte':'muito');$('#hG').title=g+'%';$('#hT').textContent=fmtT(r.t[i]);
+  if(HP){$('#hclr').setAttribute('width',HP.X(s));const c=$('#hcur');c.setAttribute('x1',HP.X(s));c.setAttribute('x2',HP.X(s))}
+  const gr=geoRunAt(r,s),u=unitBySigla(gr[2]);
+  $('#hNow').innerHTML=`<div class="k">Pedra embaixo dos pés</div>${u?`<b class="sw" style="background:${GEO_COLORS[u.sigla]}"></b><b>${PLAIN[u.sigla]||u.nome}</b>`:'—'}<div class="note" style="font-size:.72rem">${vegZone(r.z[i])} · já subiu ${fmt(r.up[i])} m</div>`;
+  const nx=r.ev.find(e=>e.d>s+5);
+  $('#hNext').innerHTML=nx?`<div class="k">Próximo</div><b>${nx.n}</b><div class="note" style="font-size:.72rem">em ${nx.d-s<1000?Math.round((nx.d-s)/10)*10+' m':fmt((nx.d-s)/1000,1)+' km'} · ${nx.t==='rio'?'travessia de rio':SHORT[nx.c]}</div>`:`<div class="k">Chegada</div><b>Fim do percurso</b>`;
+  // eventos atravessados
+  for(const e of r.ev){if(e.d>walk.lastEv&&e.d<=s){toastEv(e)}}
+  walk.lastEv=s;
+  if(walk.toastT&&performance.now()>walk.toastT){$('#toast').classList.remove('on');walk.toastT=0}
+}
+function toastEv(e){
+  const p=e.t==='poi'?poiByName(e.n):null;const u=unitBySigla(geoRunAt(walk.r,e.d)[2]);
+  const T=$('#toast');
+  T.innerHTML=e.t==='rio'?`<div class="k">Travessia de rio</div><b>${e.n}</b><div style="margin-top:3px">Água cor de chá dos gerais. Na chuva, atenção à cabeça d'água.</div>`
+   :`<div style="display:flex;gap:10px">${POI_PH[e.n]?`<div class="toastph" data-bg="${POI_PH[e.n]}"></div>`:''}<div><div class="k">${CAT[e.c][0]}</div><b>${e.n}</b><div style="margin-top:3px">${p?p.d:''}</div>${u?`<div style="margin-top:4px;opacity:.85;font-size:.76rem">Pedra aqui: ${PLAIN[u.sigla]||u.nome}</div>`:''}<div style="margin-top:4px;font-size:.72rem;opacity:.8">Toque para ver mais</div></div></div>`;hydrate(T);
+  if(p){T.onclick=()=>{setPlaying(false);showPoi(p)}}else T.onclick=null;
+  hydrate(T);T.classList.add('on');walk.toastT=performance.now()+Math.max(2500,5000/Math.sqrt(walk.speed));
+}
+
+// ======================================================================
+// ABAS
+// ======================================================================
+function route(){
+  const t=(location.hash||'#inicio').slice(1);const id=['inicio','mapa','trilha','guia','aprender','seguranca','album'].includes(t)?t:'inicio';
+  document.querySelectorAll('section.page').forEach(s=>s.classList.toggle('on',s.id===id));
+  document.querySelectorAll('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===id||(id==='seguranca'&&a.dataset.t==='trilha')||(id==='aprender'&&a.dataset.t==='inicio')));
+  if(id!=='mapa'&&walk.r)setPlaying(false);
+  if(id==='mapa'){setTimeout(()=>{initMap();resize();needs=true;maybeTutorial()},20)}else window.scrollTo(0,0);hideTip();hydrate(document.getElementById(id));if(id==='album'&&typeof drawAlbum==='function')drawAlbum();
+}
+addEventListener('hashchange',route);
+
+// ---------- GEOLOGIA ----------
+$('#timeline').innerHTML=TIMELINE.map(s=>`<div class="card"><div class="age">${s.age}</div><h3>${s.t}</h3><div style="font-size:.9rem">${s.d}</div></div>`).join('');
+$('#structs').innerHTML=STRUCTS.map(s=>`<div class="card" style="margin:0"><div class="stph" data-bg="${s.ph}"></div><h3>${s.t}</h3><div style="font-size:.9rem">${s.d}</div><div class="note" style="margin-top:6px"><b>Onde:</b> ${s.w}</div></div>`).join('');
+const ul=$('#unitList');
+for(const u of RJ.geo){const inf=unitGroup(u);const d=el('div',{class:'unit'},`<b class="sw" style="background:${GEO_COLORS[u.sigla]||'#ccc'}"></b><div><div class="t">${u.nome}</div><div class="note">${inf.g} · ${fmtAge(u.imin,u.imax)} · <b>${fmt(u.area)} km²</b></div><div style="font-size:.82rem">${u.lito}</div></div>`);
+  d.onclick=()=>{state.unit=u.sigla;location.hash='mapa';setTimeout(()=>{if(state.scene!=='regiao')setScene('regiao',true);setMode('geo')},80)};ul.appendChild(d)}
+(function(){
+  const lat=-12.785,lo0=-41.60,lo1=-41.12,n=480,W=900,H=260,pl=44,pr=10,pt=26,pb=34;
+  const pts=[];for(let k=0;k<=n;k++){const lon=lo0+(lo1-lo0)*k/n;pts.push({lon,z:elevAt(lat,lon),g:geoAt(lat,lon)})}
+  const km=hav([lat,lo0],[lat,lo1])/1000,zmin=200,zmax=1700,X=k=>pl+k/n*(W-pl-pr),Y=z=>pt+(1-(z-zmin)/(zmax-zmin))*(H-pt-pb);
+  let s=`<svg viewBox="0 0 ${W} ${H}" class="prof" role="img" aria-label="Corte topográfico com geologia de superfície"><defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#000" stroke-opacity=".08" stroke-width="3"/></pattern></defs>`;
+  for(let z=400;z<=1600;z+=400)s+=`<line class="ax" x1="${pl}" x2="${W-pr}" y1="${Y(z)}" y2="${Y(z)}" stroke-dasharray="2 3"/><text x="${pl-5}" y="${Y(z)+3}" text-anchor="end">${z} m</text>`;
+  for(let k=0;k<n;k++){const a=pts[k],b=pts[k+1];s+=`<polygon points="${X(k)},${Y(a.z)} ${X(k+1)+.6},${Y(b.z)} ${X(k+1)+.6},${Y(zmin)} ${X(k)},${Y(zmin)}" fill="${a.g?GEO_COLORS[a.g.sigla]||'#ddd':'#ddd'}"/>`}
+  s+=`<rect x="${pl}" y="${pt}" width="${W-pl-pr}" height="${H-pt-pb}" fill="url(#hatch)"/><path d="${pts.map((p,k)=>(k?'L':'M')+X(k).toFixed(1)+','+Y(p.z).toFixed(1)).join('')}" fill="none" stroke="#2b2118" stroke-width="1.6"/>`;
+  for(const [t,lo] of [['Guiné',-41.540],['Mirante',-41.4785],['Rio Pati',-41.4560],['Prefeitura',-41.4388],['Ladeira do Império',-41.401],['Andaraí',-41.3328],['Faixa do Salitre',-41.17]]){const k=(lo-lo0)/(lo1-lo0)*n,z=elevAt(lat,lo);s+=`<line x1="${X(k)}" x2="${X(k)}" y1="${Y(z)-4}" y2="${Y(z)-16}" stroke="#2b2118"/><text x="${X(k)}" y="${Y(z)-19}" text-anchor="middle" style="fill:#2b2118;font-weight:600">${t}</text>`}
+  s+=`<text x="${pl}" y="${H-10}">O</text><text x="${W-pr}" y="${H-10}" text-anchor="end">L · ${km.toFixed(0)} km</text></svg>`;
+  const box=$('#xsec');box.innerHTML='<div style="overflow-x:auto"><div style="min-width:760px">'+s+'</div></div><div class="note">← arraste para os lados →</div>';
+  const used=[...new Set(pts.filter(p=>p.g).map(p=>p.g.sigla))];
+  box.insertAdjacentHTML('beforeend','<div class="chips">'+used.map(sg=>{const u=unitBySigla(sg);return `<span class="tag"><b style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${GEO_COLORS[sg]};margin-right:4px"></b>${u.nome.replace('Litofácies ','')}</span>`}).join('')+'</div>');
+  const svg=box.querySelector('svg');svg.addEventListener('pointermove',e=>{const b=svg.getBoundingClientRect();const k=Math.round(((e.clientX-b.left)/b.width*W-pl)/(W-pl-pr)*n);const p=pts[Math.max(0,Math.min(n,k))];showTip(e.clientX,e.clientY,`<b>${Math.round(p.z)} m</b> · ${p.g?p.g.nome.replace('Litofácies ',''):'—'}`)});svg.addEventListener('pointerleave',hideTip);
+})();
+
+// ---------- FOTOS ----------
+const PHC={};
+function phURL(k){if(!PHC[k])PHC[k]=fetch('img/f/'+k+'.jpg').then(r=>{if(!r.ok)throw new Error(k);return r.blob()}).then(b=>URL.createObjectURL(b));return PHC[k]}
+const phIO=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){phIO.unobserve(e.target);phURL(e.target.dataset.bg).then(u=>e.target.style.backgroundImage=`url("${u}")`).catch(()=>{})}},{rootMargin:'400px'});
+function hydrate(root=document){root.querySelectorAll('[data-bg]').forEach(n=>{if(!n.dataset.h&&PH[n.dataset.bg]){n.dataset.h=1;phIO.observe(n)}})}
+const credit=k=>!PH[k]?'':PH[k].src==='iNaturalist'?`Foto: ${PH[k].author} · iNaturalist`:`Foto: ${PH[k].author} · ${PH[k].lic} · Wikimedia Commons`;
+
+// ---------- GUIA ----------
+const RK={meta:'Pedra',sed:'Pedra',ign:'Pedra',solo:'Pedra',min:'Mineral'};
+const GUIDE=[];
+SPECIES.forEach((s,i)=>GUIDE.push({id:'sp'+i,cat:s.g==='fa'?'animais':'plantas',ph:s.ph,n:s.n,sub:s.s,where:s.a,simple:s.d,st:s.st}));
+ROCKS.forEach(r=>GUIDE.push({id:'rk_'+r.id,cat:'pedras',ph:ROCK_PH[r.id],n:r.n,sub:r.s,where:r.w.join(' · '),simple:ROCK_SIMPLE[r.id],rock:r}));
+STRUCTS.forEach((s,i)=>GUIDE.push({id:'st'+i,cat:'pedras',ph:s.ph,n:s.t,sub:'marca na rocha',where:s.w,simple:s.d}));
+CURATED.filter(p=>POI_PH[p.n]).forEach(p=>GUIDE.push({id:'pl_'+p.n,cat:'lugares',ph:POI_PH[p.n],n:p.n.replace(' (aprox.)',''),sub:{cidade:'cidade',vila:'vila',mirante:'mirante',morro:'morro',agua:'água',geo:'lugar',apoio:'casa de apoio'}[p.c],where:'',simple:p.d,poi:p}));
+const GCAT=[['tudo','Tudo'],['animais','Animais'],['plantas','Plantas'],['pedras','Pedras'],['lugares','Lugares'],['vistos','✓ Já vi']];
+let gcat='tudo';const gseen=store.get('guia',{});
+const norm=s=>(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+function drawGuide(){
+  $('#gFilter').innerHTML=GCAT.map(([k,t])=>`<button class="chip ${gcat===k?'on':''}" data-k="${k}">${t}</button>`).join('');
+  $('#gFilter').querySelectorAll('button').forEach(b=>b.onclick=()=>{gcat=b.dataset.k;drawGuide()});
+  const q=norm($('#gSearch').value);const g=$('#gGrid');g.innerHTML='';
+  for(const it of GUIDE){
+    if(gcat==='vistos'?!gseen[it.id]?.v:(gcat!=='tudo'&&it.cat!==gcat))continue;
+    if(q&&!norm(it.n+' '+it.sub+' '+it.simple+' '+it.where).includes(q))continue;
+    const b=el('button',{class:'gi'},`<div class="im" data-bg="${it.ph||''}"></div>${gseen[it.id]?.v?'<span class="seenb">✓ vi</span>':''}<span class="tagc">${{animais:'Animal',plantas:'Planta',pedras:'Pedra',lugares:'Lugar'}[it.cat]}</span><div class="tx"><b>${it.n}</b><small>${it.where?it.where.split(' · ')[0]:it.sub}</small></div>`);
+    b.onclick=()=>openGuide(it.id);g.appendChild(b)}
+  if(!g.children.length)g.innerHTML='<p class="note">Nada encontrado.</p>';
+  hydrate(g);
+}
+$('#gSearch').oninput=drawGuide;
+function openGuide(id){
+  const it=GUIDE.find(x=>x.id===id);if(!it)return;const M=$('#gModal');
+  const r=it.rock;
+  M.innerHTML=`<div class="box"><button class="x" aria-label="Fechar">×</button><div class="big" data-bg="${it.ph||''}"></div><div class="in">
+    <div class="kicker">${{animais:'Animal',plantas:'Planta',pedras:'Pedra',lugares:'Lugar'}[it.cat]}${it.st?' · '+it.st:''}</div><h2 style="margin:4px 0 0">${it.n}</h2><div class="note"><i>${it.sub||''}</i></div>
+    <p class="simple">${it.simple||''}</p>
+    ${it.where?`<p><b>Onde ver:</b> ${it.where}</p>`:''}
+    ${r?`<p><b>Como reconhecer:</b></p><ul class="tight">${r.r.map(x=>`<li>${x}</li>`).join('')}</ul><p>${r.f}</p><p class="note"><b>Unidades no mapa:</b> ${r.u.join(', ')}</p>`:''}
+    ${it.poi?`<button class="bigbtn" id="gGo" style="margin:6px 0">Ver no mapa 3D</button>`:''}
+    <div class="seenrow"><button class="${gseen[it.id]?.v?'on':''}" id="gSeen">${gseen[it.id]?.v?'✓ Já vi':'Já vi'}</button><input id="gNote" placeholder="Onde? (ex.: dia 2)" value="${(gseen[it.id]?.t||'').replace(/"/g,'&quot;')}"></div>
+    <div class="credit">${credit(it.ph)}</div></div></div>`;
+  M.classList.add('on');hydrate(M);
+  const close=()=>{M.classList.remove('on');drawGuide()};
+  M.querySelector('.x').onclick=close;M.onclick=e=>{if(e.target===M)close()};
+  M.querySelector('#gSeen').onclick=e=>{gseen[it.id]={...(gseen[it.id]||{}),v:!gseen[it.id]?.v};store.set('guia',gseen);e.target.classList.toggle('on',gseen[it.id].v);e.target.textContent=gseen[it.id].v?'✓ Já vi':'Já vi'};
+  M.querySelector('#gNote').oninput=e=>{gseen[it.id]={...(gseen[it.id]||{}),t:e.target.value};store.set('guia',gseen)};
+  if(it.poi)M.querySelector('#gGo').onclick=()=>{M.classList.remove('on');location.hash='mapa';setTimeout(()=>{const inP=inP(it.poi.la,it.poi.lo);const p=(inP?POIS.find(q=>q.n===it.poi.n):null)||it.poi;if(inP&&state.scene!=='pati')setScene('pati',true);setTimeout(()=>showPoi(p),inP&&!SC.pati?400:60)},150)};
+}
+drawGuide();
+
+// ---------- ÁGUAS ----------
+(function(){
+  const W=640,H=240;
+  let s=`<svg viewBox="0 0 ${W} ${H}" class="prof" role="img" aria-label="Diagrama do ciclo da água na Chapada"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfeaf2"/><stop offset="1" stop-color="#f6f1e7"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#sky)"/>
+   <path d="M20 40 q20 -18 45 -6 q18 -16 40 2 q20 -2 18 16 h-103 q-12 -6 0 -12z" fill="#fff" stroke="#b9c7d1"/>${[30,45,60,75,90].map(x=>`<line x1="${x}" y1="58" x2="${x-6}" y2="76" stroke="#5d8fc2" stroke-width="1.5"/>`).join('')}
+   <path d="M0 240 L0 205 L60 200 L95 170 L130 110 L215 102 L285 104 L300 98 L380 96 L392 100 L400 170 L445 172 L470 160 L520 175 L560 200 L640 205 L640 240Z" fill="#d6b07a"/><path d="M0 205 L60 200 L95 170 L130 110 L215 102 L285 104 L300 98 L380 96 L392 100" fill="none" stroke="#8a6a46" stroke-width="2"/>
+   <path d="M0 240 L0 205 L60 200 L80 185 L60 240Z" fill="#a8c1cf"/>${[0,1,2,3,4].map(i=>`<path d="M${80+i*5} 240 L${140+i*55} ${130+i*4}" stroke="#8a6a46" stroke-opacity=".5" stroke-width="1"/>`).join('')}
+   <path d="M170 106 q10 -6 22 0 q12 -6 22 0" fill="none" stroke="#6b8c4a" stroke-width="3"/><path d="M245 110 l-8 40 l10 30 l-6 40" stroke="#2f6fb0" stroke-width="2" stroke-dasharray="4 3" fill="none"/><path d="M330 120 q10 6 20 0" stroke="#2f6fb0" stroke-width="2" fill="none"/>
+   <path d="M392 100 L396 170" stroke="#5aa0e0" stroke-width="5"/><path d="M400 172 Q450 178 470 165 Q520 180 560 200 Q600 210 640 210" fill="none" stroke="#7a4a22" stroke-width="5"/><ellipse cx="575" cy="205" rx="40" ry="6" fill="#5b9bb8" opacity=".8"/><path d="M60 222 q40 -6 80 4" stroke="#2f6fb0" stroke-width="3" fill="none"/>
+   <text x="300" y="90" style="fill:#5b4a3a;font-size:11px">gerais (~1.000–1.400 m)</text><text x="560" y="232" style="fill:#5b4a3a;font-size:11px">planície (~350 m)</text>`;
+  CYCLE.forEach((c,i)=>s+=`<g class="hot" data-i="${i}" transform="translate(${c.x},${c.y})"><circle r="11"/><text>${i+1}</text></g>`);
+  $('#cycle').innerHTML='<div style="overflow-x:auto"><div style="min-width:580px">'+s+'</svg></div></div>';
+  const set=i=>{$('#cycleTxt').innerHTML=`<b>${i+1}. ${CYCLE[i].t}</b><br>${CYCLE[i].d}`;document.querySelectorAll('#cycle .hot').forEach(h=>h.classList.toggle('on',+h.dataset.i===i))};
+  document.querySelectorAll('#cycle .hot').forEach(h=>h.onclick=()=>set(+h.dataset.i));set(0);
+  const aq=[['Fissural (metarenitos)','Poroso/Fissural','Água nas fraturas dos metarenitos e quartzitos. É o aquífero das serras e dos gerais, que alimenta as nascentes e os rios do Pati. Água leve, ácida e de boa qualidade.'],
+   ['Cárstico (calcários)','Carbonatos-Metacarbonatos','Na Formação Salitre, a leste da serra (Itaetê, Poço Encantado) e a noroeste (Iraquara, Irecê), a água abre cavernas e rios subterrâneos. Parte da recarga vem da água que desce dos metarenitos da Chapada.'],
+   ['Poroso (coberturas e aluviões)','Formações cenozóicas','Areias, cascalhos e crostas lateríticas recentes nos planaltos e nas várzeas. São aquíferos rasos, usados por cacimbas e poços rasos.']];
+  $('#aquifers').innerHTML=aq.map(a=>`<div class="card" style="margin:0"><div style="height:8px;border-radius:4px;background:${HYD_COLORS[a[1]]};margin-bottom:10px"></div><h3>${a[0]}</h3><div style="font-size:.9rem">${a[2]}</div></div>`).join('');
+  const tot={};for(const u of RJ.hyd)tot[u.dom]=(tot[u.dom]||0)+u.area;const sum=Object.values(tot).reduce((a,b)=>a+b,0);
+  $('#hydroBars').innerHTML=Object.entries(tot).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="b"><span class="l">${k}</span><span class="t"><i style="width:${v/sum*100}%;background:${HYD_COLORS[k]||'#ccc'}"></i></span><em>${Math.round(v/sum*100)}%</em></div>`).join('')+`<div class="note">Retângulo de ${fmt(sum)} km² que envolve o Parque Nacional</div>`;
+})();
+
+// ---------- AMBIENTES ----------
+(function(){
+  const bands=[[0,500,'Abaixo de 500 m','Caatinga baixa, planícies','#7d8c4b'],[500,900,'500 a 900 m','Caatinga e transições','#b4a35f'],[900,1200,'900 a 1.200 m','Campo rupestre, gerais, cerrado','#c08d5c'],[1200,9999,'Acima de 1.200 m','Campo rupestre de altitude','#9f7c68']];
+  const cnt=bands.map(()=>0);let n=0;const m=RJ.meta;
+  for(let j=0;j<m.NY;j+=2)for(let i=0;i<m.NX;i+=2){const lon=m.W+(m.E-m.W)*i/(m.NX-1),lat=m.N-(m.N-m.S)*j/(m.NY-1);if(!inPolys([lon,lat],RJ.park))continue;const z=GR.d[j*m.NX+i];n++;for(let k=0;k<bands.length;k++)if(z>=bands[k][0]&&z<bands[k][1]){cnt[k]++;break}}
+  $('#bandBars').innerHTML=bands.map((b,k)=>`<div class="b"><span class="l">${b[2]}</span><span class="t"><i style="width:${cnt[k]/n*100}%;background:${b[4]}"></i></span><em>${Math.round(cnt[k]/n*100)}%</em></div><div class="note" style="margin:-3px 0 6px 128px">${b[3]}</div>`).join('');
+  $('#envs').innerHTML=ENVS.map(e=>`<div class="card" style="margin:0"><div class="envph" data-bg="${e.ph}"></div><h3>${e.t}</h3><div style="font-size:.92rem">${e.d}</div><div class="credit">${credit(e.ph)}</div></div>`).join('');
+})();
+
+// ---------- TRILHAS ----------
+const ROUTE_PH={guine:'pati_vista',capao:'capao',aleixos:'e_gerais',castelo:'castelo',cachoeirao:'cachoeirao',andarai:'andarai',travessia:'pati_cachoeira'};
+function level(r){const e=r.km+r.up[r.n-1]/100;return e<7?['Leve','lv1']:e<13?['Moderada','lv2']:e<22?['Pesada','lv3']:['Muito pesada','lv4']}
+function plainUp(m){return `${fmt(m)} m de subida, como ${fmt(Math.round(m/3))} andares de prédio`}
+(function(){
+  const box=$('#routeCards');const order=['travessia','guine','castelo','cachoeirao','andarai','aleixos','capao'];
+  for(const id of order){const r=PJ.routes.find(x=>x.id===id);const lv=level(r);
+    const c=el('div',{class:'tcard'},`<div class="ph" data-bg="${ROUTE_PH[r.id]}"><span class="lvl ${lv[1]}">● ${lv[0]}</span></div><div class="bd">
+      <h3><span style="color:${r.col}">●</span> ${r.nm}</h3><div style="font-size:.95rem">${r.desc}</div>
+      <div class="facts"><div><b>${fmt(r.km,1)} km</b>de caminhada</div><div><b>${fmtT(r.t[r.n-1])}</b>andando*</div><div><b>↑ ${fmt(r.up[r.n-1])} m</b>de subida</div></div>
+      <div class="note">${plainUp(r.up[r.n-1])}. Passa por ${r.ev.filter(e=>e.t==='rio').length} rios e riachos.</div>
+      <div class="tbtns"><button class="bigbtn"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg> Ver em 3D</button><button class="btn2">Subidas e descidas</button></div>
+      <div class="pbox" style="display:none;margin-top:10px"></div></div>`);
+    c.querySelector('.bigbtn').onclick=()=>{location.hash='mapa';setTimeout(()=>startWalk(r.id,0),300)};
+    c.querySelector('.btn2').onclick=e=>{const pb=c.querySelector('.pbox');if(!pb.children.length){pb.appendChild(profileSVG(r));const evs=r.ev.filter(e=>e.t==='poi'&&['apoio','agua','mirante','geo'].includes(e.c)).slice(0,10);if(evs.length)pb.appendChild(el('div',{class:'note',style:'margin-top:6px'},'<b>No caminho:</b> '+evs.map(e=>`${e.n} (km ${fmt(e.d/1000,1)})`).join(' · ')));pb.appendChild(el('div',{class:'note'},'Arraste o dedo sobre o gráfico. A faixa colorida embaixo mostra o tipo de pedra.'))}pb.style.display=pb.style.display==='none'?'':'none';e.target.textContent=pb.style.display==='none'?'Subidas e descidas':'Esconder gráfico'};
+    box.appendChild(c)}
+  box.appendChild(el('p',{class:'note'},'* Tempo andando, estimado pela fórmula de Tobler com mochila, sem contar paradas. Os traçados seguem as trilhas do OpenStreetMap. Não use o app para navegar: vá com guia credenciado.'));
+  $('#alongList').innerHTML=ALONG.map(a=>`<li>${a}</li>`).join('');
+})();
+
+$('#btnFontes').onclick=()=>{
+  location.hash='mapa';
+  setTimeout(()=>openSheet(`<div class="kicker">Dados e fontes</div><h3>De onde vem cada coisa</h3>
+  <p style="font-size:.88rem"><b>Recorte:</b> o limite do Parque Nacional (OpenStreetMap) com uma faixa de ~6 km em volta, para incluir as cidades de acesso. <b>Relevo:</b> modelo Copernicus GLO-30, a 100 m na Chapada e a 30 m (resolução máxima) no Pati. Ele mede a altura do topo da vegetação, então matas aparecem alguns metros mais altas. <b>Imagem:</b> mosaico Sentinel-2 sem nuvens, na resolução máxima disponível (cerca de 10 m por pixel no Pati). <b>Trilhas, rios e lugares do Pati:</b> OpenStreetMap; os percursos foram roteados pela rede de trilhas mapeada. <b>Geologia e aquíferos:</b> Serviço Geológico do Brasil, em escala regional (os contatos podem errar centenas de metros). Material educativo: não use para navegar.</p>
+  <ul class="tight" style="font-size:.84rem">${SOURCES.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a></li>`).join('')}</ul><h4 style="margin:14px 0 6px">Créditos das fotos</h4><p class="note">As fotos são de autores do Wikimedia Commons e do iNaturalist, sob licenças Creative Commons ou domínio público. Algumas são CC BY-NC (uso não comercial).</p><ul class="tight" style="font-size:.76rem">${Object.entries(PH).map(([k,v])=>`<li><a href="${v.url}" target="_blank" rel="noopener">${v.title}</a> · ${v.author} · ${v.lic}</li>`).join('')}</ul>`),200);
+};
+// ======================================================================
+// GPS, CAMINHO GRAVADO, FOTOS E ÁLBUM (versão instalável)
+// ======================================================================
+const DB=(()=>{let p;
+  const open=()=>p||(p=new Promise((res,rej)=>{const r=indexedDB.open('chapada-pati',1);r.onupgradeneeded=()=>{const d=r.result;d.createObjectStore('photos',{keyPath:'id'});d.createObjectStore('tracks',{keyPath:'day'})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}));
+  const tx=async(store,mode,fn)=>{const d=await open();return new Promise((res,rej)=>{const t=d.transaction(store,mode),req=fn(t.objectStore(store));t.oncomplete=()=>res(req.result);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)})};
+  return{put:(s,v)=>tx(s,'readwrite',o=>o.put(v)),del:(s,k)=>tx(s,'readwrite',o=>o.delete(k)),all:s=>tx(s,'readonly',o=>o.getAll()),clear:s=>tx(s,'readwrite',o=>o.clear())};
+})();
+const dayKey=t=>{const d=new Date(t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmtDay=k=>{const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})};
+const fmtHour=t=>new Date(t).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+const CARD=b=>['N','NE','L','SE','S','SO','O','NO'][Math.round(((b%360)+360)%360/45)%8];
+function bearing(a,b){const t=Math.PI/180,y=Math.sin((b[1]-a[1])*t)*Math.cos(b[0]*t),x=Math.cos(a[0]*t)*Math.sin(b[0]*t)-Math.sin(a[0]*t)*Math.cos(b[0]*t)*Math.cos((b[1]-a[1])*t);return(Math.atan2(y,x)/t+360)%360}
+function distKm(m){return m<1000?Math.round(m)+' m':fmt(m/1000,1)+' km'}
+const placeAt=(lat,lon)=>{let best=null,bd=1e9;for(const p of [...POIS,...CURATED]){const d=hav([lat,lon],[p.la,p.lo]);if(d<bd){bd=d;best=p}}return best?{n:best.n,d:bd}:null};
+
+// ---------- estado ----------
+const gps={on:false,fix:null,watch:null,follow:false,dest:null,rec:store.get('rec',0)===1,wake:null};
+let TRACKS={};      // day -> {day, pts:[[t,lat,lon,alt,acc]]}
+let PHOTOS=[];      // metadados (sem blobs pesados na memória: blob fica no objeto, URL criada sob demanda)
+let trackVer=0,photoVer=0,destVer=0;
+async function loadStore(){
+  try{for(const t of await DB.all('tracks'))TRACKS[t.day]=t;PHOTOS=(await DB.all('photos')).sort((a,b)=>a.t-b.t)}
+  catch(e){$('#albumWarn').style.display='block';$('#albumWarn').textContent='Não foi possível abrir o armazenamento do celular: '+e.message}
+  trackVer++;photoVer++;drawAlbum();updateGpsChip();
+}
+
+// ---------- GPS ----------
+function startGps(){
+  if(!('geolocation' in navigator)){alert('Este aparelho não oferece GPS ao navegador.');return}
+  if(gps.watch!==null)return;
+  gps.on=true;updateGpsChip('Procurando sinal de GPS…');
+  gps.watch=navigator.geolocation.watchPosition(onFix,err=>{
+    updateGpsChip(err.code===1?'Permissão de localização negada. Libere nos ajustes do navegador.':'GPS sem sinal. Vá para um lugar aberto.');
+    if(err.code===1){stopGps()}
+  },{enableHighAccuracy:true,maximumAge:5000,timeout:30000});
+  $('#zGps').classList.add('on');
+}
+function stopGps(){if(gps.watch!==null)navigator.geolocation.clearWatch(gps.watch);gps.watch=null;gps.on=false;gps.follow=false;$('#zGps').classList.remove('on','follow');updateGpsChip()}
+function onFix(p){
+  const c=p.coords;const f={t:p.timestamp||Date.now(),lat:c.latitude,lon:c.longitude,alt:c.altitude,acc:c.accuracy,head:c.heading,speed:c.speed};
+  gps.fix=f;
+  if(gps.rec&&f.acc<=60){
+    const k=dayKey(f.t);const tr=TRACKS[k]||(TRACKS[k]={day:k,pts:[]});const last=tr.pts[tr.pts.length-1];
+    if(!last||hav([last[1],last[2]],[f.lat,f.lon])>=8||f.t-last[0]>120000){
+      tr.pts.push([f.t,+f.lat.toFixed(6),+f.lon.toFixed(6),f.alt==null?null:Math.round(f.alt),Math.round(f.acc)]);
+      if(tr.pts.length%5===0||!last){DB.put('tracks',tr).catch(()=>{});trackVer++}
+    }
+  }
+  if(gps.follow&&started){const sc=SC[state.scene];if(sc&&sc.G.inside(f.lat,f.lon)){const tg=sc.w(f.lat,f.lon);const d=tg.clone().sub(controls.target);controls.target.add(d);camera.position.add(d)}}
+  needs=true;updateGpsChip();
+}
+function myElev(f){return elevAt(f.lat,f.lon)}
+function nearestTrail(lat,lon){let bd=1e9;for(const t of PJ.trails)for(const q of t.p){const d=hav(q,[lat,lon]);if(d<bd)bd=d}for(const r of PJ.routes)for(const q of r.p){const d=hav(q,[lat,lon]);if(d<bd)bd=d}return bd}
+function trackStats(tr){let km=0,up=0,prev=null,prevZ=null;for(const p of tr.pts){if(prev)km+=hav([prev[1],prev[2]],[p[1],p[2]])/1000;const z=elevAt(p[1],p[2]);if(prevZ!==null&&z-prevZ>0)up+=z-prevZ;prevZ=z;prev=p}
+  const h=tr.pts.length>1?(tr.pts[tr.pts.length-1][0]-tr.pts[0][0])/3600000:0;return{km,up,h}}
+function updateGpsChip(msg){
+  const C=$('#gpsChip');if(!C)return;
+  if(!gps.on&&!gps.rec){C.style.display='none';return}
+  C.style.display='flex';
+  if(msg){C.innerHTML=`<span class="dot"></span><span>${msg}</span>`;return}
+  const f=gps.fix;let h='';
+  if(gps.rec)h+=`<span class="recdot"></span>`;
+  else h+=`<span class="dot ${f?'ok':''}"></span>`;
+  if(!f){h+=`<span>${gps.on?'Procurando GPS…':'Gravação pausada até o GPS voltar'}</span>`}
+  else{
+    h+=`<span><b>${Math.round(myElev(f))} m</b> · ±${Math.round(f.acc)} m`;
+    if(gps.rec){const tr=TRACKS[dayKey(Date.now())];if(tr)h+=` · hoje ${fmt(trackStats(tr).km,1)} km`}
+    h+='</span>';
+    if(gps.dest){const b=bearing([f.lat,f.lon],[gps.dest.la,gps.dest.lo]),d=hav([f.lat,f.lon],[gps.dest.la,gps.dest.lo]);h+=`<span class="dest"><i style="transform:rotate(${b}deg)">↑</i>${gps.dest.n.split(' (')[0]} ${distKm(d)} ${CARD(b)}</span>`}
+  }
+  C.innerHTML=h;
+}
+function centerOnMe(){
+  const f=gps.fix;if(!f)return;
+  const key=inP(f.lat,f.lon)?'pati':'regiao';
+  const go=()=>{flyTo([f.lat,f.lon],key==='pati'?1800:9000,0.85,curAz())};
+  if(state.scene!==key)setScene(key,true);
+  setTimeout(go,SC[key]?60:1500);
+}
+$('#zGps').onclick=()=>{
+  if(!gps.on){startGps();gps.follow=true;$('#zGps').classList.add('follow');const t=setInterval(()=>{if(gps.fix){clearInterval(t);centerOnMe()}if(!gps.on)clearInterval(t)},500);return}
+  if(!gps.follow){gps.follow=true;$('#zGps').classList.add('follow');centerOnMe()}else{gps.follow=false;$('#zGps').classList.remove('follow')}
+};
+// interação manual com o mapa desliga o "seguir"
+document.addEventListener('pointerdown',e=>{if(gps.follow&&e.target.closest&&e.target.closest('#gl')){gps.follow=false;$('#zGps').classList.remove('follow')}},true);
+
+// ---------- painel do GPS ----------
+async function wakeOn(v){
+  try{if(v){gps.wake=await navigator.wakeLock.request('screen');gps.wake.addEventListener('release',()=>{gps.wake=null;const c=$('#wakeCb');if(c)c.checked=false})}else if(gps.wake){await gps.wake.release();gps.wake=null}}
+  catch(e){alert('Não foi possível manter a tela ligada neste aparelho.')}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&$('#wakeCb')?.checked&&!gps.wake)wakeOn(true)});
+function gpsSheet(){
+  const f=gps.fix;const today=TRACKS[dayKey(Date.now())];const st=today?trackStats(today):null;
+  const near=f?placeAt(f.lat,f.lon):null;const tr=f&&inP(f.lat,f.lon)?nearestTrail(f.lat,f.lon):null;const g=f?geoAt(f.lat,f.lon):null;
+  const d=el('div',{},`<div class="kicker">Minha localização</div><h3>${f?Math.round(myElev(f))+' m de altitude':'Sem sinal de GPS ainda'}</h3>
+   ${f?`<div class="note">${fmt(-f.lat,5)}° S · ${fmt(-f.lon,5)}° O · precisão ±${Math.round(f.acc)} m · às ${fmtHour(f.t)}</div>`:'<div class="note">Fique num lugar aberto, com o céu visível. O GPS funciona sem internet.</div>'}
+   ${near?`<p style="margin:.6em 0"><b>Lugar conhecido mais perto:</b> ${near.n} (${distKm(near.d)})</p>`:''}
+   ${tr!==null?`<div class="card ${tr>150?'warn':'tip'}" style="margin:8px 0;padding:10px">${tr<=40?'✓ Você está sobre uma trilha mapeada.':tr<=150?`Trilha mapeada a ${distKm(tr)}.`:`<b>Atenção:</b> a trilha mapeada mais próxima está a ${distKm(tr)}. Confira o caminho com o guia.`}</div>`:''}
+   ${g?`<p class="note" style="margin:.4em 0">Pedra aqui: <b>${PLAIN[g.sigla]||g.nome}</b></p>`:''}
+   <h4 style="margin:14px 0 6px">Para onde vou?</h4>
+   <select id="destSel" class="gsearch" style="padding:10px"><option value="">— escolha um destino —</option>${[...POIS].filter(p=>['apoio','vila','cidade','agua','mirante','morro','geo'].includes(p.c)).sort((a,b)=>(a.c!=='apoio')-(b.c!=='apoio')||a.n.localeCompare(b.n)).map(p=>`<option value="${p.n}" ${gps.dest&&gps.dest.n===p.n?'selected':''}>${p.c==='apoio'?'🏠 ':''}${p.n}</option>`).join('')}</select>
+   <div id="destInfo" class="note"></div>
+   <h4 style="margin:14px 0 6px">Gravar o caminho</h4>
+   <label class="sw-row"><span><b>Gravar meu caminho</b><br><small>Salva o trajeto do dia, mesmo sem internet</small></span><input type="checkbox" id="recCb" ${gps.rec?'checked':''}></label>
+   <label class="sw-row"><span><b>Manter a tela ligada</b><br><small>O celular só grava com a tela acesa. Gasta mais bateria.</small></span><input type="checkbox" id="wakeCb" ${gps.wake?'checked':''}></label>
+   ${st?`<div class="facts"><div><b>${fmt(st.km,1)} km</b>hoje</div><div><b>↑ ${fmt(st.up)} m</b>subida</div><div><b>${fmtT(st.h)}</b>gravando</div></div>`:''}
+   <div class="tbtns"><button class="bigbtn" id="gsPhoto">📷 Tirar foto aqui</button><button class="btn2" id="gsStop">${gps.on?'Desligar GPS':'Ligar GPS'}</button></div>`);
+  const showDest=()=>{const di=d.querySelector('#destInfo');if(!gps.dest||!f){di.textContent=gps.dest?'Aguardando GPS…':'';return}const b=bearing([f.lat,f.lon],[gps.dest.la,gps.dest.lo]);di.innerHTML=`<b style="font-size:1.1rem">${distKm(hav([f.lat,f.lon],[gps.dest.la,gps.dest.lo]))} em linha reta, rumo ${CARD(b)} (${Math.round(b)}°)</b><br>A distância pela trilha é maior. A linha tracejada no mapa mostra a direção; use a bússola do mapa (no alto, à direita) para se orientar.`};
+  d.querySelector('#destSel').onchange=e=>{gps.dest=POIS.find(p=>p.n===e.target.value)||null;destVer++;needs=true;showDest();updateGpsChip()};showDest();
+  d.querySelector('#recCb').onchange=e=>{gps.rec=e.target.checked;store.set('rec',gps.rec?1:0);if(gps.rec&&!gps.on)startGps();updateGpsChip()};
+  d.querySelector('#wakeCb').onchange=e=>wakeOn(e.target.checked);
+  d.querySelector('#gsPhoto').onclick=()=>$('#camIn').click();
+  d.querySelector('#gsStop').onclick=()=>{gps.on?stopGps():startGps();closeSheet()};
+  openSheet(d);
+}
+$('#gpsChip').onclick=gpsSheet;
+
+// ---------- desenho no 3D (marcador, caminho gravado, destino, fotos) ----------
+let meObj=null;
+function hookGps(sc){
+  if(!meObj){meObj=new CSS2DObject(el('div',{id:'me'},'<i></i><b></b>'));meObj.center.set(0.5,0.5)}
+  if(gps.fix&&sc.G.inside(gps.fix.lat,gps.fix.lon)){
+    if(meObj.parent!==sc.scene)sc.scene.add(meObj);
+    meObj.visible=true;meObj.position.copy(sc.wTop(gps.fix.lat,gps.fix.lon,6));
+    const hd=meObj.element.querySelector('b');if(gps.fix.head!=null&&!isNaN(gps.fix.head)&&gps.fix.speed>0.4){hd.style.display='block';hd.style.transform=`translate(-50%,-50%) rotate(${gps.fix.head+curAz()*180/Math.PI}deg)`}else hd.style.display='none';
+  }else if(meObj.parent===sc.scene)meObj.visible=false;
+  // caminho gravado
+  if(sc.trackVer!==trackVer){sc.trackVer=trackVer;if(sc.myTrack){sc.scene.remove(sc.myTrack);sc.myTrack.geometry.dispose()}
+    const lines=Object.values(TRACKS).map(t=>t.pts.filter(p=>sc.G.inside(p[1],p[2])).map(p=>[p[1],p[2]])).filter(l=>l.length>1);
+    if(lines.length){sc.myTrack=new LineSegments2(drapeGeom(sc,lines,8),lmat('#e11d74',4.5));sc.myTrack.renderOrder=5;sc.scene.add(sc.myTrack)}else sc.myTrack=null;needs=true}
+  // linha até o destino
+  if(sc.destVer!==destVer||(gps.dest&&gps.fix&&sc.destFix!==gps.fix)){sc.destVer=destVer;sc.destFix=gps.fix;if(sc.destLine){sc.scene.remove(sc.destLine);sc.destLine.geometry.dispose()}sc.destLine=null;
+    if(gps.dest&&gps.fix&&sc.G.inside(gps.fix.lat,gps.fix.lon)){const a=[gps.fix.lat,gps.fix.lon],b=[gps.dest.la,gps.dest.lo];const m=lmat('#ffffff',2.5,.9);m.dashed=true;m.dashSize=1.5;m.gapSize=1.2;
+      const g=drapeGeom(sc,[[a,b]],40);sc.destLine=new LineSegments2(g,m);sc.destLine.computeLineDistances();sc.destLine.renderOrder=6;sc.scene.add(sc.destLine)}}
+  // fotos
+  if(sc.photoVer!==photoVer){sc.photoVer=photoVer;for(const o of sc.photoMk||[])sc.scene.remove(o);sc.photoMk=[];
+    for(const p of PHOTOS){if(p.lat==null||!sc.G.inside(p.lat,p.lon))continue;const d=el('div',{class:'phmk'});d.addEventListener('pointerdown',e=>e.stopPropagation());d.addEventListener('click',e=>{e.stopPropagation();openPhoto(p.id)});
+      thumbURL(p).then(u=>d.style.backgroundImage=`url("${u}")`);const o=new CSS2DObject(d);o.position.copy(sc.wTop(p.lat,p.lon,10));sc.scene.add(o);sc.photoMk.push(o)}
+    needs=true}
+  if(gps.follow)needs=true;
+}
+HOOKS.push(hookGps);
+
+// ---------- FOTOS ----------
+const URLS={};
+function thumbURL(p){return URLS['t'+p.id]||(URLS['t'+p.id]=Promise.resolve(URL.createObjectURL(p.thumb)))}
+function bigURL(p){return URLS['b'+p.id]||(URLS['b'+p.id]=Promise.resolve(URL.createObjectURL(p.blob)))}
+function readExif(buf){ // retorna {lat,lon,alt,t} se houver
+  const v=new DataView(buf);if(v.getUint16(0)!==0xFFD8)return{};let o=2;
+  while(o<v.byteLength-4){const mk=v.getUint16(o);const len=v.getUint16(o+2);if(mk===0xFFE1&&v.getUint32(o+4)===0x45786966){return parseTiff(v,o+10)}if((mk&0xFF00)!==0xFF00)break;o+=2+len}
+  return{};
+}
+function parseTiff(v,s){
+  const le=v.getUint16(s)===0x4949;const u16=o=>v.getUint16(s+o,le),u32=o=>v.getUint32(s+o,le);
+  const ifd=(off)=>{const n=u16(off),out={};for(let i=0;i<n;i++){const e=off+2+i*12;out[u16(e)]={type:u16(e+2),count:u32(e+4),val:e+8}}return out};
+  const rat=(o,i)=>u32(o+i*8)/u32(o+i*8+4);
+  const str=(t)=>{let o=t.count>4?u32(t.val):t.val;let r='';for(let i=0;i<t.count-1;i++)r+=String.fromCharCode(v.getUint8(s+o+i));return r};
+  const out={};const i0=ifd(u32(4));
+  if(i0[0x8769]){const ex=ifd(u32(i0[0x8769].val));if(ex[0x9003]){const m=str(ex[0x9003]).match(/(\d+):(\d+):(\d+) (\d+):(\d+):(\d+)/);if(m)out.t=new Date(+m[1],m[2]-1,+m[3],+m[4],+m[5],+m[6]).getTime()}}
+  if(i0[0x8825]){const g=ifd(u32(i0[0x8825].val));
+    if(g[2]&&g[4]){const la=u32(g[2].val),lo=u32(g[4].val);let lat=rat(la,0)+rat(la,1)/60+rat(la,2)/3600,lon=rat(lo,0)+rat(lo,1)/60+rat(lo,2)/3600;
+      if(g[1]&&String.fromCharCode(v.getUint8(g[1].val+s))==='S')lat=-lat;if(g[3]&&String.fromCharCode(v.getUint8(g[3].val+s))==='W')lon=-lon;
+      if(isFinite(lat)&&isFinite(lon)&&(lat||lon)){out.lat=lat;out.lon=lon}}
+    if(g[6]){out.alt=rat(u32(g[6].val),0)}}
+  return out;
+}
+async function shrink(file,max,q){
+  const bmp=await createImageBitmap(file,{imageOrientation:'from-image'});const k=Math.min(1,max/Math.max(bmp.width,bmp.height));
+  const c=document.createElement('canvas');c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);bmp.close&&bmp.close();
+  return new Promise(r=>c.toBlob(r,'image/jpeg',q));
+}
+function posFromTrack(t){let best=null,bd=1e18;for(const tr of Object.values(TRACKS))for(const p of tr.pts){const d=Math.abs(p[0]-t);if(d<bd){bd=d;best=p}}return best&&bd<15*60000?{lat:best[1],lon:best[2]}:null}
+async function addPhotos(files,fromCamera){
+  const toast=$('#phToast');let n=0;
+  for(const file of files){
+    toast.textContent=`Salvando foto ${++n} de ${files.length}…`;toast.classList.add('on');
+    let ex={};try{ex=readExif(await file.slice(0,262144).arrayBuffer())}catch(e){}
+    const t=ex.t||(fromCamera?Date.now():file.lastModified||Date.now());
+    let lat=null,lon=null,src=null;
+    if(ex.lat!=null){lat=ex.lat;lon=ex.lon;src='foto'}
+    else if(gps.fix&&Math.abs(Date.now()-t)<10*60000&&gps.fix.acc<=100){lat=gps.fix.lat;lon=gps.fix.lon;src='gps'}
+    else{const q=posFromTrack(t);if(q){lat=q.lat;lon=q.lon;src='caminho'}}
+    const [blob,thumb]=await Promise.all([shrink(file,1600,.82),shrink(file,360,.75)]);
+    const pl=lat!=null?placeAt(lat,lon):null;const g=lat!=null?geoAt(lat,lon):null;
+    const rec={id:t+'-'+Math.random().toString(36).slice(2,7),t,lat,lon,src,alt:lat!=null?Math.round(elevAt(lat,lon)):null,place:pl&&pl.d<1500?pl.n:'',sigla:g?g.sigla:'',cap:'',blob,thumb};
+    await DB.put('photos',rec);PHOTOS.push(rec);
+  }
+  PHOTOS.sort((a,b)=>a.t-b.t);photoVer++;needs=true;toast.classList.remove('on');
+  try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+  drawAlbum();
+  const last=PHOTOS.find(p=>p.t===Math.max(...PHOTOS.slice(-files.length).map(q=>q.t)));
+  if(files.length===1&&last)openPhoto(last.id,true);
+}
+$('#camIn').onchange=e=>{const f=[...e.target.files];e.target.value='';if(f.length)addPhotos(f,true)};
+$('#galIn').onchange=e=>{const f=[...e.target.files];e.target.value='';if(f.length)addPhotos(f,false)};
+$('#zCam').onclick=()=>$('#camIn').click();
+
+async function openPhoto(id,isNew){
+  const p=PHOTOS.find(x=>x.id===id);if(!p)return;const M=$('#gModal');const u=await bigURL(p);
+  const srcTxt={foto:'localização gravada na própria foto',gps:'localização do GPS na hora da foto',caminho:'localização estimada pelo caminho gravado',mapa:'localização marcada por você no mapa'}[p.src]||'sem localização';
+  M.innerHTML=`<div class="box"><button class="x" aria-label="Fechar">×</button><img src="${u}" style="width:100%;display:block;max-height:60vh;object-fit:contain;background:#111"><div class="in">
+   <div class="kicker">Dia ${dayIndex(dayKey(p.t))} · ${fmtDay(dayKey(p.t))} · ${fmtHour(p.t)}</div>
+   ${isNew?'<h3 style="margin:4px 0">Foto salva! O que é isso?</h3>':''}
+   <textarea id="phCap" rows="2" class="gsearch" placeholder="Escreva uma legenda (ex.: almoço na casa da Dona Raquel)">${p.cap||''}</textarea>
+   <p class="note">${p.place?'Perto de <b>'+p.place+'</b> · ':''}${p.alt!=null?p.alt+' m · ':''}${srcTxt}${p.sigla?'<br>Pedra aqui: '+(PLAIN[p.sigla]||p.sigla):''}</p>
+   <div class="tbtns">${p.lat!=null?'<button class="btn2" id="phMap">Ver no mapa 3D</button>':'<button class="btn2" id="phPlace">Marcar no mapa</button>'}<button class="btn2" id="phShare">Compartilhar</button></div>
+   <button class="skip" id="phDel" style="background:none;border:none;color:#b91c1c;margin-top:12px;padding:8px">Apagar esta foto</button></div></div>`;
+  M.classList.add('on');
+  const close=()=>{M.classList.remove('on');drawAlbum()};M.querySelector('.x').onclick=close;M.onclick=e=>{if(e.target===M)close()};
+  M.querySelector('#phCap').oninput=e=>{p.cap=e.target.value;clearTimeout(p._t);p._t=setTimeout(()=>DB.put('photos',strip(p)),400)};
+  if(p.lat!=null)M.querySelector('#phMap').onclick=()=>{M.classList.remove('on');location.hash='mapa';setTimeout(()=>{const key=inP(p.lat,p.lon)?'pati':'regiao';if(state.scene!==key)setScene(key,true);setTimeout(()=>flyTo([p.lat,p.lon],key==='pati'?900:6000,0.85,curAz()),SC[key]?80:1600)},150)};
+  else M.querySelector('#phPlace').onclick=()=>{M.classList.remove('on');placing=p;location.hash='mapa';setTimeout(()=>{if(state.scene!=='pati')setScene('pati',true);showHint('Toque no lugar onde a foto foi tirada')},200)};
+  M.querySelector('#phShare').onclick=()=>shareFile(new File([p.blob],`pati-${dayKey(p.t)}-${fmtHour(p.t).replace(':','h')}.jpg`,{type:'image/jpeg'}),p.cap);
+  M.querySelector('#phDel').onclick=async()=>{if(!confirm('Apagar esta foto do álbum?'))return;await DB.del('photos',p.id);PHOTOS=PHOTOS.filter(x=>x!==p);photoVer++;close()};
+}
+const strip=p=>{const {_t,...r}=p;return r};
+let placing=null;
+function showHint(t){const h=$('#phToast');h.textContent=t;h.classList.add('on');setTimeout(()=>h.classList.remove('on'),3500)}
+PLACE_HOOK.fn=async(lat,lon)=>{if(!placing)return false;const p=placing;placing=null;p.lat=lat;p.lon=lon;p.src='mapa';p.alt=Math.round(elevAt(lat,lon));const pl=placeAt(lat,lon);p.place=pl&&pl.d<1500?pl.n:'';const g=geoAt(lat,lon);p.sigla=g?g.sigla:'';await DB.put('photos',strip(p));photoVer++;needs=true;showHint('Foto colocada no mapa ✓');return true};
+async function shareFile(file,text){
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text:text||''});return}}catch(e){if(e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+
+// ---------- ÁLBUM ----------
+function allDays(){return [...new Set([...Object.keys(TRACKS),...PHOTOS.map(p=>dayKey(p.t))])].sort()}
+function dayIndex(k){const d=allDays();const i=d.indexOf(k);return i<0?d.length+1:i+1}
+function miniMap(day,w=340,h=170){
+  const tr=TRACKS[day];const ph=PHOTOS.filter(p=>dayKey(p.t)===day&&p.lat!=null);
+  const pts=[...(tr?tr.pts.map(p=>[p[1],p[2]]):[]),...ph.map(p=>[p.lat,p.lon])];if(!pts.length)return '';
+  let a=Math.min(...pts.map(p=>p[0])),b=Math.max(...pts.map(p=>p[0])),c=Math.min(...pts.map(p=>p[1])),d=Math.max(...pts.map(p=>p[1]));
+  const pad=0.004;a-=pad;b+=pad;c-=pad;d+=pad;const kx=Math.cos(12.8*Math.PI/180);let sw=(d-c)*kx,sh=b-a;const s=Math.min((w-16)/sw,(h-16)/sh);
+  const X=lo=>8+((lo-c)*kx)*s+((w-16)-sw*s)/2,Y=la=>8+(b-la)*s+((h-16)-sh*s)/2;
+  let svg=`<svg viewBox="0 0 ${w} ${h}" class="minimap"><rect width="${w}" height="${h}" rx="12" fill="#efe6d6"/>`;
+  for(const t of PJ.trails){const q=t.p.filter(p=>p[0]>=a&&p[0]<=b&&p[1]>=c&&p[1]<=d);if(q.length>1)svg+=`<path d="${q.map((p,i)=>(i?'L':'M')+X(p[1]).toFixed(1)+','+Y(p[0]).toFixed(1)).join('')}" fill="none" stroke="#c9b48a" stroke-width="1" stroke-dasharray="3 2"/>`}
+  for(const r of PJ.rivers){const q=r.p.filter(p=>p[0]>=a&&p[0]<=b&&p[1]>=c&&p[1]<=d);if(q.length>1)svg+=`<path d="${q.map((p,i)=>(i?'L':'M')+X(p[1]).toFixed(1)+','+Y(p[0]).toFixed(1)).join('')}" fill="none" stroke="#7cb7e6" stroke-width="1.2"/>`}
+  if(tr&&tr.pts.length>1)svg+=`<path d="${tr.pts.map((p,i)=>(i?'L':'M')+X(p[2]).toFixed(1)+','+Y(p[1]).toFixed(1)).join('')}" fill="none" stroke="#e11d74" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+  for(const p of POIS.filter(p=>p.c==='apoio'&&p.la>=a&&p.la<=b&&p.lo>=c&&p.lo<=d))svg+=`<circle cx="${X(p.lo)}" cy="${Y(p.la)}" r="3" fill="#e4572e"/><text x="${X(p.lo)+5}" y="${Y(p.la)+3}" font-size="8" fill="#5b4a3a">${p.n.replace('Casa do ','').replace('Casa da ','')}</text>`;
+  ph.forEach((p,i)=>svg+=`<circle cx="${X(p.lon)}" cy="${Y(p.lat)}" r="5" fill="#fff" stroke="#2b2118" stroke-width="1.5"/><text x="${X(p.lon)}" y="${Y(p.lat)+3}" font-size="7" text-anchor="middle" fill="#2b2118">${i+1}</text>`);
+  svg+=`<text x="${w-10}" y="16" font-size="10" text-anchor="end" fill="#5b4a3a">N ↑</text></svg>`;return svg;
+}
+function drawAlbum(){
+  const box=$('#albumDays');if(!box)return;const days=allDays();
+  let km=0,up=0;for(const d of days)if(TRACKS[d]){const s=trackStats(TRACKS[d]);km+=s.km;up+=s.up}
+  $('#albumSum').innerHTML=`<div><b>${days.length}</b>${days.length===1?'dia':'dias'}</div><div><b>${fmt(km,1)} km</b>gravados</div><div><b>↑ ${fmt(up)} m</b>subida</div><div><b>${PHOTOS.length}</b>fotos</div>`;
+  if(!days.length){box.innerHTML='<div class="card" style="text-align:center"><p style="font-size:1.05rem"><b>Seu álbum está vazio.</b></p><p class="note">Na trilha, toque em 📷 para tirar fotos e ligue a gravação do caminho no botão de GPS do mapa. Tudo fica salvo no celular, sem internet.</p></div>';return}
+  box.innerHTML='';
+  for(const day of days){const tr=TRACKS[day],st=tr?trackStats(tr):null,ph=PHOTOS.filter(p=>dayKey(p.t)===day);
+    const c=el('div',{class:'card dayc'},`<div class="dayh"><div><div class="kicker">Dia ${dayIndex(day)}</div><h3 style="margin:0">${fmtDay(day)}</h3></div>${st?`<div class="note" style="text-align:right">${fmt(st.km,1)} km · ↑${fmt(st.up)} m<br>${fmtT(st.h)} de caminhada</div>`:''}</div>${miniMap(day)}<div class="phgrid"></div>`);
+    const g=c.querySelector('.phgrid');ph.forEach((p,i)=>{const b=el('button',{class:'pht'},`<span>${i+1}</span>${p.cap?`<em>${p.cap}</em>`:''}`);thumbURL(p).then(u=>b.style.backgroundImage=`url("${u}")`);b.onclick=()=>openPhoto(p.id);g.appendChild(b)});
+    if(!ph.length)g.innerHTML='<p class="note">Nenhuma foto neste dia.</p>';
+    box.appendChild(c)}
+}
+$('#alCam').onclick=()=>$('#camIn').click();$('#alGal').onclick=()=>$('#galIn').click();
+$('#alGpx').onclick=()=>{
+  const e=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  let x='<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Guia Chapada Diamantina" xmlns="http://www.topografix.com/GPX/1/1">\n';
+  for(const p of PHOTOS)if(p.lat!=null)x+=`<wpt lat="${p.lat.toFixed(6)}" lon="${p.lon.toFixed(6)}"><time>${new Date(p.t).toISOString()}</time><name>${e(p.cap||('Foto '+fmtHour(p.t)))}</name></wpt>\n`;
+  for(const d of allDays())if(TRACKS[d]){x+=`<trk><name>Dia ${dayIndex(d)} - ${d}</name><trkseg>\n`;for(const p of TRACKS[d].pts)x+=`<trkpt lat="${p[1]}" lon="${p[2]}">${p[3]!=null?`<ele>${p[3]}</ele>`:''}<time>${new Date(p[0]).toISOString()}</time></trkpt>\n`;x+='</trkseg></trk>\n'}
+  x+='</gpx>';shareFile(new File([x],'meu-caminho-pati.gpx',{type:'application/gpx+xml'}));
+};
+const b64blob=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)});
+$('#alExport').onclick=async()=>{
+  const btn=$('#alExport');btn.disabled=true;btn.textContent='Gerando…';
+  try{
+    const days=allDays();let body='';
+    for(const day of days){const tr=TRACKS[day],st=tr?trackStats(tr):null,ph=PHOTOS.filter(p=>dayKey(p.t)===day);
+      body+=`<section><h2>Dia ${dayIndex(day)} <small>${fmtDay(day)}</small></h2>${st?`<p class="s">${fmt(st.km,1)} km · ↑ ${fmt(st.up)} m · ${fmtT(st.h)} de caminhada</p>`:''}${miniMap(day,700,320)}`;
+      let i=0;for(const p of ph){i++;body+=`<figure><img src="${await b64blob(p.blob)}"><figcaption><b>${i}.</b> ${(p.cap||'').replace(/</g,'&lt;')} <span>${fmtHour(p.t)}${p.place?' · perto de '+p.place:''}${p.alt!=null?' · '+p.alt+' m':''}${p.sigla&&PLAIN[p.sigla]?' · pedra: '+PLAIN[p.sigla]:''}</span></figcaption></figure>`}
+      body+='</section>'}
+    const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Álbum — Vale do Pati</title><style>body{font-family:Georgia,serif;background:#f6f1e7;color:#2b2118;max-width:760px;margin:0 auto;padding:20px}h1{font-size:2rem}h2{margin-top:40px;border-bottom:2px solid #b4561f}h2 small{font-size:1rem;color:#8a7765}.s{color:#5b4a3a}figure{margin:18px 0}img{width:100%;border-radius:10px}figcaption{font-size:.95rem;margin-top:4px}figcaption span{display:block;font-size:.8rem;color:#8a7765}svg{width:100%;height:auto}</style></head><body><h1>Vale do Pati · Chapada Diamantina</h1><p>${days.length} dias · ${PHOTOS.length} fotos</p>${body}<p style="font-size:.75rem;color:#8a7765;margin-top:40px">Trilhas e rios: © colaboradores do OpenStreetMap.</p></body></html>`;
+    await shareFile(new File([html],'album-vale-do-pati.html',{type:'text/html'}));
+  }finally{btn.disabled=false;btn.textContent='Gerar álbum'}
+};
+$('#alClear').onclick=async()=>{if(!confirm('Apagar TODAS as fotos e caminhos gravados deste celular? Isso não pode ser desfeito.'))return;await DB.clear('photos');await DB.clear('tracks');PHOTOS=[];TRACKS={};photoVer++;trackVer++;drawAlbum()};
+
+// ---------- uso offline (service worker) e instalação ----------
+let installEvt=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;$('#instBtn').style.display=''});
+$('#instBtn').onclick=async()=>{if(!installEvt)return;installEvt.prompt();await installEvt.userChoice;installEvt=null;$('#instBtn').style.display='none'};
+async function offlineStatus(){
+  const s=$('#offStatus');if(!('serviceWorker' in navigator)){s.innerHTML='Este navegador não permite uso sem internet.';return}
+  try{
+    const reg=await navigator.serviceWorker.register('sw.js');
+    s.innerHTML='⏳ Baixando tudo para funcionar sem internet… mantenha esta tela aberta.';
+    await navigator.serviceWorker.ready;
+    const keys=await caches.keys();const c=keys.length?await caches.open(keys[keys.length-1]):null;
+    const ok=c&&await c.match('data/pati_dem.json')&&await c.match('img/pati.jpg');
+    s.innerHTML=ok?'✓ <b>Pronto para usar sem internet.</b> Pode desligar os dados.':'⏳ Ainda baixando… abra o app de novo em alguns segundos.';
+    if(!ok)setTimeout(offlineStatus,4000);
+  }catch(e){s.innerHTML='Não foi possível preparar o uso sem internet: '+e.message}
+}
+const isStandalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+if(isStandalone)$('#instHelp').style.display='none';
+offlineStatus();loadStore();
+
+const applyBig=v=>{document.documentElement.classList.toggle('big',!!v);$('#btnBig').classList.toggle('on',!!v)};applyBig(store.get('big',0));
+$('#btnBig').onclick=()=>{const v=!document.documentElement.classList.contains('big');store.set('big',v?1:0);applyBig(v)};
+$('#btnHowTo').onclick=()=>{location.hash='mapa';setTimeout(showTutorial,300)};
+$('#loading').style.display='none';
+route();
+
+</script>
+</body>
+</html>
