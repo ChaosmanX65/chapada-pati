@@ -51,6 +51,10 @@ O GPS e o uso sem internet só funcionam com um endereço **https**. O GitHub Pa
 - Fotos tiradas com a câmera normal do celular entram depois, em **Álbum → Adicionar da galeria**. O app usa a localização da própria foto ou, se ela não tiver, a do caminho gravado no mesmo horário. Se nada disso existir, você toca no mapa para marcar o lugar.
 
 ### Usar o relógio para gravar o caminho
+**Huawei (GT 6):** grave como *Caminhada ao ar livre*. No app Huawei Health, abra o treino → ícone de rota à direita do mapa → *Exportar rota* → GPX → Salvar em Arquivos. Teste antes da viagem.
+
+**Levar a trilha para o relógio:** em **Trilhas**, cada trecho tem **⌚ Levar para o relógio**. Salve o GPX e importe no Huawei Health (Eu → Minhas rotas → Importar rota → Enviar para o relógio). No relógio, a trilha aparece em Exercício → Caminhada ao ar livre → Rotas, e funciona sem celular.
+
 O relógio grava o dia inteiro com a tela do celular apagada e gasta menos bateria. Ao fim do dia, ou na volta, exporte a atividade em **GPX ou TCX** (pelo Garmin Connect, pelo Strava, ou pelo HealthFit no caso do Apple Watch) e toque em **Álbum → ⌚ Importar caminho do relógio**. O app separa os pontos por dia, usa o caminho do relógio no lugar do gravado pelo celular e posiciona sozinho as fotos sem localização, comparando os horários.
 
 ### Limites que é bom saber
@@ -60,9 +64,9 @@ O relógio grava o dia inteiro com a tela do celular apagada e gasta menos bater
 - Traçados e distâncias são aproximados. Não substituem o guia credenciado.
 
 ## Localização do grupo (aba Grupo)
-1. **Antes de sair, com internet:** uma pessoa toca em **Grupo → Criar grupo** e depois em **Convidar o grupo**. Cada um abre o link no próprio celular e toca em **Entrar e compartilhar**.
-2. **Família:** toque em **Link para a família** e mande para quem fica em casa. Eles veem no mapa 3D o último local de cada um, os recados e um alerta vermelho se alguém pedir ajuda.
-3. **iPhone com o app na tela de início:** o app instalado não enxerga o Safari. Se o link abrir no Safari, abra o app e use **Grupo → Já tenho um código** com o código do grupo (ex.: ABCDE-23456).
+1. **Antes de sair, com internet, todos juntos:** uma pessoa toca em **Grupo → Criar grupo** e aparece um QR na tela. Os outros abrem o app → **Grupo → 📷 Escanear o QR**, apontam para a tela e digitam o nome. Pronto, sem código.
+2. **Família:** toque em **Link para a família**. A pessoa aponta a câmera do celular para o QR, ou você manda o link pelo WhatsApp. Ela vê no mapa 3D o último local de cada um, os recados e um alerta vermelho se alguém pedir ajuda.
+3. Daí para frente é automático: a posição, o caminho, o **trecho do dia** escolhido no GPS e o **caminho do relógio** importado no álbum vão sozinhos para o grupo.
 
 Como funciona sem sinal: o celular guarda o caminho e os recados e **envia tudo sozinho quando pegar internet** (na saída do vale, numa cidade, num Wi-Fi). Só envia com o app aberto. Andando com internet, manda a posição a cada 3 minutos; parado, uma vez por hora.
 
