@@ -41,10 +41,17 @@ O GPS e o uso sem internet só funcionam com um endereço **https**. O GitHub Pa
 
 ## Na trilha
 
+- **Trecho de hoje** (na tarja do GPS): escolha o percurso do dia. O app mostra quanto falta (km, subida e tempo), qual o próximo ponto e avisa se você sair do trecho.
+- **Pôr do sol** e **água mais perto** aparecem no painel do GPS, calculados sem internet.
+- **🆘 Emergência:** mostra suas coordenadas em letra grande e prepara um SMS com a localização.
+
 - **Botão de GPS** (alvo azul, no mapa): mostra onde você está. Toque de novo para o mapa seguir você.
 - **Tarja escura no topo do mapa:** toque para escolher um destino (ex.: Prefeitura), ligar **Gravar meu caminho** e **Manter a tela ligada**.
 - **Botão laranja de câmera:** tira a foto e já a coloca no mapa e no álbum. Escreva uma legenda na hora.
 - Fotos tiradas com a câmera normal do celular entram depois, em **Álbum → Adicionar da galeria**. O app usa a localização da própria foto ou, se ela não tiver, a do caminho gravado no mesmo horário. Se nada disso existir, você toca no mapa para marcar o lugar.
+
+### Usar o relógio para gravar o caminho
+O relógio grava o dia inteiro com a tela do celular apagada e gasta menos bateria. Ao fim do dia, ou na volta, exporte a atividade em **GPX ou TCX** (pelo Garmin Connect, pelo Strava, ou pelo HealthFit no caso do Apple Watch) e toque em **Álbum → ⌚ Importar caminho do relógio**. O app separa os pontos por dia, usa o caminho do relógio no lugar do gravado pelo celular e posiciona sozinho as fotos sem localização, comparando os horários.
 
 ### Limites que é bom saber
 - O navegador **só grava o caminho com o app aberto e a tela ligada**. Para gravar o dia inteiro com a tela apagada, use junto um app de trilha (Organic Maps, Wikiloc ou Strava). Depois é só importar as fotos da galeria: o app as posiciona pela localização gravada na foto.
